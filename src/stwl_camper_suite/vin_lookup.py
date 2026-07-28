@@ -1,14 +1,19 @@
 """
-Optional VIN validation / decode — UNIT technical info only.
+Optional VIN validation / decode — vehicle / plant unit data.
 
 Offline: ISO 3779-style check digit (17-character VIN).
 Online (optional): free U.S. NHTSA vPIC DecodeVinValues API — no API key,
 no registration. See https://vpic.nhtsa.dot.gov/api/
 
 PRIVACY RULE (STWL):
-  Never request, store, or display owner names, personal addresses, or other PII.
-  Only vehicle / unit technical attributes. Plant street addresses from vPIC are
-  discarded; we keep no owner identity fields.
+  Do NOT pull or surface former/current *owner* identity (private names,
+  home addresses, registration-holder data). That blocks back-tracing prior owners.
+
+  ALLOWED from VIN/vPIC: vehicle unit technical fields, build plant
+  (city/state/country/company), manufacturer, and similar factory/dealership-
+  channel manufacturing data when present.
+
+  Vendor/supplier contact books are separate — full shop contact info is OK there.
 
 Credit: U.S. Department of Transportation / National Highway Traffic Safety
 Administration (NHTSA) — Vehicle Product Information Catalog (vPIC).
@@ -35,8 +40,7 @@ NHTSA_CREDIT = (
     "(https://vpic.nhtsa.dot.gov/api/). Free public service; not affiliated with STWL."
 )
 
-# Map vPIC flat keys → our unit-only field names (whitelist)
-# Anything not listed is dropped (including PlantCity, PlantState, error messages noise).
+# Map vPIC flat keys → field names (whitelist). Includes build plant / factory.
 _UNIT_FIELD_MAP = {
     "Make": "make",
     "Model": "model",
@@ -51,19 +55,23 @@ _UNIT_FIELD_MAP = {
     "DisplacementL": "engine_displacement_l",
     "FuelTypePrimary": "fuel_type",
     "TransmissionStyle": "transmission",
-    "GVWR": "gvwr_text",  # often a class string, not lb
+    "GVWR": "gvwr_text",
     "TrailerTypeConnection": "trailer_connection",
-    "PlantCountry": "plant_country",  # country only — not street address
     "Manufacturer": "manufacturer",
+    "PlantCity": "plant_city",
+    "PlantState": "plant_state",
+    "PlantCountry": "plant_country",
+    "PlantCompanyName": "plant_company",
+    "DestinationMarket": "destination_market",
     "ErrorCode": "error_code",
     "ErrorText": "error_text",
     "AdditionalErrorText": "additional_error_text",
 }
 
-# Explicit denylist fragments (case-insensitive) — never pass through
+# Block former/current *owner* identity — not factory plant, not vendor books
 _DENY_KEYS = re.compile(
-    r"name|address|street|city|state|zip|postal|phone|email|owner|person|"
-    r"contact|ssn|license|registration",
+    r"owner|registrant|registered|titleholder|title_holder|buyer|seller|"
+    r"ssn|social.?security|driver.?license|personal",
     re.I,
 )
 
@@ -132,7 +140,7 @@ def offline_vin_check(vin_raw: str) -> VinResult:
     notes: list[str] = []
     credits = [
         "Offline check-digit validation: STWL implementation of ISO 3779 VIN check digit.",
-        "No personal names or addresses are collected for VIN checks.",
+        "VIN path excludes former-owner identity; vehicle unit + build plant data are allowed.",
     ]
     if not vin:
         return VinResult(
@@ -187,7 +195,10 @@ def offline_vin_check(vin_raw: str) -> VinResult:
 
 
 def _sanitize_unit_fields(raw: dict[str, Any]) -> dict[str, str]:
-    """Whitelist unit fields only; drop names/addresses/PII-like keys."""
+    """
+    Whitelist vehicle + build-plant fields.
+    Drop former-owner identity keys. Keep plant city/state/country/company.
+    """
     out: dict[str, str] = {}
     for k, v in raw.items():
         if v is None:
@@ -195,25 +206,12 @@ def _sanitize_unit_fields(raw: dict[str, Any]) -> dict[str, str]:
         key = str(k)
         if _DENY_KEYS.search(key):
             continue
-        # Drop plant city/state (address-like)
-        if key.lower() in (
-            "plantcity",
-            "plantstate",
-            "plantcompanyname",
-            "destinationmarket",
-        ):
+        if key not in _UNIT_FIELD_MAP:
             continue
-        if key not in _UNIT_FIELD_MAP and key not in _UNIT_FIELD_MAP.values():
-            # only allow known unit map keys
-            if key not in _UNIT_FIELD_MAP:
-                continue
         val = str(v).strip()
         if not val or val.upper() in ("NULL", "NOT APPLICABLE", "N/A", ""):
             continue
-        # Reject values that look like street addresses
-        if re.search(r"\b\d{1,5}\s+\w+\s+(st|street|ave|road|rd|blvd|drive|dr)\b", val, re.I):
-            continue
-        mapped = _UNIT_FIELD_MAP.get(key, key)
+        mapped = _UNIT_FIELD_MAP[key]
         if _DENY_KEYS.search(mapped):
             continue
         out[mapped] = val
@@ -302,8 +300,21 @@ def decode_vin_nhtsa(vin_raw: str, timeout: float = 8.0) -> VinResult:
     base.unit = unit
     base.suggest = suggest
     base.offline_notes.append(
-        "Online decode: unit technical fields only (no owner names or addresses)."
+        "Online decode: vehicle unit + build plant fields. "
+        "Former-owner identity is not requested or stored."
     )
+    plant_bits = [
+        unit.get("plant_company"),
+        unit.get("plant_city"),
+        unit.get("plant_state"),
+        unit.get("plant_country"),
+    ]
+    plant = ", ".join(x for x in plant_bits if x)
+    if plant:
+        suggest["config_notes"] = (
+            (suggest.get("config_notes") + " · " if suggest.get("config_notes") else "")
+            + f"Build plant: {plant}"
+        )
     return base
 
 

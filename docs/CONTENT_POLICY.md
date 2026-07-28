@@ -29,12 +29,17 @@ This suite aims for a **complete practical catalog**, not a warehouse of other p
 4. Prefer **teach the principle + inspection steps** over proprietary torque tables when OEM data is copyrighted; tell the user to use **their placard / owner manual** for model-specific numbers.
 5. Never present another publisher’s material as uncredited STWL text.
 
-## Privacy — unit info only
+## Privacy — former owners vs vendors vs plant
 
-- Power units, trailers, and VIN checks store **equipment technical data** only.
-- **No owner legal names** and **no street addresses** on unit records or VIN decode.
-- Optional VIN online decode uses free **NHTSA vPIC** and whitelists vehicle fields only; plant city/state and any PII-like keys are discarded.
-- Credit: U.S. DOT / NHTSA vPIC when online decode is used.
+| Allowed | Not allowed |
+|---------|-------------|
+| Vehicle unit specs, VIN, ratings you enter | Looking up / storing **prior private owners** of a VIN |
+| Build plant (city/state/country/company) from NHTSA | Scraping registration/titleholder home data |
+| Original dealership / factory channel if present in public decode | |
+| **Full vendor/supplier contact** (phone, email, street, city, state, ZIP) — optional fields | |
+
+- Optional VIN online decode: free **NHTSA vPIC** (credit U.S. DOT / NHTSA).
+- Vendor directory: contact fields are **optional but fully supported** so shops/suppliers remain reachable offline.
 
 ## Safety disclaimer (required in product UI)
 

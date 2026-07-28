@@ -23,25 +23,25 @@ class VinUnitOnlyTests(unittest.TestCase):
         r = offline_vin_check("1HGCM82633A00435I")  # I invalid
         self.assertFalse(r.ok_format)
 
-    def test_sanitize_strips_address_like_keys(self) -> None:
+    def test_sanitize_keeps_plant_drops_owner(self) -> None:
         raw = {
             "Make": "FORD",
             "Model": "F-350",
             "ModelYear": "2018",
-            "PlantCity": "SOME CITY",
-            "PlantState": "XX",
+            "PlantCity": "Louisville",
+            "PlantState": "Kentucky",
+            "PlantCountry": "UNITED STATES (USA)",
+            "PlantCompanyName": "Kentucky Truck Plant",
             "OwnerName": "SHOULD DROP",
-            "Address": "123 Main St",
             "DriveType": "4WD",
         }
         unit = _sanitize_unit_fields(raw)
         self.assertEqual(unit.get("make"), "FORD")
         self.assertEqual(unit.get("model"), "F-350")
+        self.assertEqual(unit.get("plant_city"), "Louisville")
+        self.assertEqual(unit.get("plant_state"), "Kentucky")
+        self.assertEqual(unit.get("plant_company"), "Kentucky Truck Plant")
         self.assertNotIn("OwnerName", unit)
-        self.assertNotIn("ownername", {k.lower() for k in unit})
-        self.assertNotIn("plant_city", unit)
-        # plant city key mapped from PlantCity is denied
-        self.assertTrue(all("address" not in k.lower() for k in unit))
         self.assertTrue(all("owner" not in k.lower() for k in unit))
 
 

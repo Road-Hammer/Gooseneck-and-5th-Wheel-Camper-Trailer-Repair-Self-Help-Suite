@@ -3,17 +3,18 @@
 {% block content %}
 <h1>Power units (tow vehicles)</h1>
 <p class="lede">
-  Register the truck or tractor that pulls the trailer — <strong>unit technical info only</strong>
-  (no owner names, no street addresses). Store <strong>OEM ratings with publisher credit</strong>.
+  Register the truck or tractor that pulls the trailer. Store <strong>OEM ratings with publisher credit</strong>.
   Use <a href="/tow-check">Tow traffic light</a> to grade a combination.
+  VIN tools are for <strong>the unit</strong> (and build plant) — not prior private owners.
 </p>
 
 <section class="panel">
-  <h2>Optional VIN check (unit info only)</h2>
+  <h2>Optional VIN check</h2>
   <p class="muted small">
-    Offline: check digit. Online (optional): free U.S. <strong>NHTSA vPIC</strong> decode —
-    no API key. Returns <strong>vehicle unit fields only</strong> (make/model/year/engine…).
-    <strong>No owner names. No addresses.</strong>
+    Offline: check digit. Online (optional): free U.S. <strong>NHTSA vPIC</strong> decode — no API key.
+    Returns vehicle unit data (make/model/year/engine…) plus <strong>build plant</strong> when available.
+    Does <strong>not</strong> look up former owners. Vendor/supplier full contact info lives under
+    <a href="/vendors">Vendors</a> (optional fields).
   </p>
   <form method="post" action="/power-units/vin-check" class="stack">
     <label>VIN (17-character modern)
