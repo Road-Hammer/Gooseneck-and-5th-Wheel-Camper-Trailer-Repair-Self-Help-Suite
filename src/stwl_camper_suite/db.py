@@ -53,8 +53,35 @@ CREATE TABLE IF NOT EXISTS rigs (
     year INTEGER,
     plate TEXT,
     gvwr REAL,
+    empty_weight REAL,
+    hitch_style TEXT,
     status TEXT DEFAULT 'active',
     created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS power_units (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    make TEXT,
+    model TEXT,
+    year INTEGER,
+    trim TEXT,
+    vin TEXT,
+    engine TEXT,
+    drivetrain TEXT,
+    gvwr REAL,
+    gcwr REAL,
+    payload_capacity REAL,
+    max_trailer_weight REAL,
+    max_tongue_weight REAL,
+    hitch_receiver_rating REAL,
+    curb_weight REAL,
+    rating_publisher TEXT,
+    rating_source TEXT,
+    notes TEXT,
+    status TEXT DEFAULT 'active',
+    created_at TEXT NOT NULL,
+    updated_at TEXT
 );
 
 CREATE TABLE IF NOT EXISTS vendors (
@@ -89,6 +116,7 @@ CREATE TABLE IF NOT EXISTS vendor_guide_links (
 CREATE TABLE IF NOT EXISTS service_log (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     rig_id INTEGER,
+    power_unit_id INTEGER,
     vendor_id INTEGER,
     guide_id TEXT,
     wo_number TEXT,
@@ -110,6 +138,7 @@ CREATE TABLE IF NOT EXISTS service_log (
     created_at TEXT NOT NULL,
     updated_at TEXT,
     FOREIGN KEY (rig_id) REFERENCES rigs(id) ON DELETE SET NULL,
+    FOREIGN KEY (power_unit_id) REFERENCES power_units(id) ON DELETE SET NULL,
     FOREIGN KEY (vendor_id) REFERENCES vendors(id) ON DELETE SET NULL
 );
 
@@ -118,12 +147,14 @@ CREATE INDEX IF NOT EXISTS idx_service_log_date ON service_log(performed_at);
 CREATE INDEX IF NOT EXISTS idx_vendors_name ON vendors(name);
 CREATE INDEX IF NOT EXISTS idx_vendor_guide_vendor ON vendor_guide_links(vendor_id);
 CREATE INDEX IF NOT EXISTS idx_vendor_guide_guide ON vendor_guide_links(guide_id);
+CREATE INDEX IF NOT EXISTS idx_power_units_name ON power_units(name);
 """
 
 # Created after migrate() so upgraded DBs have columns first
 POST_MIGRATE_INDEXES = """
 CREATE INDEX IF NOT EXISTS idx_service_log_status ON service_log(status);
 CREATE INDEX IF NOT EXISTS idx_service_log_vendor ON service_log(vendor_id);
+CREATE INDEX IF NOT EXISTS idx_service_log_power_unit ON service_log(power_unit_id);
 """
 
 # Columns to add when upgrading older DBs created by v0.1
@@ -134,10 +165,13 @@ _MIGRATIONS: dict[str, list[tuple[str, str]]] = {
         ("year", "INTEGER"),
         ("plate", "TEXT"),
         ("gvwr", "REAL"),
+        ("empty_weight", "REAL"),
+        ("hitch_style", "TEXT"),
         ("status", "TEXT DEFAULT 'active'"),
     ],
     "service_log": [
         ("vendor_id", "INTEGER"),
+        ("power_unit_id", "INTEGER"),
         ("guide_id", "TEXT"),
         ("wo_number", "TEXT"),
         ("completed_at", "TEXT"),

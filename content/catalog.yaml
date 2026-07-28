@@ -8,7 +8,7 @@
 product:
   name: "STWL Camper / Trailer Self-Help Suite"
   short_name: "STWL Camper Suite"
-  version: "0.1.1"
+  version: "0.2.0"
   copyright: "Copyright 2026 Susquehanna Timberwolf Lines, LLC"
   audience:
     - owner_diy_entry
@@ -66,3 +66,9 @@ categories:
   - id: trucker_wisdom
     title: "Trucker Wisdom"
     description: "Pre-trip walkaround habits from long-haul operating practice."
+  - id: power_unit
+    title: "Power Unit (Tow Vehicle)"
+    description: "Truck ratings, traffic-light tow grade, and where OEM numbers come from."
+  - id: power_unit_maintenance
+    title: "Power Unit Maintenance"
+    description: "How to log and track maintenance on the truck that pulls the trailer."

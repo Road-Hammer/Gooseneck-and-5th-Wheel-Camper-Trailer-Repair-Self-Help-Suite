@@ -12,5 +12,9 @@ Only guides that pass `docs/PUBLISHING_STANDARDS.md` and are indexed into the ap
 | equine_stock | stock-gates-dividers | Stock & Cattle Trailer Gates and Dividers |
 | service_log | using-shop-cmms | Using the Offline Shop CMMS |
 | trucker_wisdom | pre-trip-walkaround-trucker | Pre-Trip Walkaround |
+| power_unit | tow-traffic-light-how-it-works | Tow Traffic Light — How the Grade Works |
+| power_unit_maintenance | truck-maintenance-log | Power Unit Maintenance Log |
+
+OEM publisher index (no fake ratings): `content/oem_tow_reference/publishers.yaml`
 
 Unwritten topics: see `docs/AUTHORING.md` (not shown in the app).

@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block title %}Tow Traffic Light — STWL Camper Suite{% endblock %}
+{% block content %}
+<h1>Tow unit traffic light</h1>
+<p class="lede">
+  Grades whether <strong>this power unit</strong> is acceptable for <strong>this trailer</strong>
+  using real weight math and <em>your</em> OEM ratings (door sticker / official tow guide).
+  STWL does <strong>not</strong> invent manufacturer model charts.
+</p>
+
+<div class="legend-row">
+  <span class="tl-pill tl-green">GREEN — Acceptable</span>
+  <span class="tl-pill tl-yellow">YELLOW — Caution / tight</span>
+  <span class="tl-pill tl-red">RED — Not acceptable</span>
+  <span class="tl-pill tl-gray">GRAY — Need more data</span>
+</div>
+
+{% if result %}
+<section class="traffic-hero light-{{ result.overall }}">
+  <div class="traffic-lamps" aria-hidden="true">
+    <span class="lamp red {% if result.overall == 'red' %}on{% endif %}"></span>
+    <span class="lamp yellow {% if result.overall == 'yellow' %}on{% endif %}"></span>
+    <span class="lamp green {% if result.overall == 'green' %}on{% endif %}"></span>
+  </div>
+  <div>
+    <h2 class="grade-label">{{ result.label }}</h2>
+    <p>{{ result.summary }}</p>
+    {% if result.numbers.combined_lb %}
+    <p class="meta">
+      Truck ≈ {{ '%.0f'|format(result.numbers.truck_trip_lb or 0) }} lb ·
+      Trailer ≈ {{ '%.0f'|format(result.numbers.trailer_trip_lb or 0) }} lb ·
+      Combined ≈ {{ '%.0f'|format(result.numbers.combined_lb) }} lb
+    </p>
+    {% endif %}
+  </div>
+</section>
+
+<section>
+  <h2>Check breakdown</h2>
+  <ul class="check-list">
+    {% for c in result.checks %}
+    <li class="check light-{{ c.light }}">
+      <span class="tl-dot tl-{{ c.light }}"></span>
+      <div>
+        <strong>{{ c.title }}</strong>
+        <p>{{ c.detail }}</p>
+        <p class="muted small"><strong>Basis / credit:</strong> {{ c.basis }}</p>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+
+{% if result.missing_inputs %}
+<section class="panel">
+  <h2>Still needed for a full grade</h2>
+  <ul>
+    {% for m in result.missing_inputs %}
+    <li>{{ m }}</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+<section class="panel credits-box">
+  <h2>Credits (grading system)</h2>
+  <ul>
+    {% for c in result.credits %}
+    <li>{{ c }}</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+<div class="two-col">
+  <section class="panel">
+    <h2>1. Power unit (truck)</h2>
+    <form method="get" action="/tow-check" class="stack" id="pu-pick">
+      <label>Load saved power unit
+        <select name="pu" onchange="this.form.submit()">
+          <option value="">— manual entry —</option>
+          {% for p in power_units %}
+          <option value="{{ p.id }}" {% if selected_pu and selected_pu.id == p.id %}selected{% endif %}>
+            {{ p.name }}{% if p.year %} ({{ p.year }}){% endif %}
+          </option>
+          {% endfor %}
+        </select>
+      </label>
+    </form>
+    <form method="post" action="/tow-check" class="stack">
+      <input type="hidden" name="power_unit_id" value="{{ selected_pu.id if selected_pu else '' }}">
+      <label>Truck ready-to-tow weight (lb, scale)
+        <input name="truck_as_weighed" inputmode="decimal" value="{{ form.truck_as_weighed }}">
+      </label>
+      <label>Or curb/empty (lb) <input name="truck_curb" inputmode="decimal" value="{{ form.truck_curb }}"></label>
+      <label>Passengers + bed/cab cargo (lb)
+        <input name="passengers_cargo" inputmode="decimal" value="{{ form.passengers_cargo }}">
+      </label>
+      <label>GVWR (lb) <input name="truck_gvwr" inputmode="decimal" value="{{ form.truck_gvwr }}" required></label>
+      <label>GCWR (lb) <input name="truck_gcwr" inputmode="decimal" value="{{ form.truck_gcwr }}" required></label>
+      <label>Payload capacity (lb) <input name="payload" inputmode="decimal" value="{{ form.payload }}"></label>
+      <label>OEM max trailer weight (lb)
+        <input name="max_trailer" inputmode="decimal" value="{{ form.max_trailer }}" required>
+      </label>
+      <label>OEM max tongue/pin (lb) <input name="max_tongue" inputmode="decimal" value="{{ form.max_tongue }}"></label>
+      <label>Hitch receiver vertical rating (lb)
+        <input name="hitch_rating" inputmode="decimal" value="{{ form.hitch_rating }}">
+      </label>
+      <label>Rating publisher credit
+        <input name="rating_publisher" value="{{ form.rating_publisher }}"
+               placeholder="e.g. Ford Motor Company door label + 2026 tow guide">
+      </label>
+
+      <h2>2. Trailer</h2>
+      <label>Trailer loaded weight (lb, scale preferred)
+        <input name="trailer_weight" inputmode="decimal" value="{{ form.trailer_weight }}">
+      </label>
+      <label>Trailer GVWR (lb) <input name="trailer_gvwr" inputmode="decimal" value="{{ form.trailer_gvwr }}"></label>
+      <label>Tongue or pin weight (lb, measured)
+        <input name="tongue" inputmode="decimal" value="{{ form.tongue }}">
+      </label>
+      <label>Hitch style
+        <select name="hitch_style">
+          <option value="conventional" {% if form.hitch_style == 'conventional' %}selected{% endif %}>Conventional / bumper pull</option>
+          <option value="fifth_wheel" {% if form.hitch_style == 'fifth_wheel' %}selected{% endif %}>Fifth wheel</option>
+          <option value="gooseneck" {% if form.hitch_style == 'gooseneck' %}selected{% endif %}>Gooseneck</option>
+        </select>
+      </label>
+      <button type="submit">Grade combination</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Where OEM numbers come from</h2>
+    <p class="muted small">
+      Official publisher portals (discovery only). STWL does not copy their rating tables into this app.
+    </p>
+    <ul class="log-list">
+      {% for p in oem_publishers %}
+      <li>
+        <strong>{{ p.publisher }}</strong>
+        <div class="small">{{ p.title }}</div>
+        <div class="muted small">{{ p.credit }}</div>
+        {% if p.urls %}
+        <div class="small">
+          {% for u in p.urls %}
+          <a href="{{ u }}" rel="noopener noreferrer">{{ u }}</a>{% if not loop.last %}<br>{% endif %}
+          {% endfor %}
+        </div>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="meta"><a href="/power-units">Manage power units &amp; truck maintenance →</a></p>
+    <p class="meta"><a href="/guide/tow-traffic-light-how-it-works">How the traffic light works (guide) →</a></p>
+  </section>
+</div>
+{% endblock %}

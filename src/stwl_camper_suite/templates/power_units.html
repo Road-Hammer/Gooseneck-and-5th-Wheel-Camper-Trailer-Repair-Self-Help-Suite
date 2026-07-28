@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}Power Units — STWL Camper Suite{% endblock %}
+{% block content %}
+<h1>Power units (tow vehicles)</h1>
+<p class="lede">
+  Register the truck or tractor that pulls the trailer. Store <strong>OEM ratings with publisher credit</strong>
+  (door sticker + official tow guide). Use <a href="/tow-check">Tow traffic light</a> to grade a combination.
+</p>
+
+<div class="two-col">
+  <section class="panel">
+    <h2>Add power unit</h2>
+    <form method="post" action="/power-units/add" class="stack">
+      <label>Name <input name="name" required placeholder="e.g. Ranch F-350"></label>
+      <label>Make <input name="make"></label>
+      <label>Model <input name="model"></label>
+      <label>Year <input name="year" inputmode="numeric"></label>
+      <label>Trim / package <input name="trim" placeholder="e.g. Lariat, tow package name"></label>
+      <label>VIN <input name="vin"></label>
+      <label>Engine <input name="engine"></label>
+      <label>Drivetrain <input name="drivetrain" placeholder="4x4, 4x2…"></label>
+      <label>Curb / empty weight (lb) <input name="curb_weight" inputmode="decimal"></label>
+      <label>GVWR (lb) <input name="gvwr" inputmode="decimal"></label>
+      <label>GCWR (lb) <input name="gcwr" inputmode="decimal"></label>
+      <label>Payload capacity (lb) <input name="payload_capacity" inputmode="decimal"></label>
+      <label>OEM max trailer weight (lb) <input name="max_trailer_weight" inputmode="decimal"></label>
+      <label>OEM max tongue/pin (lb) <input name="max_tongue_weight" inputmode="decimal"></label>
+      <label>Hitch receiver rating (lb) <input name="hitch_receiver_rating" inputmode="decimal"></label>
+      <label>Rating publisher (required for honest data)
+        <input name="rating_publisher" required placeholder="Ford Motor Company / door label">
+      </label>
+      <label>Rating source note
+        <input name="rating_source" placeholder="2026 RV & Trailer Towing Guide + certification label">
+      </label>
+      <label>Notes <textarea name="notes" rows="2"></textarea></label>
+      <button type="submit">Save power unit</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Truck maintenance log</h2>
+    <form method="post" action="/power-units/maintenance" class="stack">
+      <label>Power unit
+        <select name="power_unit_id" required>
+          <option value="">—</option>
+          {% for p in power_units %}
+          <option value="{{ p.id }}">{{ p.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Work title <input name="title" required placeholder="Oil change / brake service / U-joints"></label>
+      <label>Date <input name="performed_at" type="date"></label>
+      <label>Status
+        <select name="status">
+          {% for s in work_statuses %}
+          <option value="{{ s }}" {% if s == 'completed' %}selected{% endif %}>{{ s }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Miles <input name="miles" inputmode="decimal"></label>
+      <label>Category <input name="category" value="power_unit_maintenance"></label>
+      <label>Vendor
+        <select name="vendor_id">
+          <option value="">— DIY —</option>
+          {% for v in vendors %}
+          <option value="{{ v.id }}">{{ v.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Details <textarea name="details" rows="3"></textarea></label>
+      <label>Labor $ <input name="labor_cost" inputmode="decimal"></label>
+      <label>Parts $ <input name="parts_cost" inputmode="decimal"></label>
+      <button type="submit">Log truck maintenance</button>
+    </form>
+  </section>
+</div>
+
+<section>
+  <h2>Fleet power units</h2>
+  {% if power_units %}
+  <table class="log-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Vehicle</th>
+        <th>GCWR / Max trailer</th>
+        <th>Ratings credit</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in power_units %}
+      <tr>
+        <td><strong>{{ p.name }}</strong></td>
+        <td>
+          {{ p.year or '' }} {{ p.make or '' }} {{ p.model or '' }}
+          <div class="muted small">{{ p.trim or '' }} {{ p.engine or '' }}</div>
+        </td>
+        <td>
+          GCWR {{ p.gcwr or '—' }} · Max trail {{ p.max_trailer_weight or '—' }}
+        </td>
+        <td class="small">
+          {{ p.rating_publisher or '—' }}
+          <div class="muted">{{ p.rating_source or '' }}</div>
+        </td>
+        <td><a href="/tow-check?pu={{ p.id }}">Grade tow →</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">No power units yet. Add the truck you actually tow with.</p>
+  {% endif %}
+</section>
+
+<section>
+  <h2>Recent power-unit maintenance</h2>
+  {% if maintenance %}
+  <table class="log-table">
+    <thead>
+      <tr><th>Date</th><th>Unit</th><th>Title</th><th>Status</th><th>Miles</th></tr>
+    </thead>
+    <tbody>
+      {% for e in maintenance %}
+      <tr>
+        <td>{{ e.performed_at }}</td>
+        <td>{{ e.power_unit_name or '—' }}</td>
+        <td><strong>{{ e.title }}</strong>
+          {% if e.details %}<div class="muted small">{{ e.details }}</div>{% endif %}
+        </td>
+        <td><span class="badge">{{ e.status }}</span></td>
+        <td>{{ e.miles if e.miles is not none else '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">No truck maintenance entries yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

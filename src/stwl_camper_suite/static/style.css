@@ -196,6 +196,54 @@ footer {
 .credits-box ul { margin: 0.25rem 0 0; padding-left: 1.2rem; }
 .credits-box li { margin: 0.35rem 0; font-size: 0.92rem; }
 .scope { color: #d5e2d7; font-size: 0.95rem; }
+
+/* Traffic light tow grade */
+.legend-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0 1.25rem; }
+.tl-pill {
+  font-size: 0.78rem; font-weight: 700; padding: 0.3rem 0.65rem;
+  border-radius: 999px; border: 1px solid var(--border);
+}
+.tl-green { background: #0d3d24; color: #7dffa8; border-color: #1f7a45; }
+.tl-yellow { background: #3d3410; color: #ffe08a; border-color: #8a7020; }
+.tl-red { background: #3d1515; color: #ff9b9b; border-color: #8a3030; }
+.tl-gray { background: #2a2a2a; color: #c0c0c0; border-color: #555; }
+
+.traffic-hero {
+  display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap;
+  padding: 1.1rem 1.25rem; border-radius: 12px; border: 2px solid var(--border);
+  margin: 1rem 0 1.5rem; background: var(--panel);
+}
+.traffic-hero.light-green { border-color: #1f7a45; box-shadow: 0 0 0 1px #1f7a4544; }
+.traffic-hero.light-yellow { border-color: #8a7020; box-shadow: 0 0 0 1px #8a702044; }
+.traffic-hero.light-red { border-color: #a03030; box-shadow: 0 0 0 1px #a0303044; }
+.traffic-hero.light-gray { border-color: #666; }
+.traffic-lamps {
+  display: flex; flex-direction: column; gap: 0.35rem;
+  background: #111; padding: 0.55rem; border-radius: 12px; border: 2px solid #333;
+}
+.lamp {
+  width: 28px; height: 28px; border-radius: 50%; opacity: 0.25;
+  border: 2px solid #222;
+}
+.lamp.red { background: #ff3b3b; }
+.lamp.yellow { background: #ffd000; }
+.lamp.green { background: #22c55e; }
+.lamp.on { opacity: 1; box-shadow: 0 0 12px currentColor; }
+.grade-label { margin: 0 0 0.35rem; font-size: 1.35rem; }
+
+.check-list { list-style: none; padding: 0; margin: 0; }
+.check-list .check {
+  display: flex; gap: 0.75rem; padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.tl-dot {
+  width: 14px; height: 14px; border-radius: 50%; margin-top: 0.35rem; flex-shrink: 0;
+}
+.tl-dot.tl-green { background: #22c55e; }
+.tl-dot.tl-yellow { background: #ffd000; }
+.tl-dot.tl-red { background: #ff3b3b; }
+.tl-dot.tl-gray { background: #888; }
+.check p { margin: 0.25rem 0 0; }
 .inline-status { display: flex; gap: 0.35rem; align-items: center; flex-wrap: wrap; }
 .inline-status select {
   background: var(--bg);

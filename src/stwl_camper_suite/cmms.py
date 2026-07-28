@@ -355,6 +355,7 @@ def add_entry(
     title: str,
     *,
     rig_id: int | None = None,
+    power_unit_id: int | None = None,
     vendor_id: int | None = None,
     guide_id: str | None = None,
     wo_number: str | None = None,
@@ -389,14 +390,15 @@ def add_entry(
         cur = conn.execute(
             """
             INSERT INTO service_log (
-                rig_id, vendor_id, guide_id, wo_number, performed_at, completed_at,
+                rig_id, power_unit_id, vendor_id, guide_id, wo_number, performed_at, completed_at,
                 category, title, details, status, priority, performed_by,
                 miles, labor_hours, labor_cost, parts_cost, cost, parts,
                 invoice_ref, created_at, updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 rig_id,
+                power_unit_id,
                 vendor_id,
                 guide_id,
                 wo_number,
@@ -475,9 +477,11 @@ def list_entries(
     sql = f"""
         SELECT s.*,
                r.name AS rig_name,
+               p.name AS power_unit_name,
                v.name AS vendor_name
         FROM service_log s
         LEFT JOIN rigs r ON r.id = s.rig_id
+        LEFT JOIN power_units p ON p.id = s.power_unit_id
         LEFT JOIN vendors v ON v.id = s.vendor_id
         {where}
         ORDER BY

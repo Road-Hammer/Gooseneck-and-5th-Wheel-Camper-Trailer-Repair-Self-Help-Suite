@@ -1,0 +1,80 @@
+# Official OEM / publisher portals for tow ratings (OSINT index).
+# Copyright 2026 Susquehanna Timberwolf Lines, LLC
+#
+# RULE: This file lists WHERE to get ratings. It does NOT invent model tow numbers.
+# Every entry must name the publisher. Config-specific ratings belong on the truck's
+# door sticker, owner manual, or current OEM guide/calculator for that VIN/config.
+
+version: "1.0"
+maintained_by: "Susquehanna Timberwolf Lines, LLC (STWL)"
+policy: >
+  STWL does not republish manufacturer tow-rating tables. Users must enter ratings
+  from their vehicle certification label and official OEM literature for the exact
+  configuration. This index only credits publisher portals for discovery.
+
+publishers:
+  - id: ford
+    publisher: "Ford Motor Company"
+    title: "Ford towing / RV & Trailer Towing Guide and Towing Calculator"
+    urls:
+      - "https://www.ford.com/towing/"
+      - "https://www.ford.com/support/towing-calculator/"
+    what_to_use: >
+      Max trailer weight, GCWR, tongue weight guidance for the exact F-Series (or
+      other Ford) configuration. Prefer VIN/calculator or current model-year guide PDF.
+    credit: "Publisher: Ford Motor Company — official ford.com towing materials"
+
+  - id: ram
+    publisher: "Ram Trucks (Stellantis)"
+    title: "Ram Towing Capacity Guide"
+    urls:
+      - "https://www.ramtrucks.com/towing/towing-capacity-guide.html"
+    what_to_use: >
+      Config-specific towing and payload capabilities for Ram trucks. Confirm on
+      window sticker for the exact truck.
+    credit: "Publisher: Ram Trucks — official ramtrucks.com towing materials"
+
+  - id: gm
+    publisher: "General Motors (Chevrolet / GMC)"
+    title: "Chevrolet / GMC trailering and towing resources"
+    urls:
+      - "https://www.chevrolet.com/"
+      - "https://www.gmc.com/"
+    what_to_use: >
+      Locate current model-year trailering guide or build tools for Silverado/Sierra
+      (and other GM) configs. Always confirm GCWR/payload/tow on the specific vehicle label.
+    credit: "Publisher: General Motors / Chevrolet / GMC — official brand trailering materials"
+
+  - id: toyota
+    publisher: "Toyota Motor Sales, U.S.A., Inc."
+    title: "Toyota towing capacity resources"
+    urls:
+      - "https://www.toyota.com/"
+    what_to_use: >
+      Official Toyota towing capacity information for Tundra/Tacoma/Sequoia etc.
+      Use owner manual and current OEM capacity charts for the exact package.
+    credit: "Publisher: Toyota — official toyota.com / owner literature"
+
+  - id: nissan
+    publisher: "Nissan North America"
+    title: "Nissan towing resources"
+    urls:
+      - "https://www.nissanusa.com/"
+    what_to_use: "Official Nissan capacity data for Titan/Frontier and related models."
+    credit: "Publisher: Nissan — official nissanusa.com / owner literature"
+
+  - id: jeep
+    publisher: "Jeep (Stellantis)"
+    title: "Jeep towing resources"
+    urls:
+      - "https://www.jeep.com/"
+    what_to_use: "Official Jeep towing/payload information for the exact configuration."
+    credit: "Publisher: Jeep — official jeep.com / owner literature"
+
+notes:
+  - >
+    Dealership blogs often restate max numbers; they are secondary. Prefer OEM PDF,
+    OEM calculator, and the metal/plastic certification labels on the vehicle.
+  - >
+    Class 4–8 commercial trucks use different rating systems (GAWR, GCWR, fifth-wheel
+    kingpin loads). Enter manufacturer-stated limits the same way; do not invent them.
