@@ -251,14 +251,26 @@ vendors:
     source_credit: "Publisher: Camping World — official website"
 
   - seed_key: good_sam
-    name: "Good Sam (membership / roadside resources)"
+    name: "Good Sam Roadside Assistance"
+    trade: towing_recovery
+    website: "https://roadside.goodsam.com/"
+    specialties: "Membership roadside: towing, flat tire, jump start, lockout, fuel delivery (plan-dependent); RV and auto plan tracks"
+    notes: >
+      Membership — not a shop. Confirm whether YOUR trailer type is on the RV vs auto track.
+      See STWL guide: trailer-membership-coverage. Source: Good Sam official roadside site.
+    preferred: true
+    mobility: membership_network
+    source_credit: "Publisher: Good Sam Roadside Assistance — roadside.goodsam.com"
+
+  - seed_key: good_sam_org
+    name: "Good Sam Club (membership ecosystem)"
     trade: towing_recovery
     website: "https://www.goodsam.com/"
-    specialties: "Membership roadside assistance resources; affiliated RV service ecosystem"
-    notes: "Not a single repair shop — membership/roadside. Useful contact path while traveling."
+    specialties: "Club membership, campground discounts, related RV services"
+    notes: "Club/ecosystem entry point; roadside is a related product line — verify enrollment separately."
     preferred: false
     mobility: membership_network
-    source_credit: "Publisher: Good Sam / Camping World ecosystem — official website"
+    source_credit: "Publisher: Good Sam — goodsam.com"
 
   # --- Mobile repair (national brand with public mobile offering) ---
   - seed_key: camping_world_mobile
@@ -274,16 +286,68 @@ vendors:
     mobility: mobile_select_markets
     source_credit: "Publisher: Camping World — mobile service pages on rv.campingworld.com"
 
-  # --- Towing / recovery (national) ---
+  # --- Membership roadside / recovery ---
   - seed_key: aaa
-    name: "AAA (roadside / towing — membership)"
+    name: "AAA (American Automobile Association)"
     trade: towing_recovery
     website: "https://www.aaa.com/"
-    specialties: "Roadside assistance and towing via membership; local clubs vary"
-    notes: "Use AAA app/phone for dispatch. Not a trailer repair shop."
+    specialties: "Membership roadside; RV/trailer add-ons vary by regional club; personal-use trailers may need RV tier"
+    notes: >
+      Benefits differ by LOCAL AAA CLUB. Base car plans often do NOT fully cover trailers/RVs.
+      Some club FAQs: personal trailers (incl. horse) under RV benefits; livestock may need unloading
+      before tech arrival. Dollar and mile limits change — read handbook. Not a repair shop.
+      See STWL guide: trailer-membership-coverage.
+    preferred: true
+    mobility: membership_network
+    source_credit: "Publisher: American Automobile Association / local AAA clubs — aaa.com and club handbooks"
+
+  - seed_key: coach_net
+    name: "Coach-Net (RV roadside & tech assist)"
+    trade: towing_recovery
+    website: "https://coach-net.com/"
+    specialties: "RV-focused roadside assistance and 24/7 RV technical support membership"
+    notes: >
+      Membership for RV/towable breakdowns; tech phone support is a common differentiator in public marketing.
+      Confirm towable vs motorized plan and trailer eligibility. See trailer-membership-coverage guide.
+    preferred: true
+    mobility: membership_network
+    source_credit: "Publisher: Coach-Net — coach-net.com"
+
+  - seed_key: usrider
+    name: "USRider Equestrian Motor Plan"
+    trade: towing_recovery
+    phone: "1-800-844-1409"
+    website: "https://usrider.org/"
+    specialties: "Equestrian roadside: tow vehicle + horse trailer (incl. loaded-trailer messaging); tire/battery/lockout; equine referrals"
+    notes: >
+      Built for horse haulers. Public membership pages describe vehicle and/or horse trailer towing
+      (e.g. distance and $ caps — confirm live plan). Vet/stabling/farrier REFERRALS, not free vet care.
+      USEF and breed associations have historically offered member discount pathways — confirm current.
+      See STWL guide: trailer-membership-coverage.
+    preferred: true
+    mobility: membership_network
+    source_credit: "Publisher: USRider — usrider.org public membership pages"
+
+  - seed_key: usef
+    name: "USEF (U.S. Equestrian Federation)"
+    trade: other
+    website: "https://www.usef.org/"
+    specialties: "National equestrian sport governing body; member programs; historical USRider partner discounts"
+    notes: >
+      Not a tow company. Club/association membership. Check current partner offers for equestrian roadside.
     preferred: false
     mobility: membership_network
-    source_credit: "Publisher: American Automobile Association — official website"
+    source_credit: "Publisher: United States Equestrian Federation — usef.org"
+
+  - seed_key: aqha
+    name: "AQHA (American Quarter Horse Association)"
+    trade: other
+    website: "https://www.aqha.com/"
+    specialties: "Breed association; member resources (has pointed members to equestrian roadside partners)"
+    notes: "Not a tow company. Check AQHA member benefits for current partner offers."
+    preferred: false
+    mobility: membership_network
+    source_credit: "Publisher: American Quarter Horse Association — aqha.com"
 
   # --- Online mega-retail (parts backup) ---
   - seed_key: amazon_auto

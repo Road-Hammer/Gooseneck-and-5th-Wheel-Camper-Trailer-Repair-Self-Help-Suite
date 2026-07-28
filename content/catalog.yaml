@@ -75,3 +75,6 @@ categories:
   - id: power_unit_maintenance
     title: "Power Unit Maintenance"
     description: "How to log and track maintenance on the truck that pulls the trailer."
+  - id: membership_roadside
+    title: "Membership Roadside (Trailer Focus)"
+    description: "AAA, Good Sam, Coach-Net, USRider and similar — what membership typically covers with a trailer."
