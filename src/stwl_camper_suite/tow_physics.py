@@ -513,9 +513,9 @@ def grade_combination(
     else:
         overall = _worst(*(c.light for c in checks if c.light != Light.GRAY))
         # Any gray on a critical check when we have weights still allows green/yellow/red from known checks
+        # Only force yellow when *core tow* OEM fields are missing (axle GAWR optional)
         critical_gray = any(
-            c.id in ("gcwr", "max_trailer", "payload", "axle_aggregate_gawr", "trailer_gvwr")
-            and c.light == Light.GRAY
+            c.id in ("gcwr", "max_trailer", "payload") and c.light == Light.GRAY
             for c in checks
         )
         if critical_gray and overall == Light.GREEN:
