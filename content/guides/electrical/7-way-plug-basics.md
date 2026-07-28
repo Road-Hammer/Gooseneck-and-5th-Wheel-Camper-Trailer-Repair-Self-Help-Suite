@@ -62,22 +62,29 @@ On many light- and medium-duty trailer setups, a multi-pin **7-way** style conne
 - Replace a melted plug rather than tape-wrapping it.  
 - Repair obvious broken ground straps to clean metal.
 
-## What you must look up yourself
+## Pin charts (Hopkins/Hoppy + CMV J560)
 
-Use the **tow-vehicle owner manual / service information** and the **trailer manufacturer wiring documentation** for:
+Full pin/function tables:
 
-- Which pin is ground, lamps, brakes, and aux  
-- Fuse and relay locations on the tow vehicle  
+**[Trailer Wiring Pin Charts — Hopkins/Hoppy Light-Duty & SAE J560 CMV](/guide/wiring-pin-charts-hoppy-j560)**
 
-**Do not** treat an unlabeled internet pin diagram as authoritative if it conflicts with OEM data.
+- Light truck / RV / most horse & cargo: **7-way blade** (Hoppy/Hopkins; SAE J2863 family)  
+- CMV / semi: **SAE J560** round 7-way (**not** the same plug; air brakes, not light electric-brake blue)
+
+## What you must still verify
+
+Use the **tow-vehicle owner manual** and **meter** the harness for fuse/relay locations and any OEM color changes.
+
+**Do not** treat an unlabeled random internet pinout as authoritative if it conflicts with Hopkins product sheets, SAE standards, or OEM data.
 
 ## Credits & sources
 
 | Role | Credit |
 |------|--------|
 | Publisher / original guide text | Susquehanna Timberwolf Lines, LLC (STWL) |
-| Pin identity & vehicle wiring | Your truck and trailer manufacturers (reader must supply) |
-| Multi-pin trailer connector family (industry context) | SAE International — consult official SAE publications for standard text; STWL does not reproduce SAE tables |
+| Light-duty connectors | Hopkins Towing Solutions / Hoppy; SAE J2863 |
+| CMV connectors | SAE J560 |
+| Vehicle-specific wiring | Tow-vehicle and trailer manufacturers |
 
 ## Service log
 
