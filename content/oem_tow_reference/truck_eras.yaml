@@ -1,0 +1,57 @@
+# Historical truck / power-unit eras (1920–present) — discovery index only.
+# Copyright 2026 Susquehanna Timberwolf Lines, LLC
+#
+# No invented tow ratings. Users enter GCWR / max trailer / payload from
+# labels and literature for the exact vehicle.
+
+version: "1.0"
+policy: >
+  STWL indexes eras and manufacturer families so users can file a power unit
+  from 1920 through current model years. Ratings are never auto-filled from this file.
+
+eras:
+  - id: early_motor_truck_1920_1939
+    years: "1920–1939"
+    title: "Early motor trucks"
+    notes: >
+      Pre-modern certification labels. Capacity often stated in ton ratings or
+      catalog “capacity” language that is not today’s GVWR/GCWR system. Prefer
+      original maker literature, state registration papers, and period catalogs.
+    credit: "Era framing: STWL; vehicle data must cite original manufacturer literature of that period"
+
+  - id: wartime_postwar_1940_1959
+    years: "1940–1959"
+    title: "War / postwar light & medium trucks"
+    notes: >
+      Growing use of formal weight ratings. Still verify every number on the unit
+      or period OEM literature — do not use modern F-Series charts on a 1948 truck.
+    credit: "Era framing: STWL; OEM of record for the VIN/serial"
+
+  - id: classic_pickup_1960_1989
+    years: "1960–1989"
+    title: "Classic pickups & medium duty"
+    notes: >
+      Door stickers and owner manuals become more standardized. Tow packages vary
+      widely by axle ratio, cooling, and hitch equipment.
+    credit: "Era framing: STWL; vehicle manufacturer owner literature for that model year"
+
+  - id: modern_light_duty_1990_2009
+    years: "1990–2009"
+    title: "Modern light-duty tow era"
+    notes: >
+      Widespread published tow guides; still config-specific. Always use the guide
+      year matching the truck, not a later PDF.
+    credit: "OEM model-year tow guides (Ford, GM, Chrysler/Dodge/Ram, Toyota, Nissan, etc.)"
+
+  - id: current_2010_present
+    years: "2010–present"
+    title: "Current light / medium / Class 8"
+    notes: >
+      OEM calculators and annual trailering guides. Class 7–8 use commercial GCWR/GAWR
+      systems — enter manufacturer-stated limits the same way in this suite.
+    credit: "Current OEM portals and certification labels"
+
+manufacturers_note: >
+  Make list for the UI includes legacy and current marques (Ford, Chevrolet, GMC,
+  Dodge/Ram, International, Kenworth, Peterbilt, Freightliner, Mack, Volvo, etc.).
+  Selecting a make does not load a rating — you still type plate/OEM numbers.

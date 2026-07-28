@@ -3,15 +3,15 @@
 {% block content %}
 <h1>Vendor directory</h1>
 <p class="lede">
-  Local list of shops, mobile techs, and parts sources. Link vendors to repair guides or categories
-  so they show up on the guide page when you need help.
+  Local list of shops and parts sources for work orders — <strong>business/unit labels only</strong>
+  (no street addresses, no personal legal names). Link to guides as needed.
 </p>
 
 <div class="two-col">
   <section class="panel">
-    <h2>Add vendor</h2>
+    <h2>Add vendor (no address)</h2>
     <form method="post" action="/vendors/add" class="stack">
-      <label>Name <input name="name" required placeholder="Roadside Trailer Pros"></label>
+      <label>Shop / unit label <input name="name" required placeholder="e.g. Shop A — brakes"></label>
       <label>Trade
         <select name="trade">
           <option value="">—</option>
@@ -20,13 +20,13 @@
           {% endfor %}
         </select>
       </label>
-      <label>Phone <input name="phone"></label>
-      <label>Email <input name="email" type="email"></label>
-      <label>Website <input name="website" placeholder="https://…"></label>
-      <label>Address <input name="address"></label>
-      <label>City <input name="city"></label>
-      <label>State <input name="state"></label>
-      <label>ZIP <input name="zip"></label>
+      <label>Phone (optional) <input name="phone"></label>
+      <label>Email (optional) <input name="email" type="email"></label>
+      <label>Website (optional) <input name="website"></label>
+      <input type="hidden" name="address" value="">
+      <input type="hidden" name="city" value="">
+      <input type="hidden" name="state" value="">
+      <input type="hidden" name="zip" value="">
       <label>Specialties <input name="specialties" placeholder="equine floors, brakes, gooseneck"></label>
       <label>Notes <textarea name="notes" rows="2"></textarea></label>
       <label class="row"><input type="checkbox" name="preferred" value="1"> Preferred vendor</label>

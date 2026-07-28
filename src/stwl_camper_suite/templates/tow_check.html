@@ -86,9 +86,29 @@
           {% endfor %}
         </select>
       </label>
+      {% if selected_trailer %}
+      <input type="hidden" name="trailer" value="{{ selected_trailer.id }}">
+      {% endif %}
+    </form>
+    <form method="get" action="/tow-check" class="stack">
+      <label>Load saved trailer (OEM or homemade)
+        <select name="trailer" onchange="this.form.submit()">
+          <option value="">— manual entry —</option>
+          {% for t in trailers %}
+          <option value="{{ t.id }}" {% if selected_trailer and selected_trailer.id == t.id %}selected{% endif %}>
+            {{ t.name }}{% if t.is_homemade %} [homemade]{% endif %}
+            · {{ t.axle_count or '?' }} ax
+          </option>
+          {% endfor %}
+        </select>
+      </label>
+      {% if selected_pu %}
+      <input type="hidden" name="pu" value="{{ selected_pu.id }}">
+      {% endif %}
     </form>
     <form method="post" action="/tow-check" class="stack">
       <input type="hidden" name="power_unit_id" value="{{ selected_pu.id if selected_pu else '' }}">
+      <input type="hidden" name="trailer_id" value="{{ selected_trailer.id if selected_trailer else '' }}">
       <label>Truck ready-to-tow weight (lb, scale)
         <input name="truck_as_weighed" inputmode="decimal" value="{{ form.truck_as_weighed }}">
       </label>
@@ -111,11 +131,21 @@
                placeholder="e.g. Ford Motor Company door label + 2026 tow guide">
       </label>
 
-      <h2>2. Trailer</h2>
+      <h2>2. Trailer (incl. homemade)</h2>
       <label>Trailer loaded weight (lb, scale preferred)
         <input name="trailer_weight" inputmode="decimal" value="{{ form.trailer_weight }}">
       </label>
       <label>Trailer GVWR (lb) <input name="trailer_gvwr" inputmode="decimal" value="{{ form.trailer_gvwr }}"></label>
+      <label>Axle count (1–5 quint)
+        <input name="axle_count" inputmode="numeric" value="{{ form.axle_count }}">
+      </label>
+      <label>Sum of axle GAWR (lb)
+        <input name="aggregate_axle_gawr" inputmode="decimal" value="{{ form.aggregate_axle_gawr }}">
+      </label>
+      <label>Trailer / axle rating credit
+        <input name="trailer_rating_pub" value="{{ form.trailer_rating_pub }}"
+               placeholder="e.g. Dexter tags + builder plate">
+      </label>
       <label>Tongue or pin weight (lb, measured)
         <input name="tongue" inputmode="decimal" value="{{ form.tongue }}">
       </label>
@@ -124,10 +154,12 @@
           <option value="conventional" {% if form.hitch_style == 'conventional' %}selected{% endif %}>Conventional / bumper pull</option>
           <option value="fifth_wheel" {% if form.hitch_style == 'fifth_wheel' %}selected{% endif %}>Fifth wheel</option>
           <option value="gooseneck" {% if form.hitch_style == 'gooseneck' %}selected{% endif %}>Gooseneck</option>
+          <option value="pintle" {% if form.hitch_style == 'pintle' %}selected{% endif %}>Pintle</option>
         </select>
       </label>
       <button type="submit">Grade combination</button>
     </form>
+    <p class="meta"><a href="/trailers">Build homemade trailer / edit axles →</a></p>
   </section>
 
   <section class="panel">

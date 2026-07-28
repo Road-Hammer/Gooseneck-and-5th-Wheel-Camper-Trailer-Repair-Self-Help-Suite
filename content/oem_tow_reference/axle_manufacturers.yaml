@@ -1,0 +1,48 @@
+# Trailer axle manufacturers — discovery / credit index.
+# Copyright 2026 Susquehanna Timberwolf Lines, LLC
+#
+# RULE: GAWR and single vs dual wheel ratings come from the axle ID plate and
+# manufacturer documentation. This file does not invent capacity numbers.
+
+version: "1.0"
+policy: >
+  Users enter GAWR (lb) per axle from the stamped plate. Wheel end is single or dual.
+  Supported axle counts: 1 (single) through 5 (quint).
+
+manufacturers:
+  - name: Dexter Axle
+    credit: "Publisher: Dexter Axle — axle ID plates and product literature"
+    notes: "Common light/medium trailer axles; read GAWR on the axle tag."
+  - name: Lippert / LCI
+    credit: "Publisher: Lippert Components — axle/suspension literature and tags"
+  - name: AL-KO / AL-KO Kober
+    credit: "Publisher: AL-KO — axle product documentation"
+  - name: Hayes Axle
+    credit: "Publisher: Hayes Axle — product tags/literature"
+  - name: Rockwell American
+    credit: "Publisher: Rockwell American — product literature"
+  - name: Meritor
+    credit: "Publisher: Meritor — commercial axle ratings (plate/literature)"
+  - name: Hendrickson
+    credit: "Publisher: Hendrickson — commercial suspension/axle systems"
+  - name: SAF-Holland
+    credit: "Publisher: SAF-Holland — commercial running gear literature"
+  - name: Homemade / unknown
+    credit: "No OEM plate — user must derate conservatively; STWL will not invent GAWR"
+  - name: Other
+    credit: "User-specified manufacturer — attach plate photo in service log notes if desired"
+
+wheel_ends:
+  - id: single
+    title: Single wheel
+    notes: One tire per side on that axle. GAWR is still the plate value for the assembly.
+  - id: dual
+    title: Dual wheel (dually)
+    notes: Two tires per side on that axle. Use the dual-rated GAWR on the axle plate.
+
+axle_counts:
+  - { n: 1, label: Single axle }
+  - { n: 2, label: Tandem }
+  - { n: 3, label: Triple }
+  - { n: 4, label: Quad }
+  - { n: 5, label: Quint }

@@ -54,9 +54,35 @@ CREATE TABLE IF NOT EXISTS rigs (
     plate TEXT,
     gvwr REAL,
     empty_weight REAL,
+    cargo_weight REAL,
     hitch_style TEXT,
+    is_homemade INTEGER NOT NULL DEFAULT 0,
+    length_ft REAL,
+    width_ft REAL,
+    height_ft REAL,
+    axle_count INTEGER,
+    brake_type TEXT,
+    aggregate_axle_rating REAL,
+    rating_publisher TEXT,
+    rating_source TEXT,
     status TEXT DEFAULT 'active',
     created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS trailer_axles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    rig_id INTEGER NOT NULL,
+    position INTEGER NOT NULL,
+    manufacturer TEXT,
+    model_or_part TEXT,
+    wheel_end TEXT NOT NULL DEFAULT 'single',
+    gawr_lb REAL,
+    tire_size TEXT,
+    brake_type TEXT,
+    notes TEXT,
+    rating_publisher TEXT,
+    rating_source TEXT,
+    FOREIGN KEY (rig_id) REFERENCES rigs(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS power_units (
@@ -69,6 +95,8 @@ CREATE TABLE IF NOT EXISTS power_units (
     vin TEXT,
     engine TEXT,
     drivetrain TEXT,
+    duty_class TEXT,
+    config_notes TEXT,
     gvwr REAL,
     gcwr REAL,
     payload_capacity REAL,
@@ -148,6 +176,7 @@ CREATE INDEX IF NOT EXISTS idx_vendors_name ON vendors(name);
 CREATE INDEX IF NOT EXISTS idx_vendor_guide_vendor ON vendor_guide_links(vendor_id);
 CREATE INDEX IF NOT EXISTS idx_vendor_guide_guide ON vendor_guide_links(guide_id);
 CREATE INDEX IF NOT EXISTS idx_power_units_name ON power_units(name);
+CREATE INDEX IF NOT EXISTS idx_trailer_axles_rig ON trailer_axles(rig_id);
 """
 
 # Created after migrate() so upgraded DBs have columns first
@@ -155,6 +184,7 @@ POST_MIGRATE_INDEXES = """
 CREATE INDEX IF NOT EXISTS idx_service_log_status ON service_log(status);
 CREATE INDEX IF NOT EXISTS idx_service_log_vendor ON service_log(vendor_id);
 CREATE INDEX IF NOT EXISTS idx_service_log_power_unit ON service_log(power_unit_id);
+CREATE INDEX IF NOT EXISTS idx_trailer_axles_rig ON trailer_axles(rig_id);
 """
 
 # Columns to add when upgrading older DBs created by v0.1
@@ -166,8 +196,22 @@ _MIGRATIONS: dict[str, list[tuple[str, str]]] = {
         ("plate", "TEXT"),
         ("gvwr", "REAL"),
         ("empty_weight", "REAL"),
+        ("cargo_weight", "REAL"),
         ("hitch_style", "TEXT"),
+        ("is_homemade", "INTEGER NOT NULL DEFAULT 0"),
+        ("length_ft", "REAL"),
+        ("width_ft", "REAL"),
+        ("height_ft", "REAL"),
+        ("axle_count", "INTEGER"),
+        ("brake_type", "TEXT"),
+        ("aggregate_axle_rating", "REAL"),
+        ("rating_publisher", "TEXT"),
+        ("rating_source", "TEXT"),
         ("status", "TEXT DEFAULT 'active'"),
+    ],
+    "power_units": [
+        ("duty_class", "TEXT"),
+        ("config_notes", "TEXT"),
     ],
     "service_log": [
         ("vendor_id", "INTEGER"),

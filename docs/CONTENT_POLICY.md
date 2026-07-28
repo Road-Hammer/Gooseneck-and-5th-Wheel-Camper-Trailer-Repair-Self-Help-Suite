@@ -29,6 +29,13 @@ This suite aims for a **complete practical catalog**, not a warehouse of other p
 4. Prefer **teach the principle + inspection steps** over proprietary torque tables when OEM data is copyrighted; tell the user to use **their placard / owner manual** for model-specific numbers.
 5. Never present another publisher’s material as uncredited STWL text.
 
+## Privacy — unit info only
+
+- Power units, trailers, and VIN checks store **equipment technical data** only.
+- **No owner legal names** and **no street addresses** on unit records or VIN decode.
+- Optional VIN online decode uses free **NHTSA vPIC** and whitelists vehicle fields only; plant city/state and any PII-like keys are discarded.
+- Credit: U.S. DOT / NHTSA vPIC when online decode is used.
+
 ## Safety disclaimer (required in product UI)
 
 Educational self-help only. Not a substitute for OEM procedures, certified technicians, or applicable law. Brakes, hitching, propane, electrical, structural, and cargo securement errors can kill. When in doubt, stop and get qualified help.

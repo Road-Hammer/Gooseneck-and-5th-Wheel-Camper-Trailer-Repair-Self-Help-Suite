@@ -244,6 +244,29 @@ footer {
 .tl-dot.tl-red { background: #ff3b3b; }
 .tl-dot.tl-gray { background: #888; }
 .check p { margin: 0.25rem 0 0; }
+
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+}
+.axle-block {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  background: #141a15;
+}
+.axle-block legend {
+  color: var(--accent);
+  font-weight: 600;
+  padding: 0 0.35rem;
+}
+.vin-result {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
 .inline-status { display: flex; gap: 0.35rem; align-items: center; flex-wrap: wrap; }
 .inline-status select {
   background: var(--bg);

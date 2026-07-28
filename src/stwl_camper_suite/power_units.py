@@ -8,6 +8,7 @@ from typing import Any
 
 from .db import connect, init_db
 from .paths import db_path
+from .vehicle_catalog import YEAR_MAX, YEAR_MIN
 
 
 def _now() -> str:
@@ -24,6 +25,8 @@ def add_power_unit(
     vin: str | None = None,
     engine: str | None = None,
     drivetrain: str | None = None,
+    duty_class: str | None = None,
+    config_notes: str | None = None,
     gvwr: float | None = None,
     gcwr: float | None = None,
     payload_capacity: float | None = None,
@@ -36,16 +39,19 @@ def add_power_unit(
     notes: str | None = None,
     database: Path | None = None,
 ) -> int:
+    if year is not None and (year < YEAR_MIN or year > YEAR_MAX + 1):
+        raise ValueError(f"year must be {YEAR_MIN}–{YEAR_MAX + 1}")
     init_db(database)
     with connect(database or db_path()) as conn:
         cur = conn.execute(
             """
             INSERT INTO power_units (
                 name, make, model, year, trim, vin, engine, drivetrain,
+                duty_class, config_notes,
                 gvwr, gcwr, payload_capacity, max_trailer_weight, max_tongue_weight,
                 hitch_receiver_rating, curb_weight, rating_publisher, rating_source,
                 notes, status, created_at, updated_at
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, 'active', ?, ?)
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, 'active', ?, ?)
             """,
             (
                 name.strip(),
@@ -56,6 +62,8 @@ def add_power_unit(
                 vin,
                 engine,
                 drivetrain,
+                duty_class,
+                config_notes,
                 gvwr,
                 gcwr,
                 payload_capacity,
@@ -77,18 +85,14 @@ def add_power_unit(
 def list_power_units(database: Path | None = None) -> list[dict[str, Any]]:
     init_db(database)
     with connect(database or db_path()) as conn:
-        rows = conn.execute(
-            "SELECT * FROM power_units ORDER BY name"
-        ).fetchall()
+        rows = conn.execute("SELECT * FROM power_units ORDER BY name").fetchall()
         return [dict(r) for r in rows]
 
 
 def get_power_unit(pu_id: int, database: Path | None = None) -> dict[str, Any] | None:
     init_db(database)
     with connect(database or db_path()) as conn:
-        row = conn.execute(
-            "SELECT * FROM power_units WHERE id = ?", (pu_id,)
-        ).fetchone()
+        row = conn.execute("SELECT * FROM power_units WHERE id = ?", (pu_id,)).fetchone()
         return dict(row) if row else None
 
 
@@ -97,7 +101,6 @@ def list_power_unit_maintenance(
     limit: int = 100,
     database: Path | None = None,
 ) -> list[dict[str, Any]]:
-    """Service log rows tagged to a power unit."""
     init_db(database)
     with connect(database or db_path()) as conn:
         if power_unit_id is not None:

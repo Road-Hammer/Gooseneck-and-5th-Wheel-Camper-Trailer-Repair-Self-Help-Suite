@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}Trailers &amp; Axles — STWL Camper Suite{% endblock %}
+{% block content %}
+<h1>Trailers &amp; axle configs</h1>
+<p class="lede">
+  Register OEM or <strong>HOMEMADE / HOME BUILT</strong> trailers. Configure
+  <strong>1–5 axles (through quint)</strong>, each with manufacturer, single or dual wheel,
+  and <strong>GAWR from the axle plate</strong>. Trailer GVWR and axle ratings feed the
+  <a href="/tow-check">tow traffic light</a>.
+</p>
+
+<section class="panel">
+  <h2>Add trailer (including homemade)</h2>
+  <form method="post" action="/trailers/add" class="stack">
+    <label>Name <input name="name" required placeholder="e.g. Homemade 40' stock"></label>
+    <label class="row"><input type="checkbox" name="is_homemade" value="1"> Homemade / home built</label>
+    <label>Type
+      <select name="rig_type">
+        {% for t in rig_types %}
+        <option value="{{ t }}">{{ t }}</option>
+        {% endfor %}
+        <option value="homemade">homemade</option>
+      </select>
+    </label>
+    <label>Make <input name="make" placeholder="HOMEMADE or brand"></label>
+    <label>Model <input name="model"></label>
+    <label>Year
+      <select name="year">
+        <option value="">—</option>
+        {% for y in years %}
+        <option value="{{ y }}">{{ y }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>VIN / serial <input name="vin"></label>
+    <div class="three-col">
+      <label>Length (ft) <input name="length_ft" inputmode="decimal"></label>
+      <label>Width (ft) <input name="width_ft" inputmode="decimal"></label>
+      <label>Height (ft) <input name="height_ft" inputmode="decimal"></label>
+    </div>
+    <label>Hitch style
+      <select name="hitch_style">
+        {% for hid, htitle in hitch_styles %}
+        <option value="{{ hid }}">{{ htitle }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Trailer brake system
+      <select name="brake_type">
+        {% for bid, btitle in brake_types %}
+        <option value="{{ bid }}">{{ btitle }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Empty weight (lb) <input name="empty_weight" inputmode="decimal"></label>
+    <label>Typical cargo weight (lb) <input name="cargo_weight" inputmode="decimal"></label>
+    <label>Trailer GVWR (lb) <input name="gvwr" inputmode="decimal" required></label>
+    <label>GVWR / builder rating publisher
+      <input name="rating_publisher" required placeholder="e.g. Builder plate / Dexter plates / OEM VIN label">
+    </label>
+    <label>Rating source note <input name="rating_source" placeholder="VIN plate + axle tags photographed 2026-07-28"></label>
+    <label>Notes <textarea name="notes" rows="2"></textarea></label>
+
+    <h3>Axles (1 = single … 5 = quint)</h3>
+    <p class="muted small">
+      Enter GAWR (lb) from each axle manufacturer plate. Dual wheel does not invent capacity —
+      use the dual GAWR stamped for that axle.
+    </p>
+    <label>Number of axles
+      <select name="axle_count" id="axle_count">
+        {% for n, label in axle_counts %}
+        <option value="{{ n }}" {% if n == 2 %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    {% for i in range(1, 6) %}
+    <fieldset class="axle-block" data-axle="{{ i }}">
+      <legend>Axle {{ i }}</legend>
+      <label>Manufacturer
+        <select name="axle{{ i }}_mfr">
+          <option value="">—</option>
+          {% for m in axle_mfrs %}
+          <option value="{{ m }}">{{ m }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Model / part # <input name="axle{{ i }}_model"></label>
+      <label>Wheel end
+        <select name="axle{{ i }}_wheel">
+          {% for wid, wtitle in wheel_ends %}
+          <option value="{{ wid }}">{{ wtitle }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>GAWR (lb) from plate <input name="axle{{ i }}_gawr" inputmode="decimal"></label>
+      <label>Tire size <input name="axle{{ i }}_tire"></label>
+      <label>Axle rating publisher
+        <input name="axle{{ i }}_pub" placeholder="e.g. Dexter Axle tag">
+      </label>
+    </fieldset>
+    {% endfor %}
+
+    <button type="submit">Save trailer + axles</button>
+  </form>
+</section>
+
+<section>
+  <h2>Saved trailers</h2>
+  {% if trailers %}
+  <table class="log-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Size / hitch</th>
+        <th>Axles</th>
+        <th>GVWR / Σ GAWR</th>
+        <th>Brakes</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in trailers %}
+      <tr>
+        <td>
+          <strong>{{ t.name }}</strong>
+          {% if t.is_homemade %}<span class="badge">homemade</span>{% endif %}
+          <div class="muted small">{{ t.make or '' }} {{ t.model or '' }}</div>
+        </td>
+        <td class="small">
+          {% if t.length_ft %}{{ t.length_ft }}′ L{% endif %}
+          {% if t.width_ft %} × {{ t.width_ft }}′ W{% endif %}
+          <div>{{ t.hitch_style or '—' }}</div>
+        </td>
+        <td class="small">
+          {{ t.axle_count or (t.axles|length) or '—' }} axle(s)
+          {% for a in t.axles %}
+          <div class="muted">
+            #{{ a.position }} {{ a.manufacturer or '?' }} · {{ a.wheel_end }} ·
+            GAWR {{ a.gawr_lb if a.gawr_lb is not none else '—' }}
+          </div>
+          {% endfor %}
+        </td>
+        <td class="small">
+          GVWR {{ t.gvwr or '—' }}<br>
+          Σ GAWR {{ t.aggregate_axle_rating or '—' }}
+        </td>
+        <td class="small">{{ t.brake_type or '—' }}</td>
+        <td><a href="/tow-check?trailer={{ t.id }}">Grade tow →</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">No trailers yet.</p>
+  {% endif %}
+</section>
+
+<section class="panel credits-box">
+  <h2>Axle manufacturer credit index</h2>
+  <ul>
+    {% for m in axle_index %}
+    <li><strong>{{ m.name }}</strong> — {{ m.credit }}</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

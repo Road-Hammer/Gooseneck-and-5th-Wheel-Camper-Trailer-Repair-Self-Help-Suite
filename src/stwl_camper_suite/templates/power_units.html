@@ -3,22 +3,117 @@
 {% block content %}
 <h1>Power units (tow vehicles)</h1>
 <p class="lede">
-  Register the truck or tractor that pulls the trailer. Store <strong>OEM ratings with publisher credit</strong>
-  (door sticker + official tow guide). Use <a href="/tow-check">Tow traffic light</a> to grade a combination.
+  Register the truck or tractor that pulls the trailer — <strong>unit technical info only</strong>
+  (no owner names, no street addresses). Store <strong>OEM ratings with publisher credit</strong>.
+  Use <a href="/tow-check">Tow traffic light</a> to grade a combination.
 </p>
+
+<section class="panel">
+  <h2>Optional VIN check (unit info only)</h2>
+  <p class="muted small">
+    Offline: check digit. Online (optional): free U.S. <strong>NHTSA vPIC</strong> decode —
+    no API key. Returns <strong>vehicle unit fields only</strong> (make/model/year/engine…).
+    <strong>No owner names. No addresses.</strong>
+  </p>
+  <form method="post" action="/power-units/vin-check" class="stack">
+    <label>VIN (17-character modern)
+      <input name="vin" value="{{ form_prefill.vin if form_prefill else '' }}"
+             autocomplete="off" spellcheck="false" maxlength="20">
+    </label>
+    <label class="row">
+      <input type="checkbox" name="online" value="1" checked>
+      Use free NHTSA vPIC online decode when network available
+    </label>
+    <button type="submit">Check VIN</button>
+  </form>
+  {% if vin_result %}
+  <div class="vin-result">
+    <p>
+      <strong>VIN</strong> {{ vin_result.vin or '—' }} ·
+      format {% if vin_result.ok_format %}OK{% else %}bad{% endif %} ·
+      check digit
+      {% if vin_result.check_digit_ok is sameas true %}OK
+      {% elif vin_result.check_digit_ok is sameas false %}FAIL
+      {% else %}n/a{% endif %}
+    </p>
+    {% for n in vin_result.offline_notes %}
+    <p class="muted small">{{ n }}</p>
+    {% endfor %}
+    {% if vin_result.online_error %}
+    <p class="badge safety-warning">{{ vin_result.online_error }}</p>
+    {% endif %}
+    {% if vin_result.unit %}
+    <h3>Unit technical fields</h3>
+    <table class="log-table">
+      <tbody>
+        {% for k, v in vin_result.unit.items() %}
+        {% if k not in ('error_code', 'error_text', 'additional_error_text') %}
+        <tr><td class="muted">{{ k }}</td><td>{{ v }}</td></tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+    <div class="credits-box panel">
+      <h3>Credits</h3>
+      <ul>
+        {% for c in vin_result.credits %}
+        <li>{{ c }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+</section>
 
 <div class="two-col">
   <section class="panel">
-    <h2>Add power unit</h2>
+    <h2>Add power unit (unit label only)</h2>
     <form method="post" action="/power-units/add" class="stack">
-      <label>Name <input name="name" required placeholder="e.g. Ranch F-350"></label>
-      <label>Make <input name="make"></label>
-      <label>Model <input name="model"></label>
-      <label>Year <input name="year" inputmode="numeric"></label>
-      <label>Trim / package <input name="trim" placeholder="e.g. Lariat, tow package name"></label>
-      <label>VIN <input name="vin"></label>
-      <label>Engine <input name="engine"></label>
-      <label>Drivetrain <input name="drivetrain" placeholder="4x4, 4x2…"></label>
+      <label>Unit label <input name="name" required
+        value="{{ form_prefill.name if form_prefill and form_prefill.name else '' }}"
+        placeholder="e.g. Unit F-350 / Tractor 12 — not a person name"></label>
+      <label>Make
+        <select name="make">
+          <option value="">—</option>
+          {% for m in makes %}
+          <option value="{{ m }}"
+            {% if form_prefill and form_prefill.make and form_prefill.make|upper == m|upper %}selected
+            {% elif form_prefill and form_prefill.make and m|upper in form_prefill.make|upper %}selected
+            {% endif %}>{{ m }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      {% if form_prefill and form_prefill.make %}
+      <p class="muted small">VIN suggest make: {{ form_prefill.make }} (pick closest in list or use Other)</p>
+      {% endif %}
+      <label>Model <input name="model" value="{{ form_prefill.model if form_prefill else '' }}"></label>
+      <label>Year (1920–present)
+        <select name="year">
+          <option value="">—</option>
+          {% for y in years %}
+          <option value="{{ y }}"
+            {% if form_prefill and form_prefill.year and form_prefill.year == y|string %}selected{% endif %}>{{ y }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Duty class
+        <select name="duty_class">
+          {% for cid, ctitle in duty_classes %}
+          <option value="{{ cid }}">{{ ctitle }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Trim / package <input name="trim" value="{{ form_prefill.trim if form_prefill else '' }}"></label>
+      <label>VIN / unit serial <input name="vin" value="{{ form_prefill.vin if form_prefill else '' }}"
+             autocomplete="off"></label>
+      <label>Engine <input name="engine" value="{{ form_prefill.engine if form_prefill else '' }}"></label>
+      <label>Drivetrain <input name="drivetrain" value="{{ form_prefill.drivetrain if form_prefill else '' }}"
+             placeholder="4x4, 4x2, 6×4…"></label>
+      <label>Config notes (unit only — axle ratio, cab/bed; no personal data)
+        <input name="config_notes" value="{{ form_prefill.config_notes if form_prefill else '' }}"
+               placeholder="Unit config — not owner info">
+      </label>
       <label>Curb / empty weight (lb) <input name="curb_weight" inputmode="decimal"></label>
       <label>GVWR (lb) <input name="gvwr" inputmode="decimal"></label>
       <label>GCWR (lb) <input name="gcwr" inputmode="decimal"></label>
@@ -74,6 +169,18 @@
     </form>
   </section>
 </div>
+
+<section class="panel credits-box">
+  <h2>Historical eras (1920–present) — discovery only</h2>
+  <p class="muted small">No tow numbers are stored here. Enter plate/OEM values for your exact truck.</p>
+  <ul>
+    {% for e in truck_eras %}
+    <li><strong>{{ e.years }} — {{ e.title }}</strong>: {{ e.notes }}
+      <div class="muted small">{{ e.credit }}</div>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
 
 <section>
   <h2>Fleet power units</h2>

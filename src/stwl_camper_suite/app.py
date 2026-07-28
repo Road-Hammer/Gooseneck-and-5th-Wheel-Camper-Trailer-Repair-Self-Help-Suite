@@ -42,6 +42,20 @@ from .power_units import (
     list_power_units,
 )
 from .tow_physics import grade_combination
+from .trailers import add_trailer, get_trailer, list_trailers
+from .vin_lookup import lookup_vin
+from .vehicle_catalog import (
+    AXLE_COUNT_OPTIONS,
+    AXLE_MANUFACTURERS,
+    BRAKE_TYPE_OPTIONS,
+    HITCH_STYLE_OPTIONS,
+    POWER_UNIT_CLASSES,
+    POWER_UNIT_MAKES,
+    WHEEL_END_OPTIONS,
+    load_axle_manufacturer_index,
+    load_truck_era_index,
+    year_choices,
+)
 
 TEMPLATES = Jinja2Templates(directory=str(package_root() / "templates"))
 STATIC_DIR = package_root() / "static"
@@ -355,6 +369,38 @@ def create_app() -> FastAPI:
                 power_units=list_power_units(),
                 maintenance=list_power_unit_maintenance(limit=50),
                 vendors=list_vendors(),
+                years=year_choices(),
+                makes=POWER_UNIT_MAKES,
+                duty_classes=POWER_UNIT_CLASSES,
+                truck_eras=load_truck_era_index(),
+                vin_result=None,
+                form_prefill={},
+            ),
+        )
+
+    @app.post("/power-units/vin-check")
+    def power_units_vin_check(
+        request: Request,
+        vin: str = Form(""),
+        online: str = Form("1"),
+    ):
+        """Optional VIN check — unit technical fields only (no names/addresses)."""
+        result = lookup_vin(vin, online=bool(online and online != "0"))
+        prefill = dict(result.suggest)
+        prefill["vin"] = result.vin
+        return TEMPLATES.TemplateResponse(
+            request,
+            "power_units.html",
+            base_ctx(
+                power_units=list_power_units(),
+                maintenance=list_power_unit_maintenance(limit=50),
+                vendors=list_vendors(),
+                years=year_choices(),
+                makes=POWER_UNIT_MAKES,
+                duty_classes=POWER_UNIT_CLASSES,
+                truck_eras=load_truck_era_index(),
+                vin_result=result.to_dict(),
+                form_prefill=prefill,
             ),
         )
 
@@ -368,6 +414,8 @@ def create_app() -> FastAPI:
         vin: str = Form(""),
         engine: str = Form(""),
         drivetrain: str = Form(""),
+        duty_class: str = Form(""),
+        config_notes: str = Form(""),
         curb_weight: str = Form(""),
         gvwr: str = Form(""),
         gcwr: str = Form(""),
@@ -388,6 +436,8 @@ def create_app() -> FastAPI:
             vin=vin or None,
             engine=engine or None,
             drivetrain=drivetrain or None,
+            duty_class=duty_class or None,
+            config_notes=config_notes or None,
             curb_weight=_float_or_none(curb_weight),
             gvwr=_float_or_none(gvwr),
             gcwr=_float_or_none(gcwr),
@@ -400,6 +450,69 @@ def create_app() -> FastAPI:
             notes=notes or None,
         )
         return RedirectResponse("/power-units", status_code=303)
+
+    @app.get("/trailers", response_class=HTMLResponse)
+    def trailers_page(request: Request):
+        return TEMPLATES.TemplateResponse(
+            request,
+            "trailers.html",
+            base_ctx(
+                trailers=list_trailers(),
+                years=year_choices(),
+                axle_counts=AXLE_COUNT_OPTIONS,
+                wheel_ends=WHEEL_END_OPTIONS,
+                brake_types=BRAKE_TYPE_OPTIONS,
+                hitch_styles=HITCH_STYLE_OPTIONS,
+                axle_mfrs=AXLE_MANUFACTURERS,
+                axle_index=load_axle_manufacturer_index(),
+            ),
+        )
+
+    @app.post("/trailers/add")
+    async def trailers_add(request: Request):
+        form = await request.form()
+        axle_count = _int_or_none(str(form.get("axle_count") or "1")) or 1
+        axle_count = max(1, min(5, axle_count))
+        axles = []
+        for i in range(1, axle_count + 1):
+            gawr = form.get(f"axle{i}_gawr")
+            mfr = str(form.get(f"axle{i}_mfr") or "").strip()
+            if not mfr and not str(gawr or "").strip():
+                continue
+            axles.append(
+                {
+                    "position": i,
+                    "manufacturer": mfr or None,
+                    "model_or_part": str(form.get(f"axle{i}_model") or "").strip() or None,
+                    "wheel_end": str(form.get(f"axle{i}_wheel") or "single"),
+                    "gawr_lb": _float_or_none(str(gawr or "")),
+                    "tire_size": str(form.get(f"axle{i}_tire") or "").strip() or None,
+                    "rating_publisher": str(form.get(f"axle{i}_pub") or "").strip() or None,
+                }
+            )
+        add_trailer(
+            str(form.get("name") or "Trailer"),
+            is_homemade=bool(form.get("is_homemade")),
+            rig_type=str(form.get("rig_type") or "") or None,
+            make=str(form.get("make") or "") or None,
+            model=str(form.get("model") or "") or None,
+            year=_int_or_none(str(form.get("year") or "")),
+            vin=str(form.get("vin") or "") or None,
+            length_ft=_float_or_none(str(form.get("length_ft") or "")),
+            width_ft=_float_or_none(str(form.get("width_ft") or "")),
+            height_ft=_float_or_none(str(form.get("height_ft") or "")),
+            axle_count=axle_count,
+            brake_type=str(form.get("brake_type") or "") or None,
+            hitch_style=str(form.get("hitch_style") or "") or None,
+            empty_weight=_float_or_none(str(form.get("empty_weight") or "")),
+            cargo_weight=_float_or_none(str(form.get("cargo_weight") or "")),
+            gvwr=_float_or_none(str(form.get("gvwr") or "")),
+            notes=str(form.get("notes") or "") or None,
+            rating_publisher=str(form.get("rating_publisher") or "") or None,
+            rating_source=str(form.get("rating_source") or "") or None,
+            axles=axles,
+        )
+        return RedirectResponse("/trailers", status_code=303)
 
     @app.post("/power-units/maintenance")
     def power_units_maintenance(
@@ -428,7 +541,7 @@ def create_app() -> FastAPI:
         )
         return RedirectResponse("/power-units", status_code=303)
 
-    def _tow_form_defaults(pu: dict | None = None) -> dict:
+    def _tow_form_defaults(pu: dict | None = None, tr: dict | None = None) -> dict:
         d = {
             "truck_as_weighed": "",
             "truck_curb": "",
@@ -444,6 +557,9 @@ def create_app() -> FastAPI:
             "trailer_gvwr": "",
             "tongue": "",
             "hitch_style": "conventional",
+            "axle_count": "",
+            "aggregate_axle_gawr": "",
+            "trailer_rating_pub": "",
         }
         if pu:
             d["truck_curb"] = "" if pu.get("curb_weight") is None else str(pu["curb_weight"])
@@ -460,19 +576,38 @@ def create_app() -> FastAPI:
                 "" if pu.get("hitch_receiver_rating") is None else str(pu["hitch_receiver_rating"])
             )
             d["rating_publisher"] = pu.get("rating_publisher") or ""
+        if tr:
+            empty = tr.get("empty_weight")
+            cargo = tr.get("cargo_weight") or 0
+            if empty is not None:
+                d["trailer_weight"] = str(float(empty) + float(cargo or 0))
+            d["trailer_gvwr"] = "" if tr.get("gvwr") is None else str(tr["gvwr"])
+            d["hitch_style"] = tr.get("hitch_style") or "conventional"
+            d["axle_count"] = "" if tr.get("axle_count") is None else str(tr["axle_count"])
+            d["aggregate_axle_gawr"] = (
+                "" if tr.get("aggregate_axle_rating") is None else str(tr["aggregate_axle_rating"])
+            )
+            d["trailer_rating_pub"] = tr.get("rating_publisher") or ""
         return d
 
     @app.get("/tow-check", response_class=HTMLResponse)
-    def tow_check_get(request: Request, pu: str = Query("")):
+    def tow_check_get(
+        request: Request,
+        pu: str = Query(""),
+        trailer: str = Query(""),
+    ):
         selected = get_power_unit(int(pu)) if pu.isdigit() else None
+        selected_tr = get_trailer(int(trailer)) if trailer.isdigit() else None
         return TEMPLATES.TemplateResponse(
             request,
             "tow_check.html",
             base_ctx(
                 result=None,
-                form=_tow_form_defaults(selected),
+                form=_tow_form_defaults(selected, selected_tr),
                 power_units=list_power_units(),
+                trailers=list_trailers(),
                 selected_pu=selected,
+                selected_trailer=selected_tr,
                 oem_publishers=load_oem_publishers(),
             ),
         )
@@ -481,6 +616,7 @@ def create_app() -> FastAPI:
     def tow_check_post(
         request: Request,
         power_unit_id: str = Form(""),
+        trailer_id: str = Form(""),
         truck_as_weighed: str = Form(""),
         truck_curb: str = Form(""),
         passengers_cargo: str = Form(""),
@@ -495,8 +631,12 @@ def create_app() -> FastAPI:
         trailer_gvwr: str = Form(""),
         tongue: str = Form(""),
         hitch_style: str = Form("conventional"),
+        axle_count: str = Form(""),
+        aggregate_axle_gawr: str = Form(""),
+        trailer_rating_pub: str = Form(""),
     ):
         selected = get_power_unit(int(power_unit_id)) if power_unit_id.isdigit() else None
+        selected_tr = get_trailer(int(trailer_id)) if trailer_id.isdigit() else None
         form = {
             "truck_as_weighed": truck_as_weighed,
             "truck_curb": truck_curb,
@@ -512,6 +652,9 @@ def create_app() -> FastAPI:
             "trailer_gvwr": trailer_gvwr,
             "tongue": tongue,
             "hitch_style": hitch_style,
+            "axle_count": axle_count,
+            "aggregate_axle_gawr": aggregate_axle_gawr,
+            "trailer_rating_pub": trailer_rating_pub,
         }
         result = grade_combination(
             truck_as_weighed=_float_or_none(truck_as_weighed),
@@ -527,12 +670,18 @@ def create_app() -> FastAPI:
             trailer_gvwr=_float_or_none(trailer_gvwr),
             tongue_or_pin_weight=_float_or_none(tongue),
             hitch_style=hitch_style,
+            axle_count=_int_or_none(axle_count),
+            aggregate_axle_gawr=_float_or_none(aggregate_axle_gawr),
         )
-        # Attach user-entered publisher credit into display
         if rating_publisher.strip():
             result.credits.insert(
                 0,
-                f"Ratings for this grade entered as credited to: {rating_publisher.strip()}",
+                f"Power-unit ratings credited to: {rating_publisher.strip()}",
+            )
+        if trailer_rating_pub.strip():
+            result.credits.insert(
+                0,
+                f"Trailer / axle ratings credited to: {trailer_rating_pub.strip()}",
             )
         return TEMPLATES.TemplateResponse(
             request,
@@ -541,7 +690,9 @@ def create_app() -> FastAPI:
                 result=result.to_dict(),
                 form=form,
                 power_units=list_power_units(),
+                trailers=list_trailers(),
                 selected_pu=selected,
+                selected_trailer=selected_tr,
                 oem_publishers=load_oem_publishers(),
             ),
         )

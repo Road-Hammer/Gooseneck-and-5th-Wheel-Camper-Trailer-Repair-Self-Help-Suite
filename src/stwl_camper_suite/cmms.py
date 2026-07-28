@@ -52,6 +52,8 @@ VENDOR_TRADES = [
     "other",
 ]
 
+# Privacy: asset records are unit technical info only — no owner legal names or street addresses.
+
 
 def _now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat()

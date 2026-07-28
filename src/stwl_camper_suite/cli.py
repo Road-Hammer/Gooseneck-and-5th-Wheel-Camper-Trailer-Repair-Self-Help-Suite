@@ -105,6 +105,28 @@ def cmd_log(args: argparse.Namespace) -> int:
     return 2
 
 
+def cmd_vin(args: argparse.Namespace) -> int:
+    from .vin_lookup import lookup_vin
+
+    r = lookup_vin(args.vin, online=not args.offline)
+    print(f"VIN: {r.vin}")
+    print(f"Format OK: {r.ok_format}  Check digit: {r.check_digit_ok}")
+    for n in r.offline_notes:
+        print(f"  - {n}")
+    if r.online_error:
+        print(f"Online: {r.online_error}")
+    if r.unit:
+        print("Unit fields (no personal data):")
+        for k, v in r.unit.items():
+            if k.startswith("error"):
+                continue
+            print(f"  {k}: {v}")
+    print("Credits:")
+    for c in r.credits:
+        print(f"  · {c}")
+    return 0 if r.ok_format else 1
+
+
 def cmd_vendor(args: argparse.Namespace) -> int:
     init_db()
     if args.vendor_cmd == "list":
@@ -185,6 +207,18 @@ def build_parser() -> argparse.ArgumentParser:
     va.add_argument("--phone", default=None)
     va.add_argument("--preferred", action="store_true")
     va.set_defaults(func=cmd_vendor)
+
+    s = sub.add_parser(
+        "vin",
+        help="Optional VIN check — unit technical fields only (no names/addresses)",
+    )
+    s.add_argument("vin", help="VIN or unit serial")
+    s.add_argument(
+        "--offline",
+        action="store_true",
+        help="Skip NHTSA online decode (check digit only)",
+    )
+    s.set_defaults(func=cmd_vin)
 
     return p
 

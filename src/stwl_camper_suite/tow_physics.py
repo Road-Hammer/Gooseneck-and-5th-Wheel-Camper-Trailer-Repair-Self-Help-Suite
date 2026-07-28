@@ -87,6 +87,8 @@ CREDITS = [
     "Tongue-weight percentage bands used as advisory only: widely taught industry ranges "
     "(~10–15% conventional; higher pin-weight share typical for many 5th-wheel/gooseneck setups). "
     "Prefer hitch manufacturer and OEM guidance for your equipment.",
+    "Axle GAWR / aggregate axle capacity: axle manufacturer certification (e.g. Dexter, Lippert, "
+    "commercial axle makers) and trailer certification label — user-entered plate values only.",
 ]
 
 
@@ -136,6 +138,9 @@ def grade_combination(
     trailer_gvwr: float | None = None,
     tongue_or_pin_weight: float | None = None,  # measured preferred
     hitch_style: str = "conventional",  # conventional | fifth_wheel | gooseneck
+    # Axle system (homemade or OEM trailer) — ratings from axle/trailer plates
+    axle_count: int | None = None,  # 1–5 (quint)
+    aggregate_axle_gawr: float | None = None,  # sum of axle GAWRs when known
     # Cargo in truck bed/cab not already in truck_as_weighed (if truck is empty scale)
     passengers_and_cargo_in_truck: float | None = None,
 ) -> TowGradeResult:
@@ -198,6 +203,8 @@ def grade_combination(
         "combined_lb": combined,
         "hitch_style": hitch_style,
         "tongue_or_pin_lb": tongue_or_pin_weight,
+        "axle_count": axle_count,
+        "aggregate_axle_gawr_lb": aggregate_axle_gawr,
     }
 
     # 1) GCWR
@@ -388,7 +395,74 @@ def grade_combination(
                 title="Trailer not over its own GVWR",
                 light=L,
                 detail=f"Trailer ≈ {trailer_trip:.0f} lb vs trailer GVWR {trailer_gvwr:.0f} lb.",
-                basis="Trailer manufacturer certification label / VIN plate.",
+                basis=(
+                    "Trailer manufacturer certification label / VIN plate. "
+                    "Homemade: builder-declared GVWR must not exceed structure + tire + axle system."
+                ),
+            )
+        )
+    elif trailer_gvwr is None and trailer_trip is not None:
+        missing.append("Trailer GVWR (plate or builder rating)")
+
+    # 6b) Aggregate axle GAWR (single through quint)
+    if axle_count is not None and (axle_count < 1 or axle_count > 5):
+        checks.append(
+            CheckResult(
+                id="axle_count",
+                title="Axle count",
+                light=Light.YELLOW,
+                detail=f"Axle count {axle_count} is outside supported 1–5 (quint) range.",
+                basis="STWL suite supports single through quint axle configurations.",
+            )
+        )
+    if trailer_trip is not None and aggregate_axle_gawr is not None:
+        L = _limit_light(trailer_trip, aggregate_axle_gawr)
+        ac_txt = f"{axle_count}-axle" if axle_count else "multi-axle"
+        checks.append(
+            CheckResult(
+                id="axle_aggregate_gawr",
+                title=f"Trailer weight vs sum of axle GAWR ({ac_txt})",
+                light=L,
+                detail=(
+                    f"Trailer ≈ {trailer_trip:.0f} lb vs sum of axle GAWR "
+                    f"{aggregate_axle_gawr:.0f} lb."
+                    + (
+                        " EXCEEDS combined axle ratings — red regardless of trailer GVWR claim."
+                        if L == Light.RED
+                        else ""
+                    )
+                ),
+                basis=(
+                    "Each axle GAWR comes from the axle manufacturer ID plate / literature "
+                    "(Dexter, Lippert, Meritor, etc.). Sum of GAWRs is an upper bound on axle "
+                    "system capacity; trailer GVWR must also respect tires and frame. "
+                    "Single vs dual wheel does not change the math — use the GAWR stamped for that axle assembly."
+                ),
+            )
+        )
+        if trailer_gvwr is not None and trailer_gvwr > aggregate_axle_gawr + 1e-6:
+            checks.append(
+                CheckResult(
+                    id="gvwr_vs_axles",
+                    title="Trailer GVWR vs axle system",
+                    light=Light.YELLOW,
+                    detail=(
+                        f"Trailer GVWR {trailer_gvwr:.0f} lb is higher than sum of axle GAWR "
+                        f"{aggregate_axle_gawr:.0f} lb. Treat the lower figure as the real cap "
+                        "unless plates are wrong — common homemade error."
+                    ),
+                    basis="STWL consistency check: structure rating cannot honestly exceed axle system rating.",
+                )
+            )
+    elif aggregate_axle_gawr is None:
+        missing.append("Axle GAWR ratings (each axle plate; sum used for aggregate check)")
+        checks.append(
+            CheckResult(
+                id="axle_aggregate_gawr",
+                title="Trailer weight vs sum of axle GAWR",
+                light=Light.GRAY,
+                detail="Enter per-axle GAWR (single or dual wheel) from axle manufacturer plates.",
+                basis="Axle manufacturer certification.",
             )
         )
 
@@ -440,7 +514,9 @@ def grade_combination(
         overall = _worst(*(c.light for c in checks if c.light != Light.GRAY))
         # Any gray on a critical check when we have weights still allows green/yellow/red from known checks
         critical_gray = any(
-            c.id in ("gcwr", "max_trailer", "payload") and c.light == Light.GRAY for c in checks
+            c.id in ("gcwr", "max_trailer", "payload", "axle_aggregate_gawr", "trailer_gvwr")
+            and c.light == Light.GRAY
+            for c in checks
         )
         if critical_gray and overall == Light.GREEN:
             overall = Light.YELLOW
@@ -463,8 +539,8 @@ def grade_combination(
             )
         else:
             summary = (
-                "At least one hard limit is exceeded (GCWR, max trailer, GVWR, payload, or hitch). "
-                "Do not tow this combination until weights/config change or a properly rated power unit is used."
+                "At least one hard limit is exceeded (GCWR, max trailer, GVWR, payload, hitch, "
+                "trailer GVWR, or axle GAWR total). Do not tow until weights/config change."
             )
 
     return TowGradeResult(
