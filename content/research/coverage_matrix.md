@@ -20,6 +20,8 @@ Only guides that pass `docs/PUBLISHING_STANDARDS.md` and are indexed into the ap
 | plumbing | living-quarters-water-systems-overview | Living-Quarters Water Systems — Fresh, Gray, Black |
 | plumbing | fresh-water-pump-city-water-leaks | Fresh Water — Pump, City Inlet, and Common Leaks |
 | plumbing | winterize-living-quarters-plumbing | Winterizing Living-Quarters Plumbing |
+| plumbing | troubleshooting-flagstaff-lq-plumbing | Plumbing Troubleshooting — Full-Size Flagstaff LQ |
+| electrical | troubleshooting-flagstaff-lq-electrical | Electrical Troubleshooting — Full-Size Flagstaff LQ (mice) |
 
 OEM publisher index (no fake ratings): `content/oem_tow_reference/publishers.yaml`
 

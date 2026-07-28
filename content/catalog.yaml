@@ -50,7 +50,7 @@ categories:
     description: "How this suite works offline, what it is not, and how to use the guides safely."
   - id: electrical
     title: "Electrical"
-    description: "Trailer connectors, pin charts (Hopkins/Hoppy light-duty; SAE J560 CMV), and troubleshooting."
+    description: "Connectors, pin charts, and LQ troubleshooting (Flagstaff test model; mice damage)."
   - id: brakes
     title: "Brakes"
     description: "Electric-brake breakaway switch purpose and functional test."
@@ -80,4 +80,4 @@ categories:
     description: "AAA, Good Sam, Coach-Net, USRider and similar — what membership typically covers with a trailer."
   - id: plumbing
     title: "Plumbing & Water (Living Quarters)"
-    description: "Fresh, gray, and black systems; pump/city water; winterizing for campers and LQ trailers."
+    description: "Fresh/gray/black systems, winterize, and LQ troubleshooting (Flagstaff test model)."
