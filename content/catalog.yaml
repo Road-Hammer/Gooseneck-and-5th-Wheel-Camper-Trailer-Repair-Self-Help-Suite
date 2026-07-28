@@ -1,0 +1,131 @@
+# STWL Camper / Trailer Self-Help Suite — master catalog taxonomy
+# Copyright 2026 Susquehanna Timberwolf Lines, LLC
+# This is the spine of the offline library. Guides hang off these nodes.
+
+product:
+  name: "STWL Camper / Trailer Self-Help Suite"
+  short_name: "STWL Camper Suite"
+  version: "0.1.0"
+  copyright: "Copyright 2026 Susquehanna Timberwolf Lines, LLC"
+  audience:
+    - owner_diy_entry
+    - small_shop
+    - family_legacy
+  rig_types:
+    - bumper_pull
+    - travel_trailer
+    - fifth_wheel
+    - gooseneck
+    - toy_hauler
+    - cargo_trailer
+    - utility_trailer
+    - equine_trailer
+    - stock_trailer
+    - cattle_trailer
+    - livestock_trailer
+    - horse_livestock_trailer
+    - rv_motorized_crossref  # systems overlap only; not a full motorhome OEM manual
+
+safety_levels:
+  info: "Background knowledge"
+  caution: "Mistakes cost money or time"
+  warning: "Injury or major damage risk"
+  stop: "Life-safety / road-safety — stop and get qualified help if unsure"
+
+difficulty:
+  1: "Tools in a glovebox; under 30 minutes"
+  2: "Basic hand tools; half day"
+  3: "Specialty tools or two people; full day"
+  4: "Shop-level; training recommended"
+  5: "Professional only — suite explains recognition, not full procedure"
+
+categories:
+  - id: getting_started
+    title: "Getting Started"
+    description: "How to use this suite, safety culture, when to call a pro."
+  - id: identification
+    title: "Know Your Rig"
+    description: "VIN, GVWR, GAWR, hitch classes, tire placards, owner data plate."
+  - id: hitching_coupling
+    title: "Hitching & Coupling"
+    description: "Ball, 5th wheel, gooseneck, safety chains, breakaway, pin boxes."
+  - id: electrical
+    title: "Electrical"
+    description: "12V, 7-way, brakes controller side, converters, batteries, grounds."
+  - id: brakes
+    title: "Brakes"
+    description: "Electric drum, hydraulic surge, magnets, shoes, controllers, breakaway."
+  - id: axles_suspension
+    title: "Axles & Suspension"
+    description: "Leaf, torsion, hubs, bearings, seals, alignment, axle replacement cues."
+  - id: wheels_tires
+    title: "Wheels & Tires"
+    description: "ST vs LT, load range, torque, inflation, aging, spares."
+  - id: plumbing
+    title: "Plumbing & Water"
+    description: "Fresh, gray, black, pumps, winterize, leaks, city water."
+  - id: propane
+    title: "Propane & Appliances"
+    description: "Regulators, leak checks, detectors — pro thresholds emphasized."
+  - id: body_structure
+    title: "Body, Frame & Seals"
+    description: "Roof, walls, frame rust, seals, delamination warning signs."
+  - id: interior_systems
+    title: "Interior Systems"
+    description: "HVAC basics, slides overview, leveling jacks safety."
+  - id: cargo_securement
+    title: "Cargo Securement"
+    description: "Trailer cargo, toy haulers, straps, working load limit, trucker practice."
+  - id: equine_stock
+    title: "Equine & Stock Trailers"
+    description: "Horse, cattle, and livestock trailers — floors, dividers, gates, ventilation, animal safety."
+  - id: safe_operation
+    title: "Safe Operation"
+    description: "Pre-trip, weight distribution, sway, hills, backing, weather, fatigue."
+  - id: service_log
+    title: "Service Log / Shop CMMS"
+    description: "Work orders, repair history, vendors linked to guides — offline shop tracking."
+  - id: trucker_wisdom
+    title: "Trucker Wisdom (30+ Years)"
+    description: "Highway-proven habits that manuals rarely teach entry-level owners."
+  - id: emergency
+    title: "Roadside & Emergency"
+    description: "Blowouts, no brakes light, overheating hubs, what not to do."
+
+# Expansion roadmap — empty folders / future guide IDs for “entire catalog” ambition
+roadmap_topics:
+  electrical:
+    - 7_way_pinout_and_testing
+    - trailer_battery_maintenance
+    - converter_charger_basics
+    - led_vs_incandescent_loads
+    - parasitic_draw_hunt
+    - ground_faults_and_corrosion
+  brakes:
+    - magnet_amp_draw_test
+    - shoe_adjustment_basics
+    - surge_vs_electric_overview
+    - breakaway_switch_test
+    - controller_gain_setup
+  axles_suspension:
+    - bearing_repack_overview
+    - seal_replacement_cues
+    - equalizer_and_shackle_wear
+    - torsion_axle_limits
+    - bent_axle_recognition
+  hitching_coupling:
+    - weight_distribution_hitch_basics
+    - fifth_wheel_jaw_lube_and_inspection
+    - gooseneck_ball_and_safety_chains
+    - pin_box_bolt_torque_cues
+  cargo_securement:
+    - working_load_limit_plain_english
+    - ratchet_strap_inspection
+    - nose_heavy_vs_tail_heavy
+    - toy_hauler_garage_tie_downs
+  safe_operation:
+    - pre_trip_walkaround
+    - mirror_and_blind_spot_habits
+    - mountain_grades_and_brake_fade
+    - wind_and_passing_trucks
+    - night_and_fatigue

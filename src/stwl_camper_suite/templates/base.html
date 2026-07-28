@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>{% block title %}STWL Camper Suite{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <a href="/">STWL Camper Suite</a>
+      <span class="tag">Offline · DIY · Legacy</span>
+    </div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/search">Search</a>
+      <a href="/shop">Shop</a>
+      <a href="/log">Service Log</a>
+      <a href="/vendors">Vendors</a>
+    </nav>
+    <form class="search-form" action="/search" method="get" role="search">
+      <input type="search" name="q" placeholder="Search offline…" value="{{ q|default('') }}" aria-label="Search">
+      <button type="submit">Go</button>
+    </form>
+  </header>
+
+  <aside class="disclaimer">
+    Educational self-help only. Not a substitute for OEM manuals or a qualified technician.
+    Brakes, hitching, propane, electrical, and cargo mistakes can kill. When unsure — stop.
+  </aside>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <p>{{ copyright }} · Suite v{{ version }}</p>
+    <p>Susquehanna Timberwolf Lines, LLC (STWL) · Built for campsite offline use</p>
+    <form action="/admin/reindex" method="post" class="inline">
+      <button type="submit" class="linkish" title="Rescan content/ markdown into local SQLite">Rebuild index</button>
+    </form>
+  </footer>
+</body>
+</html>

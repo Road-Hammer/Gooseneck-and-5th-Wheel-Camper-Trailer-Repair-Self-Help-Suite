@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}STWL Camper Suite — Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Camper, Stock &amp; Equine Trailer Self-Help</h1>
+  <p class="lede">
+    Chilton-style knowledge for campers, 5th wheels, goosenecks, <strong>equine</strong> and
+    <strong>cattle/stock</strong> trailers — plus an offline CMMS service log and vendor directory.
+    Works with <strong>no internet</strong> after install.
+  </p>
+  <p class="meta">{{ guide_count }} guide(s) indexed · {{ summary.open_work_orders }} open work order(s)</p>
+</section>
+
+<div class="grid stats">
+  <a class="card stat" href="/shop"><h3>Shop</h3><p>CMMS desk</p></a>
+  <a class="card stat" href="/log"><h3>Log</h3><p>Work orders</p></a>
+  <a class="card stat" href="/vendors"><h3>Vendors</h3><p>{{ summary.vendors }} active</p></a>
+  <a class="card stat" href="/search"><h3>Search</h3><p>Offline FTS</p></a>
+</div>
+
+{% if open_work %}
+<section>
+  <h2>Open work orders</h2>
+  <ul class="log-list">
+    {% for e in open_work %}
+    <li>
+      <span class="badge">{{ e.status }}</span>
+      <strong>{{ e.title }}</strong>
+      <span class="muted">{{ e.rig_name or '—' }} · {{ e.wo_number or '' }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+  <p><a href="/log?status=open">All open work →</a></p>
+</section>
+{% endif %}
+
+<section>
+  <h2>Browse catalog</h2>
+  <div class="grid cats">
+    {% for c in categories %}
+    <a class="card" href="/category/{{ c.id }}">
+      <h3>{{ c.title }}</h3>
+      <p>{{ c.description }}</p>
+      <span class="count">{{ by_cat.get(c.id, [])|length }} in library</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section>
+  <h2>Recent service log</h2>
+  {% if recent_log %}
+  <ul class="log-list">
+    {% for e in recent_log %}
+    <li>
+      <time>{{ e.performed_at }}</time>
+      <strong>{{ e.title }}</strong>
+      <span class="muted">{{ e.rig_name or '—' }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+  <p><a href="/log">Open full log →</a></p>
+  {% else %}
+  <p class="muted">No entries yet. <a href="/log">Add your first work order</a>.</p>
+  {% endif %}
+</section>
+{% endblock %}

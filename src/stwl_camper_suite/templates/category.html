@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{ cat.title }} — STWL Camper Suite{% endblock %}
+{% block content %}
+<p class="crumb"><a href="/">Home</a> / {{ cat.title }}</p>
+<h1>{{ cat.title }}</h1>
+<p class="lede">{{ cat.description }}</p>
+
+{% if guides %}
+<ul class="guide-list">
+  {% for g in guides %}
+  <li>
+    <a href="/guide/{{ g.id }}"><strong>{{ g.title }}</strong></a>
+    {% if g.difficulty %}<span class="badge">DIY {{ g.difficulty }}/5</span>{% endif %}
+    {% if g.safety_level %}<span class="badge safety-{{ g.safety_level }}">{{ g.safety_level }}</span>{% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="muted">
+  No guides in this category yet — spine is ready for OSINT → rewrite → promote.
+  See <code>content/research/coverage_matrix.md</code>.
+</p>
+{% endif %}
+
+{% if linked_vendors %}
+<section class="panel vendor-box">
+  <h2>Vendors for this category</h2>
+  <ul class="log-list">
+    {% for v in linked_vendors %}
+    <li><strong>{{ v.name }}</strong> <span class="muted">{{ v.phone or v.trade or '' }}</span></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+{% endblock %}

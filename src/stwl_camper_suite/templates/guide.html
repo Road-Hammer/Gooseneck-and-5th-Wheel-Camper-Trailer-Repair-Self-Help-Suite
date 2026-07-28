@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ guide.title }} — STWL Camper Suite{% endblock %}
+{% block content %}
+<p class="crumb">
+  <a href="/">Home</a> /
+  <a href="/category/{{ guide.category }}">{{ guide.category }}</a> /
+  {{ guide.title }}
+</p>
+
+<article class="guide">
+  <header>
+    <h1>{{ guide.title }}</h1>
+    <div class="meta-row">
+      {% if guide.difficulty %}<span class="badge">Difficulty {{ guide.difficulty }}/5</span>{% endif %}
+      {% if guide.safety_level %}<span class="badge safety-{{ guide.safety_level }}">{{ guide.safety_level }}</span>{% endif %}
+      {% if guide.rig_types %}<span class="badge">{{ guide.rig_types }}</span>{% endif %}
+    </div>
+    {% if guide.tools %}
+    <p class="tools"><strong>Tools:</strong> {{ guide.tools }}</p>
+    {% endif %}
+  </header>
+  <div class="body">
+    {{ body_html | safe }}
+  </div>
+</article>
+
+{% if guide_vendors %}
+<section class="panel vendor-box">
+  <h2>Vendors linked to this repair</h2>
+  <p class="muted small">Your offline shop directory — add more under <a href="/vendors">Vendors</a>.</p>
+  <ul class="log-list">
+    {% for v in guide_vendors %}
+    <li>
+      <strong>{{ v.name }}</strong>
+      {% if v.preferred %}<span class="badge">preferred</span>{% endif %}
+      <span class="muted">{{ v.trade or '' }}</span>
+      {% if v.phone %}<div>{{ v.phone }}</div>{% endif %}
+      {% if v.specialties %}<div class="small muted">{{ v.specialties }}</div>{% endif %}
+      <div class="small"><a href="/log">Open work order with this shop →</a></div>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% else %}
+<section class="panel vendor-box">
+  <h2>No vendors linked yet</h2>
+  <p class="muted">Add a shop or mobile tech and link them to this guide: <a href="/vendors">Vendor directory</a>.</p>
+</section>
+{% endif %}
+
+<p class="meta"><a href="/log">Log this repair as a work order →</a></p>
+{% endblock %}

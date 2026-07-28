@@ -216,3 +216,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# STWL Camper Suite local runtime
+data/*.db
+data/*.db-*
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Vendors — STWL Camper Suite{% endblock %}
+{% block content %}
+<h1>Vendor directory</h1>
+<p class="lede">
+  Local list of shops, mobile techs, and parts sources. Link vendors to repair guides or categories
+  so they show up on the guide page when you need help.
+</p>
+
+<div class="two-col">
+  <section class="panel">
+    <h2>Add vendor</h2>
+    <form method="post" action="/vendors/add" class="stack">
+      <label>Name <input name="name" required placeholder="Roadside Trailer Pros"></label>
+      <label>Trade
+        <select name="trade">
+          <option value="">—</option>
+          {% for t in vendor_trades %}
+          <option value="{{ t }}">{{ t }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Phone <input name="phone"></label>
+      <label>Email <input name="email" type="email"></label>
+      <label>Website <input name="website" placeholder="https://…"></label>
+      <label>Address <input name="address"></label>
+      <label>City <input name="city"></label>
+      <label>State <input name="state"></label>
+      <label>ZIP <input name="zip"></label>
+      <label>Specialties <input name="specialties" placeholder="equine floors, brakes, gooseneck"></label>
+      <label>Notes <textarea name="notes" rows="2"></textarea></label>
+      <label class="row"><input type="checkbox" name="preferred" value="1"> Preferred vendor</label>
+      <hr class="soft">
+      <p class="muted small">Optional: link to a guide or category now</p>
+      <label>Guide
+        <select name="link_guide_id">
+          <option value="">—</option>
+          {% for g in guides %}
+          <option value="{{ g.id }}">{{ g.title }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Category
+        <select name="link_category">
+          <option value="">—</option>
+          {% for c in categories %}
+          <option value="{{ c.id }}">{{ c.title }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Link note <input name="link_note" placeholder="Best for emergency brake work"></label>
+      <button type="submit">Save vendor</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Link existing vendor</h2>
+    <form method="post" action="/vendors/link" class="stack">
+      <label>Vendor
+        <select name="vendor_id" required>
+          <option value="">—</option>
+          {% for v in vendors %}
+          <option value="{{ v.id }}">{{ v.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Guide
+        <select name="guide_id">
+          <option value="">—</option>
+          {% for g in guides %}
+          <option value="{{ g.id }}">{{ g.title }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Category
+        <select name="category">
+          <option value="">—</option>
+          {% for c in categories %}
+          <option value="{{ c.id }}">{{ c.title }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Note <input name="note"></label>
+      <button type="submit">Add link</button>
+    </form>
+  </section>
+</div>
+
+<section>
+  <h2>All vendors</h2>
+  {% if vendors %}
+  <table class="log-table">
+    <thead>
+      <tr><th>Name</th><th>Trade</th><th>Phone</th><th>Specialties</th><th>Preferred</th></tr>
+    </thead>
+    <tbody>
+      {% for v in vendors %}
+      <tr>
+        <td>
+          <strong>{{ v.name }}</strong>
+          {% if not v.active %}<span class="badge">inactive</span>{% endif %}
+          {% if v.city %}<div class="muted small">{{ v.city }}{% if v.state %}, {{ v.state }}{% endif %}</div>{% endif %}
+        </td>
+        <td>{{ v.trade or '—' }}</td>
+        <td>{{ v.phone or '—' }}</td>
+        <td>{{ v.specialties or '—' }}</td>
+        <td>{% if v.preferred %}★{% else %}—{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">No vendors yet.</p>
+  {% endif %}
+</section>
+
+{% if links %}
+<section>
+  <h2>Guide / category links</h2>
+  <ul class="log-list">
+    {% for l in links %}
+    <li>
+      <strong>{{ l.vendor_name }}</strong>
+      →
+      {% if l.guide_id %}<a href="/guide/{{ l.guide_id }}">{{ l.guide_id }}</a>{% endif %}
+      {% if l.category %}<span class="badge">{{ l.category }}</span>{% endif %}
+      {% if l.note %}<span class="muted">— {{ l.note }}</span>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+{% endblock %}

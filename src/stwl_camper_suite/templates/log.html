@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %}Service Log / Work Orders — STWL Camper Suite{% endblock %}
+{% block content %}
+<h1>Service log &amp; work orders</h1>
+<p class="lede">
+  CMMS-style repair tracking: open jobs, completed history, vendor + guide links, labor/parts cost.
+  Data stays in local SQLite under <code>data/</code>.
+</p>
+
+<p class="meta">
+  Open WOs: <strong>{{ summary.open_work_orders }}</strong>
+  · Filter:
+  <a href="/log">all</a> ·
+  <a href="/log?status=open">open</a> ·
+  <a href="/log?status=in_progress">in progress</a> ·
+  <a href="/log?status=completed">completed</a>
+  {% if filter_status %} · showing <code>{{ filter_status }}</code>{% endif %}
+</p>
+
+<div class="two-col">
+  <section class="panel">
+    <h2>Add asset (rig)</h2>
+    <form method="post" action="/log/rig" class="stack">
+      <label>Name <input name="name" required placeholder="Family stock trailer"></label>
+      <label>Type
+        <select name="rig_type">
+          <option value="">—</option>
+          {% for t in rig_types %}
+          <option value="{{ t }}">{{ t }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Make <input name="make"></label>
+      <label>Model <input name="model"></label>
+      <label>Year <input name="year" inputmode="numeric"></label>
+      <label>VIN / serial <input name="vin"></label>
+      <label>Plate <input name="plate"></label>
+      <label>GVWR (lbs) <input name="gvwr" inputmode="decimal"></label>
+      <label>Notes <textarea name="notes" rows="2"></textarea></label>
+      <button type="submit">Save asset</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>New work order / log entry</h2>
+    <form method="post" action="/log/entry" class="stack">
+      <label>Title <input name="title" required placeholder="Replace floor mat / repack hubs"></label>
+      <label>Status
+        <select name="status">
+          {% for s in work_statuses %}
+          <option value="{{ s }}" {% if s == 'open' %}selected{% endif %}>{{ s }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Priority
+        <select name="priority">
+          {% for p in priorities %}
+          <option value="{{ p }}" {% if p == 'normal' %}selected{% endif %}>{{ p }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Date <input name="performed_at" type="date"></label>
+      <label>WO number <input name="wo_number" placeholder="auto if open"></label>
+      <label>Asset
+        <select name="rig_id">
+          <option value="">— none —</option>
+          {% for r in rigs %}
+          <option value="{{ r.id }}">{{ r.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Vendor
+        <select name="vendor_id">
+          <option value="">— DIY / none —</option>
+          {% for v in vendors %}
+          <option value="{{ v.id }}">{{ v.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Linked repair guide
+        <select name="guide_id">
+          <option value="">—</option>
+          {% for g in guides %}
+          <option value="{{ g.id }}">{{ g.title }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Category <input name="category" placeholder="brakes, equine_stock…"></label>
+      <label>Performed by <input name="performed_by" placeholder="Owner / shop name"></label>
+      <label>Miles / hours <input name="miles" inputmode="decimal"></label>
+      <label>Labor hours <input name="labor_hours" inputmode="decimal"></label>
+      <label>Labor $ <input name="labor_cost" inputmode="decimal"></label>
+      <label>Parts $ <input name="parts_cost" inputmode="decimal"></label>
+      <label>Total $ <input name="cost" inputmode="decimal" placeholder="auto if labor+parts"></label>
+      <label>Parts used <input name="parts"></label>
+      <label>Invoice ref <input name="invoice_ref"></label>
+      <label>Details <textarea name="details" rows="3"></textarea></label>
+      <button type="submit">Save work order</button>
+    </form>
+  </section>
+</div>
+
+<section>
+  <h2>History</h2>
+  {% if entries %}
+  <table class="log-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>WO / Status</th>
+        <th>Title</th>
+        <th>Asset</th>
+        <th>Vendor</th>
+        <th>Cost</th>
+        <th>Update</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in entries %}
+      <tr>
+        <td>{{ e.performed_at }}</td>
+        <td>
+          <div>{{ e.wo_number or '—' }}</div>
+          <span class="badge">{{ e.status }}</span>
+          <span class="badge">{{ e.priority }}</span>
+        </td>
+        <td>
+          <strong>{{ e.title }}</strong>
+          {% if e.guide_id %}<div class="small"><a href="/guide/{{ e.guide_id }}">Guide: {{ e.guide_id }}</a></div>{% endif %}
+          {% if e.details %}<div class="muted small">{{ e.details }}</div>{% endif %}
+        </td>
+        <td>{{ e.rig_name or '—' }}</td>
+        <td>{{ e.vendor_name or '—' }}</td>
+        <td>{% if e.cost is not none %}${{ '%.2f'|format(e.cost) }}{% else %}—{% endif %}</td>
+        <td>
+          <form method="post" action="/log/status" class="inline-status">
+            <input type="hidden" name="entry_id" value="{{ e.id }}">
+            <select name="status">
+              {% for s in work_statuses %}
+              <option value="{{ s }}" {% if s == e.status %}selected{% endif %}>{{ s }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit">Set</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">No log entries yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

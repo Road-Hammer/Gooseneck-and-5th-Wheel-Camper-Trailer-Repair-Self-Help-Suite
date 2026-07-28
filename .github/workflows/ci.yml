@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+          pip install httpx
+
+      - name: Index content
+        run: stwl-camper index
+
+      - name: Search smoke
+        run: stwl-camper search breakaway
+
+      - name: Unit tests
+        run: pytest -q
+
+      - name: App import + routes smoke
+        run: |
+          python - <<'PY'
+          from fastapi.testclient import TestClient
+          from stwl_camper_suite.app import create_app
+          app = create_app()
+          tc = TestClient(app)
+          for path in ("/", "/search?q=stock", "/shop", "/log", "/vendors", "/guide/equine-floor-and-mats"):
+              r = tc.get(path)
+              assert r.status_code == 200, (path, r.status_code)
+          print("ok", len(app.routes), "routes")
+          PY

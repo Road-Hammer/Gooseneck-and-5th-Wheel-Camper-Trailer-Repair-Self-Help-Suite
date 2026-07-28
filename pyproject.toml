@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stwl-camper-suite"
+version = "0.1.0"
+description = "STWL offline self-help + CMMS for campers, 5th wheels, goosenecks, equine and stock trailers"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "Susquehanna Timberwolf Lines, LLC" },
+]
+keywords = [
+  "rv",
+  "camper",
+  "trailer",
+  "5th-wheel",
+  "gooseneck",
+  "repair",
+  "offline",
+  "service-log",
+  "cmms",
+  "equine",
+  "stock-trailer",
+  "STWL",
+]
+dependencies = [
+  "fastapi>=0.115.0",
+  "uvicorn[standard]>=0.32.0",
+  "jinja2>=3.1.4",
+  "python-multipart>=0.0.12",
+  "markdown>=3.7",
+  "pyyaml>=6.0.2",
+  "pydantic>=2.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.0",
+  "ruff>=0.8.0",
+]
+
+[project.scripts]
+stwl-camper = "stwl_camper_suite.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+stwl_camper_suite = ["templates/*", "templates/**/*", "static/*"]

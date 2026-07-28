@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Shop / CMMS — STWL Camper Suite{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Shop desk (offline CMMS)</h1>
+  <p class="lede">
+    Repair-shop style tracking for your fleet: assets, open work orders, vendors, and spend —
+    all local SQLite, no cloud required.
+  </p>
+</section>
+
+<div class="grid stats">
+  <div class="card stat"><h3>{{ summary.open_work_orders }}</h3><p>Open work orders</p></div>
+  <div class="card stat"><h3>{{ summary.assets }}</h3><p>Assets (rigs)</p></div>
+  <div class="card stat"><h3>{{ summary.vendors }}</h3><p>Active vendors</p></div>
+  <div class="card stat"><h3>${{ '%.2f'|format(summary.completed_spend or 0) }}</h3><p>Completed spend logged</p></div>
+</div>
+
+<section>
+  <h2>Open work</h2>
+  {% if open_work %}
+  <table class="log-table">
+    <thead>
+      <tr><th>WO</th><th>Status</th><th>Priority</th><th>Title</th><th>Asset</th><th>Vendor</th></tr>
+    </thead>
+    <tbody>
+      {% for e in open_work %}
+      <tr>
+        <td>{{ e.wo_number or '—' }}</td>
+        <td><span class="badge">{{ e.status }}</span></td>
+        <td>{{ e.priority }}</td>
+        <td><strong>{{ e.title }}</strong></td>
+        <td>{{ e.rig_name or '—' }}</td>
+        <td>{{ e.vendor_name or '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">No open work orders. <a href="/log">Create one in Service Log</a>.</p>
+  {% endif %}
+</section>
+
+<section class="two-col">
+  <div class="panel">
+    <h2>Quick links</h2>
+    <ul>
+      <li><a href="/log?status=open">Filter open work orders</a></li>
+      <li><a href="/log">Full service log / new WO</a></li>
+      <li><a href="/vendors">Vendor directory</a></li>
+      <li><a href="/">Repair guide library</a></li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h2>Assets</h2>
+    {% if rigs %}
+    <ul class="log-list">
+      {% for r in rigs %}
+      <li><strong>{{ r.name }}</strong> <span class="muted">{{ r.rig_type or '—' }} · {{ r.vin or 'no VIN' }}</span></li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">No assets yet — add a rig on the Service Log page.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

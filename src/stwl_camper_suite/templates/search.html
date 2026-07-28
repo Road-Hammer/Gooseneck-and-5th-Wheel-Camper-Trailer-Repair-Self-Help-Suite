@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Search — STWL Camper Suite{% endblock %}
+{% block content %}
+<h1>Offline search</h1>
+<form class="search-form large" action="/search" method="get">
+  <input type="search" name="q" value="{{ q }}" placeholder="e.g. breakaway, 7-way, sway, bearings" autofocus>
+  <button type="submit">Search</button>
+</form>
+
+{% if q %}
+  <p class="meta">{{ results|length }} result(s) for “{{ q }}”</p>
+  <ul class="results">
+    {% for r in results %}
+    <li>
+      <a href="/guide/{{ r.id }}"><strong>{{ r.title }}</strong></a>
+      <span class="badge">{{ r.category }}</span>
+      {% if r.safety_level %}<span class="badge safety-{{ r.safety_level }}">{{ r.safety_level }}</span>{% endif %}
+      {% if r.snippet %}<p class="snippet">{{ r.snippet }}</p>{% endif %}
+    </li>
+    {% else %}
+    <li class="muted">No matches. Try fewer words or rebuild the index from Home footer.</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="muted">Full-text search runs entirely on this machine (SQLite FTS5).</p>
+{% endif %}
+{% endblock %}
