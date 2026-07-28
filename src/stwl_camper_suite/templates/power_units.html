@@ -128,6 +128,14 @@
       <label>Rating source note
         <input name="rating_source" placeholder="2026 RV & Trailer Towing Guide + certification label">
       </label>
+      <label>Prior owners (count only — no names)
+        <input name="prior_owner_count" inputmode="numeric" min="0"
+               placeholder="e.g. 0 = you are first, 2 = two owners before you">
+      </label>
+      <label>Count source (optional)
+        <input name="prior_owner_count_source"
+               placeholder="e.g. title, seller statement — never list owner names">
+      </label>
       <label>Notes <textarea name="notes" rows="2"></textarea></label>
       <button type="submit">Save power unit</button>
     </form>
@@ -189,9 +197,10 @@
   <table class="log-table">
     <thead>
       <tr>
-        <th>Name</th>
+        <th>Unit</th>
         <th>Vehicle</th>
         <th>GCWR / Max trailer</th>
+        <th>Prior owners</th>
         <th>Ratings credit</th>
         <th></th>
       </tr>
@@ -206,6 +215,13 @@
         </td>
         <td>
           GCWR {{ p.gcwr or '—' }} · Max trail {{ p.max_trailer_weight or '—' }}
+        </td>
+        <td class="small">
+          {% if p.prior_owner_count is not none %}{{ p.prior_owner_count }} before
+          {% else %}—{% endif %}
+          {% if p.prior_owner_count_source %}
+          <div class="muted">{{ p.prior_owner_count_source }}</div>
+          {% endif %}
         </td>
         <td class="small">
           {{ p.rating_publisher or '—' }}

@@ -59,6 +59,14 @@
       <input name="rating_publisher" required placeholder="e.g. Builder plate / Dexter plates / OEM VIN label">
     </label>
     <label>Rating source note <input name="rating_source" placeholder="VIN plate + axle tags photographed 2026-07-28"></label>
+    <label>Prior owners (count only — no names)
+      <input name="prior_owner_count" inputmode="numeric" min="0"
+             placeholder="e.g. 0 first-hand, 3 = three owners before you">
+    </label>
+    <label>Count source (optional)
+      <input name="prior_owner_count_source"
+             placeholder="e.g. title history count — never list names">
+    </label>
     <label>Notes <textarea name="notes" rows="2"></textarea></label>
 
     <h3>Axles (1 = single … 5 = quint)</h3>
@@ -111,10 +119,11 @@
   <table class="log-table">
     <thead>
       <tr>
-        <th>Name</th>
+        <th>Unit</th>
         <th>Size / hitch</th>
         <th>Axles</th>
         <th>GVWR / Σ GAWR</th>
+        <th>Prior owners</th>
         <th>Brakes</th>
         <th></th>
       </tr>
@@ -144,6 +153,13 @@
         <td class="small">
           GVWR {{ t.gvwr or '—' }}<br>
           Σ GAWR {{ t.aggregate_axle_rating or '—' }}
+        </td>
+        <td class="small">
+          {% if t.prior_owner_count is not none %}{{ t.prior_owner_count }} before
+          {% else %}—{% endif %}
+          {% if t.prior_owner_count_source %}
+          <div class="muted">{{ t.prior_owner_count_source }}</div>
+          {% endif %}
         </td>
         <td class="small">{{ t.brake_type or '—' }}</td>
         <td><a href="/tow-check?trailer={{ t.id }}">Grade tow →</a></td>

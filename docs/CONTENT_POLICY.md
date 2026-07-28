@@ -33,9 +33,10 @@ This suite aims for a **complete practical catalog**, not a warehouse of other p
 
 | Allowed | Not allowed |
 |---------|-------------|
-| Vehicle unit specs, VIN, ratings you enter | Looking up / storing **prior private owners** of a VIN |
+| Vehicle unit specs, VIN, ratings you enter | Looking up or storing **names of prior private owners** |
 | Build plant (city/state/country/company) from NHTSA | Scraping registration/titleholder home data |
-| Original dealership / factory channel if present in public decode | |
+| Original dealership / factory channel if present in public decode | Listing who those owners were |
+| **Prior owner count only** (integer, optional) on trucks *and* trailers — e.g. “2 owners before” | |
 | **Full vendor/supplier contact** (phone, email, street, city, state, ZIP) — optional fields | |
 
 - Optional VIN online decode: free **NHTSA vPIC** (credit U.S. DOT / NHTSA).

@@ -65,6 +65,8 @@ CREATE TABLE IF NOT EXISTS rigs (
     aggregate_axle_rating REAL,
     rating_publisher TEXT,
     rating_source TEXT,
+    prior_owner_count INTEGER,
+    prior_owner_count_source TEXT,
     status TEXT DEFAULT 'active',
     created_at TEXT NOT NULL
 );
@@ -106,6 +108,8 @@ CREATE TABLE IF NOT EXISTS power_units (
     curb_weight REAL,
     rating_publisher TEXT,
     rating_source TEXT,
+    prior_owner_count INTEGER,
+    prior_owner_count_source TEXT,
     notes TEXT,
     status TEXT DEFAULT 'active',
     created_at TEXT NOT NULL,
@@ -207,11 +211,15 @@ _MIGRATIONS: dict[str, list[tuple[str, str]]] = {
         ("aggregate_axle_rating", "REAL"),
         ("rating_publisher", "TEXT"),
         ("rating_source", "TEXT"),
+        ("prior_owner_count", "INTEGER"),
+        ("prior_owner_count_source", "TEXT"),
         ("status", "TEXT DEFAULT 'active'"),
     ],
     "power_units": [
         ("duty_class", "TEXT"),
         ("config_notes", "TEXT"),
+        ("prior_owner_count", "INTEGER"),
+        ("prior_owner_count_source", "TEXT"),
     ],
     "service_log": [
         ("vendor_id", "INTEGER"),

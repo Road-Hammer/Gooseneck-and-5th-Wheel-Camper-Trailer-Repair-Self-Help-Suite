@@ -36,11 +36,15 @@ def add_power_unit(
     curb_weight: float | None = None,
     rating_publisher: str | None = None,
     rating_source: str | None = None,
+    prior_owner_count: int | None = None,
+    prior_owner_count_source: str | None = None,
     notes: str | None = None,
     database: Path | None = None,
 ) -> int:
     if year is not None and (year < YEAR_MIN or year > YEAR_MAX + 1):
         raise ValueError(f"year must be {YEAR_MIN}–{YEAR_MAX + 1}")
+    if prior_owner_count is not None and prior_owner_count < 0:
+        raise ValueError("prior_owner_count cannot be negative")
     init_db(database)
     with connect(database or db_path()) as conn:
         cur = conn.execute(
@@ -50,8 +54,9 @@ def add_power_unit(
                 duty_class, config_notes,
                 gvwr, gcwr, payload_capacity, max_trailer_weight, max_tongue_weight,
                 hitch_receiver_rating, curb_weight, rating_publisher, rating_source,
+                prior_owner_count, prior_owner_count_source,
                 notes, status, created_at, updated_at
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, 'active', ?, ?)
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, 'active', ?, ?)
             """,
             (
                 name.strip(),
@@ -73,6 +78,8 @@ def add_power_unit(
                 curb_weight,
                 rating_publisher,
                 rating_source,
+                prior_owner_count,
+                prior_owner_count_source,
                 notes,
                 _now(),
                 _now(),

@@ -425,6 +425,8 @@ def create_app() -> FastAPI:
         hitch_receiver_rating: str = Form(""),
         rating_publisher: str = Form(...),
         rating_source: str = Form(""),
+        prior_owner_count: str = Form(""),
+        prior_owner_count_source: str = Form(""),
         notes: str = Form(""),
     ):
         add_power_unit(
@@ -447,6 +449,8 @@ def create_app() -> FastAPI:
             hitch_receiver_rating=_float_or_none(hitch_receiver_rating),
             rating_publisher=rating_publisher or None,
             rating_source=rating_source or None,
+            prior_owner_count=_int_or_none(prior_owner_count),
+            prior_owner_count_source=prior_owner_count_source or None,
             notes=notes or None,
         )
         return RedirectResponse("/power-units", status_code=303)
@@ -510,6 +514,8 @@ def create_app() -> FastAPI:
             notes=str(form.get("notes") or "") or None,
             rating_publisher=str(form.get("rating_publisher") or "") or None,
             rating_source=str(form.get("rating_source") or "") or None,
+            prior_owner_count=_int_or_none(str(form.get("prior_owner_count") or "")),
+            prior_owner_count_source=str(form.get("prior_owner_count_source") or "") or None,
             axles=axles,
         )
         return RedirectResponse("/trailers", status_code=303)

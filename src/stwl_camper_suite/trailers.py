@@ -37,6 +37,8 @@ def add_trailer(
     notes: str | None = None,
     rating_publisher: str | None = None,
     rating_source: str | None = None,
+    prior_owner_count: int | None = None,
+    prior_owner_count_source: str | None = None,
     axles: list[dict[str, Any]] | None = None,
     database: Path | None = None,
 ) -> int:
@@ -53,6 +55,8 @@ def add_trailer(
         raise ValueError("axle_count must be 1–5 (single through quint)")
     if len(axles) > 5:
         raise ValueError("at most 5 axles (quint)")
+    if prior_owner_count is not None and prior_owner_count < 0:
+        raise ValueError("prior_owner_count cannot be negative")
 
     agg = 0.0
     has_gawr = False
@@ -70,8 +74,9 @@ def add_trailer(
                 gvwr, empty_weight, cargo_weight, hitch_style, is_homemade,
                 length_ft, width_ft, height_ft, axle_count, brake_type,
                 aggregate_axle_rating, rating_publisher, rating_source,
+                prior_owner_count, prior_owner_count_source,
                 status, created_at
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, 'active', ?)
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, 'active', ?)
             """,
             (
                 name.strip(),
@@ -95,6 +100,8 @@ def add_trailer(
                 agg if has_gawr else None,
                 rating_publisher,
                 rating_source,
+                prior_owner_count,
+                prior_owner_count_source,
                 _now(),
             ),
         )
