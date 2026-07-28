@@ -6,6 +6,7 @@ Only guides that pass `docs/PUBLISHING_STANDARDS.md` and are indexed into the ap
 |----------|----------|--------|
 | getting_started | how-to-use-this-suite | How to Use This Suite (Offline) |
 | electrical | 7-way-plug-basics | 7-Way Plug Basics (Entry-Level) |
+| electrical | wiring-pin-charts-hoppy-j560 | Trailer Wiring Pin Charts — Hopkins/Hoppy & SAE J560 CMV |
 | brakes | breakaway-switch-test | Breakaway Switch — Electric Brake Systems |
 | cargo_securement | cargo-securement-plain-english | Cargo Securement in Plain English |
 | equine_stock | equine-floor-and-mats | Equine Trailer Floors & Mats |

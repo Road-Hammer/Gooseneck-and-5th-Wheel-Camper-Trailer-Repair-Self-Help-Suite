@@ -98,10 +98,22 @@ vendors:
     trade: parts_supplier
     website: "https://www.curtmfg.com/"
     specialties: "Hitches, balls, wiring, trailer accessories (sold via dealers/retail)"
-    notes: "OEM hitch manufacturer; find dealers via CURT site."
+    notes: "OEM hitch manufacturer; find dealers via CURT site. Public towing electrical color education."
     preferred: false
     mobility: manufacturer_dealer_network
     source_credit: "Publisher: CURT Manufacturing — official website"
+
+  - seed_key: hopkins_hoppy
+    name: "Hopkins Towing Solutions (Hoppy)"
+    trade: parts_supplier
+    website: "https://www.hopkinstowingsolutions.com/"
+    specialties: "Trailer connectors, wiring harnesses, adapters; Hoppy brand line; light-duty pin diagrams"
+    notes: >
+      Primary light-vehicle connector brand reference used in STWL pin charts.
+      Product wiring diagrams for 4/5/6/7-way blade-style connectors. Not CMV SAE J560 semi plugs.
+    preferred: true
+    mobility: manufacturer_dealer_network
+    source_credit: "Publisher: Hopkins Towing Solutions / Hoppy — official website and product wiring literature"
 
   - seed_key: drawtite
     name: "Draw-Tite (HORIZON GLOBAL)"
