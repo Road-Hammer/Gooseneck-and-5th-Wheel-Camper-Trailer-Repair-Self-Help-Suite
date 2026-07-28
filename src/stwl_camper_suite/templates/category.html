@@ -5,7 +5,6 @@
 <h1>{{ cat.title }}</h1>
 <p class="lede">{{ cat.description }}</p>
 
-{% if guides %}
 <ul class="guide-list">
   {% for g in guides %}
   <li>
@@ -15,16 +14,10 @@
   </li>
   {% endfor %}
 </ul>
-{% else %}
-<p class="muted">
-  No guides in this category yet — spine is ready for OSINT → rewrite → promote.
-  See <code>content/research/coverage_matrix.md</code>.
-</p>
-{% endif %}
 
 {% if linked_vendors %}
 <section class="panel vendor-box">
-  <h2>Vendors for this category</h2>
+  <h2>Your vendors linked to this category</h2>
   <ul class="log-list">
     {% for v in linked_vendors %}
     <li><strong>{{ v.name }}</strong> <span class="muted">{{ v.phone or v.trade or '' }}</span></li>

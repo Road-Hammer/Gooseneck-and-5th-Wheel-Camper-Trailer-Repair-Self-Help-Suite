@@ -2,58 +2,69 @@
 id: how-to-use-this-suite
 title: How to Use This Suite (Offline)
 category: getting_started
-rig_types: [bumper_pull, travel_trailer, fifth_wheel, gooseneck, toy_hauler, cargo_trailer]
+rig_types: [bumper_pull, travel_trailer, fifth_wheel, gooseneck, toy_hauler, cargo_trailer, equine_trailer, stock_trailer]
 difficulty: 1
 safety_level: info
 tools: []
 tags: [orientation, offline, stwl, diy]
+status: published
+scope: >-
+  Explains how this offline suite works and how to read guides. Does not teach
+  a specific repair procedure.
+credits:
+  - "Publisher & copyright: Susquehanna Timberwolf Lines, LLC (STWL)"
+  - "Software & original instructional text: STWL Camper / Trailer Self-Help Suite"
+sources:
+  - "Original STWL product documentation (this repository)"
 ---
 
 # How to Use This Suite (Offline)
 
-This is the **STWL Camper / Trailer Self-Help Suite** — a Chilton-style companion for campers, trailers, 5th wheels, and goosenecks. It is built to work **without internet or cell service**.
+This is the **STWL Camper / Trailer Self-Help Suite** — an offline companion for campers, trailers, 5th wheels, goosenecks, and related livestock trailers. It is **not** a complete OEM service library and is **not** affiliated with Chilton, Haynes, or any trailer manufacturer.
 
-## What you get
+## What you get (today)
 
-1. **Guides** — entry-level DIY repair and inspection steps  
-2. **Trucker wisdom** — highway habits from 30+ years of real road work  
-3. **Service log** — your rig’s maintenance history, stored on *your* machine  
-4. **Search** — find topics by name or symptom, fully offline  
+1. **Published guides only** — finished articles that passed STWL publishing standards  
+2. **Trucker wisdom** — operational judgment modules where listed  
+3. **Service log / shop CMMS** — work orders, assets, and vendors on *your* machine  
+4. **Search** — full-text search offline  
 
-## How to run it at the campsite
+Empty topics are **not** shown as fake chapters. Unwritten work stays in authoring docs, not in the library.
 
-1. Install once at home (Python package + content).  
-2. Run `stwl-camper serve` (or your desktop shortcut when available).  
+## How to run it offline
+
+1. Install from the GitHub repository while you have internet.  
+2. Run `stwl-camper index` then `stwl-camper serve`.  
 3. Open the local address shown (usually `http://127.0.0.1:8765`).  
-4. No Wi‑Fi required after install.
+4. After install, internet is not required for browse, search, or the service log.
 
 ## How to read a guide
 
-Every guide is written for **first-time DIY**:
-
 | Section | Meaning |
 |---------|---------|
-| **Tools** | What to grab before you start |
-| **Difficulty** | 1 = glovebox easy … 5 = pro only |
+| **Scope** | What the article covers and excludes |
+| **Credits / sources** | Who published the material and what was consulted |
+| **Tools** | What to gather before you start |
+| **Difficulty** | 1 = glovebox easy … 5 = pro recognition only |
 | **Safety level** | info → caution → warning → stop |
-| **Steps** | Do these in order |
 | **Stop conditions** | Put the tools down |
 | **Pro help triggers** | Call a qualified shop |
 
-## What this is *not*
+## What this is not
 
-- Not a substitute for your **OEM owner manual** or data plate.  
-- Not a license to ignore local law, DOT rules, or common sense.  
-- Not a dump of someone else’s copyrighted shop manual.
+- Not a substitute for your **OEM owner manual**, data plate, or a certified technician  
+- Not a dump of someone else’s copyrighted shop manual  
+- Not legal advice and not a commercial carrier compliance course  
 
-## Family legacy note
+## Credits
 
-Copyright **Susquehanna Timberwolf Lines, LLC (STWL)**. This library is meant to outlast one phone, one laptop, and one generation — keep your **service log** backed up on USB when you can.
+**Publisher:** Susquehanna Timberwolf Lines, LLC (STWL).  
+All original suite software text and this orientation guide are STWL works. See repository `COPYRIGHT.md` and `NOTICE`.
 
 ## Stop conditions
 
-- If a guide’s safety level is **stop** or **warning** and you feel unsure — stop.
+Not a repair procedure. If a linked guide’s safety level is **warning** or **stop** and you are unsure, do not proceed.
 
 ## Pro help triggers
 
-- Brakes that do not hold, hitch that will not lock, propane smell, structural cracks, wheels that wobble at speed.
+Brakes that do not hold, hitch that will not lock, propane odor, structural cracks, floors unsafe for livestock, wheels that wobble at speed.

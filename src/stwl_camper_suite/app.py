@@ -24,7 +24,14 @@ from .cmms import (
     update_entry_status,
     vendors_for_guide_or_category,
 )
-from .content_loader import get_guide, list_guides, load_catalog, rebuild_index, search_guides
+from .content_loader import (
+    get_guide,
+    list_guides,
+    load_catalog,
+    published_categories,
+    rebuild_index,
+    search_guides,
+)
 from .db import init_db
 from .paths import package_root
 
@@ -63,11 +70,12 @@ def create_app() -> FastAPI:
 
     def base_ctx(**extra):
         catalog = load_catalog()
+        cats = published_categories()
         return {
             "version": __version__,
             "copyright": __copyright__,
             "catalog": catalog,
-            "categories": (catalog.get("categories") or []),
+            "categories": cats,
             "rig_types": RIG_TYPES,
             "work_statuses": WORK_STATUSES,
             "priorities": PRIORITIES,
@@ -106,8 +114,15 @@ def create_app() -> FastAPI:
     @app.get("/category/{category_id}", response_class=HTMLResponse)
     def category(request: Request, category_id: str):
         guides = list_guides(category=category_id)
+        if not guides:
+            return HTMLResponse(
+                "<h1>Category not published</h1>"
+                "<p>This suite only lists categories that have finished guides.</p>"
+                "<p><a href='/'>Home</a></p>",
+                status_code=404,
+            )
         cat_meta = next(
-            (c for c in (load_catalog().get("categories") or []) if c.get("id") == category_id),
+            (c for c in published_categories() if c.get("id") == category_id),
             {"id": category_id, "title": category_id, "description": ""},
         )
         linked_vendors = list_vendors(category=category_id)

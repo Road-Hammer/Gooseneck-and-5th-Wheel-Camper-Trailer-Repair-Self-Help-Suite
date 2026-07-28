@@ -1,66 +1,92 @@
 ---
 id: breakaway-switch-test
-title: Breakaway Switch — What It Is and How to Test
+title: Breakaway Switch — Electric Brake Systems
 category: brakes
-rig_types: [bumper_pull, travel_trailer, fifth_wheel, gooseneck, cargo_trailer]
+rig_types: [bumper_pull, travel_trailer, fifth_wheel, gooseneck, cargo_trailer, equine_trailer, stock_trailer]
 difficulty: 2
 safety_level: stop
 tools:
-  - Helper or wheel chocks
-  - Basic hand tools
-  - Fully charged trailer battery (electric brake systems)
+  - Wheel chocks
+  - Multimeter (optional, for battery voltage)
+  - Fully charged trailer battery (electric-brake breakaway systems that rely on one)
 tags: [breakaway, electric-brakes, pre-trip, safety]
+status: published
+scope: >-
+  Purpose and functional check of a trailer electric-brake breakaway switch
+  that applies trailer brakes from a trailer battery when the pin is pulled.
+  Does not cover hydraulic surge-brake actuators (different mechanism).
+credits:
+  - "Publisher & original instructional text: Susquehanna Timberwolf Lines, LLC (STWL)"
+sources:
+  - "STWL original operating and inspection practice for electric-brake trailers"
+  - "Trailer and breakaway device manufacturer installation instructions (reader must use the device-specific sheet for wiring)"
+  - "U.S. Federal Motor Carrier Safety Administration (FMCSA) — commercial vehicle safety materials generally address emergency braking devices on applicable combinations; this guide is educational for owners and is not an FMCSA regulatory digest. Credit: U.S. Department of Transportation / FMCSA for the public safety framework"
 ---
 
-# Breakaway Switch — What It Is and How to Test
+# Breakaway Switch — Electric Brake Systems
 
-If the trailer comes off the hitch, the **breakaway switch** is supposed to pull a pin and apply the **trailer electric brakes** using the **trailer battery**.
+On many **electric-brake** trailers, a **breakaway switch** is installed so that if the trailer separates from the tow vehicle, a pin is pulled and the **trailer electric brakes** are powered from the **trailer battery**.
 
-This is life-safety gear. Treat it that way.
+This is life-safety equipment. Treat a failed test as a no-go.
 
-## Plain English
+## Scope and limits
 
-- A cable runs from the switch to the tow vehicle (not to a flimsy light bracket if you can avoid it).  
-- Pulling the pin closes the brake circuit from the trailer battery to the magnets.  
-- A dead trailer battery = **no breakaway brakes**. That is not a paperwork issue; that is a crash issue.
+| Covered | Not covered |
+|---------|-------------|
+| Electric-brake breakaway switch with pull-pin | **Hydraulic surge** brake actuators (different emergency system) |
+| Functional “does it apply brakes?” check | Wiring diagrams for a specific brand |
+| Battery readiness concept | Measured magnet amp-draw tables |
+
+If your trailer uses surge brakes only, **do not** use this procedure as written — follow the surge actuator manufacturer’s instructions.
+
+## Plain English (electric systems)
+
+- A lanyard/cable is secured so a true separation pulls the pin.  
+- Pulling the pin closes the circuit from the trailer battery to the brake magnets (typical arrangement).  
+- A dead, missing, or disconnected trailer battery often means **no breakaway braking**.
 
 ## Pre-checks
 
-1. Trailer battery charged and connections tight.  
-2. Breakaway cable attached so a true separation would pull the pin — not so loose it never pulls, not so tight it snags on every turn.  
-3. Pin fully seated for normal towing.
+1. Confirm this trailer actually has an electric-brake breakaway switch (not surge-only).  
+2. Trailer battery charged; terminals clean and tight.  
+3. Lanyard length: can pull on separation; will not snag every turn.  
+4. Pin fully seated for normal travel.
 
-## Functional test (private property / controlled area)
+## Functional test (private property / controlled area only)
 
-1. Chock wheels if needed; keep people clear of the trailer path.  
-2. With trailer coupled and 7-way connected as you normally tow, confirm controller/system basics separately.  
-3. For breakaway: **pull the pin**. You should hear/feel brakes apply (hubs resist rotation).  
-4. On many setups you can briefly try to move the trailer slightly with a tow vehicle in a safe area — brakes should drag hard. **Do not** do this in traffic.  
-5. **Reinstall the pin** fully after the test.  
-6. If brakes do not apply: diagnose battery, switch, wiring, magnets — do not tow as if nothing happened.
+1. Keep people clear of the trailer path; chock if needed.  
+2. **Pull the breakaway pin.** Trailer electric brakes should apply (hubs resist rotation / firm drag).  
+3. Optional: in a clear private area only, a brief low-speed check that the trailer resists motion hard — **never** in traffic.  
+4. **Reinstall the pin fully** after the test.  
+5. If brakes do not apply: do not tow as if the system works. Diagnose battery, switch, wiring, and magnets with competent help if needed.
 
-## Common failures
+## Common failures (field observation)
 
 - Corroded switch  
-- Cable zip-tied so it cannot pull  
-- Cable hooked only to safety chain in a way that never tensions  
+- Cable restrained so it cannot pull  
 - Dead or missing trailer battery  
-- Someone “fixed” wiring by bypassing the switch  
+- Switch bypassed by improper wiring  
+
+## Credits & sources
+
+| Role | Credit |
+|------|--------|
+| Publisher / original guide text | Susquehanna Timberwolf Lines, LLC (STWL) |
+| Device wiring / torque / mounting | Breakaway switch and trailer manufacturers (device-specific docs) |
+| Public commercial vehicle safety context | U.S. Department of Transportation / Federal Motor Carrier Safety Administration (FMCSA) — for the existence of federal safety frameworks on applicable commercial equipment; **not** quoted as a substitute for current regulations |
 
 ## Service log
 
-Record: date, pass/fail, battery voltage if measured, any parts replaced.
+Date, pass/fail, battery voltage if measured, parts replaced, who tested.
 
 ## Stop conditions
 
-- Test fails for any reason  
-- Switch body broken  
-- You cannot confirm trailer battery health  
+- Test fails  
+- Switch body damaged  
+- Trailer battery health unknown and trip is imminent  
 
 ## Pro help triggers
 
-- Failed test and you are not comfortable tracing brake wiring  
-- Magnets or wiring show heat damage  
-- Any doubt before a trip with family in the tow vehicle  
-
-**If breakaway does not work, do not normalize it. Fix it before the trip.**
+- Failed test and you cannot safely trace brake wiring  
+- Heat damage on magnets or cables  
+- Any doubt before hauling family or livestock  

@@ -15,8 +15,13 @@ from .service_log import add_entry, add_rig, list_entries, list_rigs
 
 def cmd_index(_args: argparse.Namespace) -> int:
     init_db()
-    n = rebuild_index()
+    try:
+        n = rebuild_index()
+    except Exception as e:
+        print(f"INDEX FAILED (publishing standards):\n{e}", file=sys.stderr)
+        return 1
     print(f"Indexed {n} guide(s) into {db_path()}")
+    print("All guides passed credit/source and completeness checks.")
     return 0
 
 

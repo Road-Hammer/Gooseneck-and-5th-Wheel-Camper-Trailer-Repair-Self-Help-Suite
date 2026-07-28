@@ -4,11 +4,11 @@
 <section class="hero">
   <h1>Camper, Stock &amp; Equine Trailer Self-Help</h1>
   <p class="lede">
-    Chilton-style knowledge for campers, 5th wheels, goosenecks, <strong>equine</strong> and
-    <strong>cattle/stock</strong> trailers — plus an offline CMMS service log and vendor directory.
-    Works with <strong>no internet</strong> after install.
+    Published, credited guides only — campers, 5th wheels, goosenecks, equine and stock trailers —
+    plus an offline shop service log and vendor directory.
+    Works with <strong>no internet</strong> after install. Empty chapters are not listed.
   </p>
-  <p class="meta">{{ guide_count }} guide(s) indexed · {{ summary.open_work_orders }} open work order(s)</p>
+  <p class="meta">{{ guide_count }} published guide(s) · {{ summary.open_work_orders }} open work order(s)</p>
 </section>
 
 <div class="grid stats">
@@ -35,13 +35,13 @@
 {% endif %}
 
 <section>
-  <h2>Browse catalog</h2>
+  <h2>Published library</h2>
   <div class="grid cats">
     {% for c in categories %}
     <a class="card" href="/category/{{ c.id }}">
       <h3>{{ c.title }}</h3>
       <p>{{ c.description }}</p>
-      <span class="count">{{ by_cat.get(c.id, [])|length }} in library</span>
+      <span class="count">{{ c.guide_count or by_cat.get(c.id, [])|length }} guide(s)</span>
     </a>
     {% endfor %}
   </div>

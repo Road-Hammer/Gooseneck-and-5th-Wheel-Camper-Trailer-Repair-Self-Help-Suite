@@ -6,59 +6,73 @@ rig_types: [stock_trailer, cattle_trailer, livestock_trailer, gooseneck]
 difficulty: 2
 safety_level: warning
 tools:
-  - Grease / spray lube safe for livestock environments
-  - Wrenches / pliers
+  - Livestock-safe lubricant appropriate to your setup
+  - Basic hand tools
   - Flashlight
-  - Replacement pins / clips
-tags: [cattle, stock, gates, dividers, livestock, slam-latch]
+  - Replacement pins / clips as needed
+tags: [cattle, stock, gates, dividers, livestock]
+status: published
+scope: >-
+  Inspection and basic maintenance of gates, latches, and dividers on stock
+  and cattle trailers. Not a welding procedure manual.
+credits:
+  - "Publisher & original instructional text: Susquehanna Timberwolf Lines, LLC (STWL)"
+sources:
+  - "STWL original stock trailer operating and inspection practice"
+  - "Trailer manufacturer instructions for latch and divider hardware (reader must use model-specific docs for replacement parts)"
 ---
 
 # Stock & Cattle Trailer Gates and Dividers
 
-Gates and dividers keep livestock sorted and keep **you** from sharing a pen with a half-ton attitude problem. Entry-level care is mostly inspection, lube, and honest “this latch is junk” decisions.
+Gates and dividers control livestock movement and protect people working the trailer. Entry-level care is inspection, cleaning, lubrication, and honest “this latch is done” decisions.
 
-## What goes wrong
+## Scope and limits
 
-- Bent slam latches that “almost” catch  
-- Missing safety pins / clips  
-- Frozen hinges from manure pack and rust  
-- Dividers that swing free in transit  
-- Sharp edges / broken welds that cut animals (and lawsuits)
+- Covers: latches, pins, hinges, obvious weld cracks at hinge/latch plates, pre-load checks  
+- Does **not** cover: structural redesign, certified welding procedures, or brand-specific part numbers  
+
+## What fails (field observation)
+
+- Slam latches that only half-catch  
+- Missing secondary pins/clips  
+- Hinges packed with manure and rust  
+- Dividers that are not pinned for travel  
+- Sharp broken edges that injure animals  
 
 ## Pre-load inspection
 
-1. Open and close **every** gate and divider you will use.  
-2. Confirm latches fully engage — not halfway.  
-3. Check pins, chains, and secondary catches.  
-4. Look for cracked welds at hinges and latch plates.  
-5. Confirm interior has no loose boards, wire, or hardware that can spear.
+1. Operate every gate and divider you will use.  
+2. Confirm latches fully engage.  
+3. Verify pins, chains, and secondary catches.  
+4. Inspect hinge and latch-plate areas for cracked welds.  
+5. Remove loose interior hazards (wire, boards, hardware).
 
 ## DIY maintenance
 
-- Clean manure packs out of hinges and tracks.  
-- Lube hinges/latches with a product appropriate for your setup.  
-- Replace missing clips **before** they become roadside theater.  
-- Mark a bad latch with paint so nobody “assumes it’s fine.”
+- Clean packs out of hinges and tracks.  
+- Lubricate with a product suitable for your environment.  
+- Replace missing clips before the trip.  
+- Mark a failed latch so nobody assumes it works.
 
-## Loading judgment (trucker / stockman crossover)
+## Credits & sources
 
-- Don’t mix incompatible animals in a way your dividers can’t control.  
-- Overcrowding is not securement.  
-- After the first miles, recheck latches if you hit rough road (when safe to stop).
+| Role | Credit |
+|------|--------|
+| Publisher / original guide text | Susquehanna Timberwolf Lines, LLC (STWL) |
+| Hardware replacement specs | Trailer and latch/divider manufacturers |
 
 ## Service log
 
-- Gate/divider ID or location, repair, parts, vendor, date  
-- Link a shop work order if a welder fixed a latch plate  
+Location of gate/divider, work done, parts, vendor/welder if used, date.
 
 ## Stop conditions
 
 - Latch will not positively secure  
-- Structural crack at hinge  
-- Divider cannot be pinned for the trip plan  
+- Structural crack at hinge or latch plate  
+- Divider cannot be secured for the planned load  
 
 ## Pro help triggers
 
 - Welding on structural members  
-- Trailer geometry bent so gates no longer line up  
-- After a wreck or rollover incident  
+- Trailer bent so gates no longer align  
+- After collision damage  

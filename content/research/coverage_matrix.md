@@ -1,26 +1,16 @@
-# Coverage Matrix (living document)
+# Published inventory (not a placeholder roadmap)
 
-Track catalog completeness. Update as guides are promoted from research → `content/guides` or `content/wisdom`.
+Only guides that pass `docs/PUBLISHING_STANDARDS.md` and are indexed into the app.
 
-| Category | Seed guides | Target depth | Status |
-|----------|-------------|--------------|--------|
-| getting_started | how-to-use-this-suite | orientation complete | partial |
-| identification | — | VIN, ratings, placards | empty |
-| hitching_coupling | — | ball, WD, 5th, gooseneck | empty |
-| electrical | 7-way-plug-basics | full 12V / lighting / charge | partial |
-| brakes | breakaway-switch-test | electric + surge overview | partial |
-| axles_suspension | — | bearings, axles, suspension | empty |
-| wheels_tires | — | ST tires, torque, aging | empty |
-| plumbing | — | fresh/gray/black, winterize | empty |
-| propane | — | safety-first only + pro lines | empty |
-| body_structure | — | seals, leaks, frame | empty |
-| interior_systems | — | HVAC/slides overview | empty |
-| cargo_securement | cargo-securement-plain-english | DIY + commercial awareness | partial |
-| equine_stock | equine-floor-and-mats, stock-gates-dividers | horse + cattle/stock | partial |
-| safe_operation | — | sway, grades, weather | empty |
-| service_log | using-shop-cmms | CMMS how-to + app | partial |
-| trucker_wisdom | pre-trip-walkaround-trucker | habit library | partial |
-| emergency | — | roadside playbooks | empty |
+| Category | Guide ID | Title |
+|----------|----------|--------|
+| getting_started | how-to-use-this-suite | How to Use This Suite (Offline) |
+| electrical | 7-way-plug-basics | 7-Way Plug Basics (Entry-Level) |
+| brakes | breakaway-switch-test | Breakaway Switch — Electric Brake Systems |
+| cargo_securement | cargo-securement-plain-english | Cargo Securement in Plain English |
+| equine_stock | equine-floor-and-mats | Equine Trailer Floors & Mats |
+| equine_stock | stock-gates-dividers | Stock & Cattle Trailer Gates and Dividers |
+| service_log | using-shop-cmms | Using the Offline Shop CMMS |
+| trucker_wisdom | pre-trip-walkaround-trucker | Pre-Trip Walkaround |
 
-**v0.1 goal:** spine works offline (index, search, log) + seed content.  
-**v1.0 goal:** every category has at least one inspection guide + one DIY or pro-boundary guide.
+Unwritten topics: see `docs/AUTHORING.md` (not shown in the app).

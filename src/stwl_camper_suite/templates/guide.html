@@ -15,10 +15,38 @@
       {% if guide.safety_level %}<span class="badge safety-{{ guide.safety_level }}">{{ guide.safety_level }}</span>{% endif %}
       {% if guide.rig_types %}<span class="badge">{{ guide.rig_types }}</span>{% endif %}
     </div>
+    {% if guide.scope %}
+    <p class="scope"><strong>Scope:</strong> {{ guide.scope }}</p>
+    {% endif %}
     {% if guide.tools %}
     <p class="tools"><strong>Tools:</strong> {{ guide.tools }}</p>
     {% endif %}
   </header>
+
+  <aside class="credits-box panel" aria-label="Credits and sources">
+    <h2>Credits &amp; sources</h2>
+    <p class="muted small">STWL policy: credit the publisher of any material we rely on. Original STWL text is credited to STWL.</p>
+    {% if guide.credits_list %}
+    <h3>Credits</h3>
+    <ul>
+      {% for c in guide.credits_list %}
+      <li>{{ c }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% if guide.sources_list %}
+    <h3>Sources consulted</h3>
+    <ul>
+      {% for s in guide.sources_list %}
+      <li>{{ s }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% if not guide.credits_list and not guide.sources_list %}
+    <p class="muted">No credits recorded for this guide (publishing standards require them — reindex after fixing the file).</p>
+    {% endif %}
+  </aside>
+
   <div class="body">
     {{ body_html | safe }}
   </div>
@@ -26,8 +54,8 @@
 
 {% if guide_vendors %}
 <section class="panel vendor-box">
-  <h2>Vendors linked to this repair</h2>
-  <p class="muted small">Your offline shop directory — add more under <a href="/vendors">Vendors</a>.</p>
+  <h2>Your vendors linked to this topic</h2>
+  <p class="muted small">Local directory you entered — not endorsements by STWL. Manage under <a href="/vendors">Vendors</a>.</p>
   <ul class="log-list">
     {% for v in guide_vendors %}
     <li>
@@ -35,18 +63,11 @@
       {% if v.preferred %}<span class="badge">preferred</span>{% endif %}
       <span class="muted">{{ v.trade or '' }}</span>
       {% if v.phone %}<div>{{ v.phone }}</div>{% endif %}
-      {% if v.specialties %}<div class="small muted">{{ v.specialties }}</div>{% endif %}
-      <div class="small"><a href="/log">Open work order with this shop →</a></div>
     </li>
     {% endfor %}
   </ul>
 </section>
-{% else %}
-<section class="panel vendor-box">
-  <h2>No vendors linked yet</h2>
-  <p class="muted">Add a shop or mobile tech and link them to this guide: <a href="/vendors">Vendor directory</a>.</p>
-</section>
 {% endif %}
 
-<p class="meta"><a href="/log">Log this repair as a work order →</a></p>
+<p class="meta"><a href="/log">Log related work as a work order →</a></p>
 {% endblock %}

@@ -190,6 +190,12 @@ footer {
 .card.stat { text-align: center; }
 .card.stat h3 { margin: 0; color: var(--accent); font-size: 1.4rem; }
 .vendor-box { margin-top: 1.5rem; }
+.credits-box { margin: 1rem 0 1.25rem; border-color: #3d5a48; }
+.credits-box h2 { margin-top: 0; font-size: 1.05rem; color: var(--accent); }
+.credits-box h3 { font-size: 0.92rem; margin: 0.75rem 0 0.35rem; color: var(--muted); }
+.credits-box ul { margin: 0.25rem 0 0; padding-left: 1.2rem; }
+.credits-box li { margin: 0.35rem 0; font-size: 0.92rem; }
+.scope { color: #d5e2d7; font-size: 0.95rem; }
 .inline-status { display: flex; gap: 0.35rem; align-items: center; flex-wrap: wrap; }
 .inline-status select {
   background: var(--bg);

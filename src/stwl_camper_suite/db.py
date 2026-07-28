@@ -25,7 +25,11 @@ CREATE TABLE IF NOT EXISTS guides (
     tags TEXT,
     tools TEXT,
     body_md TEXT NOT NULL,
-    updated_at TEXT NOT NULL
+    updated_at TEXT NOT NULL,
+    scope TEXT,
+    credits TEXT,
+    sources TEXT,
+    status TEXT
 );
 
 CREATE VIRTUAL TABLE IF NOT EXISTS guides_fts USING fts5(

@@ -15,6 +15,13 @@ from .paths import content_dir, db_path
 
 FRONTMATTER_RE = re.compile(r"\A---\s*\n(.*?)\n---\s*\n(.*)\Z", re.DOTALL)
 
+REQUIRED_FRONTMATTER = ("id", "title", "category", "status", "scope", "safety_level")
+REQUIRED_BODY_MARKERS_WARNING = ("stop conditions", "pro help triggers")
+
+
+class GuideValidationError(ValueError):
+    """Raised when a guide fails publishing standards."""
+
 
 @dataclass
 class GuideDoc:
@@ -27,7 +34,21 @@ class GuideDoc:
     rig_types: list[str] = field(default_factory=list)
     tags: list[str] = field(default_factory=list)
     tools: list[str] = field(default_factory=list)
+    status: str = "published"
+    scope: str = ""
+    credits: list[str] = field(default_factory=list)
+    sources: list[str] = field(default_factory=list)
     body_md: str = ""
+
+
+def _as_str_list(value: Any) -> list[str]:
+    if value is None:
+        return []
+    if isinstance(value, str):
+        return [value.strip()] if value.strip() else []
+    if isinstance(value, list):
+        return [str(x).strip() for x in value if str(x).strip()]
+    return [str(value).strip()]
 
 
 def _parse_frontmatter(text: str) -> tuple[dict[str, Any], str]:
@@ -50,10 +71,52 @@ def discover_markdown(root: Path | None = None) -> list[Path]:
     return paths
 
 
-def load_guide(path: Path, content_root: Path | None = None) -> GuideDoc:
+def validate_guide(meta: dict[str, Any], body: str, path: Path) -> list[str]:
+    """Return list of validation errors (empty if OK)."""
+    errors: list[str] = []
+    for key in REQUIRED_FRONTMATTER:
+        if not meta.get(key):
+            errors.append(f"{path.name}: missing required frontmatter '{key}'")
+    status = str(meta.get("status", "")).lower()
+    if status and status != "published":
+        errors.append(f"{path.name}: status must be 'published' to ship (got {status!r})")
+    credits = _as_str_list(meta.get("credits") or meta.get("credit"))
+    sources = _as_str_list(meta.get("sources") or meta.get("sources_consulted"))
+    if not credits and not sources:
+        errors.append(
+            f"{path.name}: must list publisher credits and/or sources "
+            "(frontmatter 'credits' and/or 'sources')"
+        )
+    body_l = body.lower()
+    safety = str(meta.get("safety_level") or "").lower()
+    if safety in ("caution", "warning", "stop"):
+        for marker in REQUIRED_BODY_MARKERS_WARNING:
+            if marker not in body_l:
+                errors.append(f"{path.name}: safety_level={safety} requires section '{marker}'")
+    # Ban obvious placeholder language in published body
+    banned = (
+        "coming soon",
+        "todo:",
+        "tbd",
+        "lorem ipsum",
+        "placeholder",
+        "write this later",
+        "fill in later",
+    )
+    for b in banned:
+        if b in body_l:
+            errors.append(f"{path.name}: banned placeholder language found ({b!r})")
+    return errors
+
+
+def load_guide(path: Path, content_root: Path | None = None, *, strict: bool = True) -> GuideDoc:
     root = content_root or content_dir()
     raw = path.read_text(encoding="utf-8")
     meta, body = _parse_frontmatter(raw)
+    if strict:
+        errs = validate_guide(meta, body, path)
+        if errs:
+            raise GuideValidationError("\n".join(errs))
     rel = str(path.relative_to(root)).replace("\\", "/")
     gid = str(meta.get("id") or path.stem)
     title = str(meta.get("title") or path.stem.replace("-", " ").title())
@@ -63,15 +126,11 @@ def load_guide(path: Path, content_root: Path | None = None) -> GuideDoc:
         difficulty_i = int(difficulty) if difficulty is not None else None
     except (TypeError, ValueError):
         difficulty_i = None
-    rig_types = meta.get("rig_types") or []
-    tags = meta.get("tags") or []
-    tools = meta.get("tools") or []
-    if isinstance(rig_types, str):
-        rig_types = [rig_types]
-    if isinstance(tags, str):
-        tags = [tags]
-    if isinstance(tools, str):
-        tools = [tools]
+    rig_types = _as_str_list(meta.get("rig_types"))
+    tags = _as_str_list(meta.get("tags"))
+    tools = _as_str_list(meta.get("tools"))
+    credits = _as_str_list(meta.get("credits") or meta.get("credit"))
+    sources = _as_str_list(meta.get("sources") or meta.get("sources_consulted"))
     return GuideDoc(
         id=gid,
         title=title,
@@ -79,9 +138,13 @@ def load_guide(path: Path, content_root: Path | None = None) -> GuideDoc:
         path=rel,
         difficulty=difficulty_i,
         safety_level=str(meta["safety_level"]) if meta.get("safety_level") else None,
-        rig_types=list(rig_types),
-        tags=list(tags),
-        tools=list(tools),
+        rig_types=rig_types,
+        tags=tags,
+        tools=tools,
+        status=str(meta.get("status") or "published"),
+        scope=str(meta.get("scope") or "").strip(),
+        credits=credits,
+        sources=sources,
         body_md=body.strip() + "\n",
     )
 
@@ -94,20 +157,87 @@ def load_catalog(root: Path | None = None) -> dict[str, Any]:
     return data if isinstance(data, dict) else {}
 
 
+def published_categories(
+    database: Path | None = None,
+    root: Path | None = None,
+) -> list[dict[str, Any]]:
+    """Catalog categories that have at least one indexed guide (no empty shells)."""
+    catalog = load_catalog(root)
+    by_id = {c["id"]: c for c in (catalog.get("categories") or []) if c.get("id")}
+    guides = list_guides(database=database)
+    seen: dict[str, int] = {}
+    for g in guides:
+        seen[g["category"]] = seen.get(g["category"], 0) + 1
+    out: list[dict[str, Any]] = []
+    for cat_id, count in sorted(seen.items(), key=lambda x: by_id.get(x[0], {}).get("title", x[0])):
+        meta = by_id.get(cat_id) or {
+            "id": cat_id,
+            "title": cat_id.replace("_", " ").title(),
+            "description": "",
+        }
+        item = dict(meta)
+        item["guide_count"] = count
+        out.append(item)
+    return out
+
+
 def rebuild_index(database: Path | None = None) -> int:
     """Scan content markdown and rebuild guides + FTS tables. Returns guide count."""
     init_db(database)
-    docs = [load_guide(p) for p in discover_markdown()]
+    paths = discover_markdown()
+    docs: list[GuideDoc] = []
+    errors: list[str] = []
+    for p in paths:
+        try:
+            docs.append(load_guide(p, strict=True))
+        except GuideValidationError as e:
+            errors.append(str(e))
+    if errors:
+        raise GuideValidationError(
+            "Publishing standards failed — fix before index:\n" + "\n".join(errors)
+        )
+
+    catalog = load_catalog()
+    catalog_ids = {c["id"] for c in (catalog.get("categories") or []) if c.get("id")}
+    for d in docs:
+        if catalog_ids and d.category not in catalog_ids:
+            errors.append(
+                f"{d.id}: category {d.category!r} not in content/catalog.yaml published categories"
+            )
+    # Empty catalog categories
+    guide_cats = {d.category for d in docs}
+    for cid in catalog_ids:
+        if cid not in guide_cats:
+            errors.append(
+                f"catalog category {cid!r} has zero guides — remove from catalog.yaml or add a finished guide"
+            )
+    if errors:
+        raise GuideValidationError(
+            "Catalog/publish mismatch:\n" + "\n".join(errors)
+        )
+
     now = datetime.now(timezone.utc).isoformat()
     with connect(database or db_path()) as conn:
+        # Ensure credits columns exist (migrate light)
+        cols = {r[1] for r in conn.execute("PRAGMA table_info(guides)").fetchall()}
+        for col, decl in (
+            ("scope", "TEXT"),
+            ("credits", "TEXT"),
+            ("sources", "TEXT"),
+            ("status", "TEXT"),
+        ):
+            if col not in cols:
+                conn.execute(f"ALTER TABLE guides ADD COLUMN {col} {decl}")
+
         conn.execute("DELETE FROM guides")
         for d in docs:
             conn.execute(
                 """
                 INSERT INTO guides (
                     id, title, category, path, difficulty, safety_level,
-                    rig_types, tags, tools, body_md, updated_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    rig_types, tags, tools, body_md, updated_at,
+                    scope, credits, sources, status
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     d.id,
@@ -121,6 +251,10 @@ def rebuild_index(database: Path | None = None) -> int:
                     ",".join(d.tools),
                     d.body_md,
                     now,
+                    d.scope,
+                    " | ".join(d.credits),
+                    " | ".join(d.sources),
+                    d.status,
                 ),
             )
         conn.execute(
@@ -157,7 +291,12 @@ def get_guide(guide_id: str, database: Path | None = None) -> dict[str, Any] | N
     init_db(database)
     with connect(database or db_path()) as conn:
         row = conn.execute("SELECT * FROM guides WHERE id = ?", (guide_id,)).fetchone()
-        return dict(row) if row else None
+        if not row:
+            return None
+        d = dict(row)
+        d["credits_list"] = [c.strip() for c in (d.get("credits") or "").split("|") if c.strip()]
+        d["sources_list"] = [c.strip() for c in (d.get("sources") or "").split("|") if c.strip()]
+        return d
 
 
 def search_guides(query: str, database: Path | None = None, limit: int = 50) -> list[dict]:
@@ -165,7 +304,6 @@ def search_guides(query: str, database: Path | None = None, limit: int = 50) -> 
     q = query.strip()
     if not q:
         return []
-    # FTS5: quote multi-word as AND tokens
     tokens = [t for t in re.split(r"\s+", q) if t]
     fts_query = " ".join(tokens)
     with connect(database or db_path()) as conn:
@@ -182,16 +320,16 @@ def search_guides(query: str, database: Path | None = None, limit: int = 50) -> 
                 (fts_query, limit),
             ).fetchall()
         except Exception:
-            # Fallback LIKE if FTS query syntax fails
             like = f"%{q}%"
             rows = conn.execute(
                 """
                 SELECT *, substr(body_md, 1, 160) AS snippet
                 FROM guides
                 WHERE title LIKE ? OR body_md LIKE ? OR tags LIKE ?
+                   OR IFNULL(credits,'') LIKE ? OR IFNULL(sources,'') LIKE ?
                 ORDER BY title
                 LIMIT ?
                 """,
-                (like, like, like, limit),
+                (like, like, like, like, like, limit),
             ).fetchall()
         return [dict(r) for r in rows]

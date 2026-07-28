@@ -25,8 +25,9 @@ This suite aims for a **complete practical catalog**, not a warehouse of other p
 
 1. **Research** freely into `content/research/` (notes, links, outlines, citation lists).
 2. **Rewrite** into original STWL DIY guides before anything ships in `content/guides/` or `content/wisdom/`.
-3. Every promoted guide lists **sources_consulted** (optional YAML) when facts came from public regs or standards.
+3. Every promoted guide **must** list **credits** and/or **sources** naming the publisher (STWL, FMCSA, SAE, OEM, etc.). Optional is not allowed.
 4. Prefer **teach the principle + inspection steps** over proprietary torque tables when OEM data is copyrighted; tell the user to use **their placard / owner manual** for model-specific numbers.
+5. Never present another publisher’s material as uncredited STWL text.
 
 ## Safety disclaimer (required in product UI)
 

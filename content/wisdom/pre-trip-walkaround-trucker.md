@@ -1,95 +1,100 @@
 ---
 id: pre-trip-walkaround-trucker
-title: Pre-Trip Walkaround — Trucker Habits for Camper People
+title: Pre-Trip Walkaround — Trucker Habits
 category: trucker_wisdom
-rig_types: [bumper_pull, travel_trailer, fifth_wheel, gooseneck, toy_hauler, cargo_trailer]
+rig_types: [bumper_pull, travel_trailer, fifth_wheel, gooseneck, toy_hauler, cargo_trailer, equine_trailer, stock_trailer]
 difficulty: 1
 safety_level: warning
 tools:
   - Flashlight
-  - Tire gauge
+  - Tire pressure gauge
   - Gloves
-tags: [pre-trip, walkaround, habits, safety, legacy]
+tags: [pre-trip, walkaround, habits, safety]
+status: published
+scope: >-
+  A consistent pre-trip walkaround habit for trailer combinations. Not a
+  commercial CDL training curriculum and not a substitute for required
+  commercial inspections where they apply.
+credits:
+  - "Publisher & original instructional text: Susquehanna Timberwolf Lines, LLC (STWL)"
+sources:
+  - "STWL original highway operating practice (long-form road experience, entry-level teaching)"
+  - "U.S. Federal Motor Carrier Safety Administration (FMCSA) — commercial drivers and carriers have inspection duties under federal rules (including related vehicle inspection concepts in the FMCSRs). This article is a plain-language owner habit module, not an FMCSA training course. Credit: U.S. Department of Transportation / FMCSA for the public commercial safety framework"
+  - "Tire inflation and load values: vehicle/trailer placard and tire manufacturer (reader must use marked values)"
 ---
 
-# Pre-Trip Walkaround — Trucker Habits for Camper People
+# Pre-Trip Walkaround — Trucker Habits
 
-Shop manuals tell you **how** a part works. Thirty years on the road teaches you **when** something is about to ruin your week.
+Shop manuals explain parts. Road practice teaches **when something is about to fail**.
 
-This is a **habit module**, not a torque chart.
+This is a **habit module**: same path every hookup so your eyes catch change.
+
+## Scope and limits
+
+- Covers: a practical walkaround sequence for recreational and light commercial trailer users  
+- Does **not** cover: formal CDL pre-trip scoring sheets, bus/truck air-brake curriculum, or state inspection forms  
+
+If you are a **commercial driver**, follow your employer’s and FMCSA’s required inspection practices in addition to good habits.
 
 ## The rule
 
-**Hands on the rig before the key gets aggressive.** Every hookup. Every fuel stop after a rough road. Every morning you roll.
+**Hands on the combination before the trip gets aggressive.** Every hookup. After rough road. Every morning you roll.
 
-Five extra minutes beats a wheel-off separation or a door flying open at 65 mph.
-
-## Walk sequence (entry-level, highway-proven)
-
-Do it the same way every time so your brain notices what changed.
+## Walk sequence
 
 ### 1. Hitch and coupling
 
-- Locked, latched, pinned — whatever *your* hitch requires, verified by eyes **and** hands.  
-- Jack fully raised / foot clear of road.  
-- Safety chains crossed under the coupler (bumper-pull) with enough slack to turn, not enough to drag.  
-- Breakaway cable attached so separation would pull the pin.  
-- 7-way fully seated.
+- Coupler/5th-wheel/gooseneck locked and verified by eyes **and** hands per *your* hitch type  
+- Jack/landing gear clear of the road  
+- Safety chains (where used) with sensible slack  
+- Breakaway lanyard attached so separation would pull the pin (electric-brake systems)  
+- Electrical connector fully seated  
 
-### 2. Landing gear / tongue jack / 5th-wheel area
+### 2. Tires and wheels
 
-- Nothing hanging low.  
-- Handle stowed.  
-- On 5th wheels: jaws engaged, handle position correct, pin box looking “normal” (no fresh cracks, no missing bolts you can see).
+- Pressure from **placard / tire manufacturer**, not “looks fine”  
+- Lugs present; watch for signs of fretting from loose hardware  
+- Sidewall damage, bulges, severe cracking  
+- Spare usable and inflated  
 
-### 3. Tires and wheels
+### 3. Lights
 
-- Pressure cold when you can; don’t trust “they look fine.”  
-- Lug nuts present; no shiny fresh metal fretting that says “these were loose.”  
-- Sidewalls: bulges, dry rot cracks, weather checking.  
-- Spare inflated and reachable.
+- Markers, stop, and turns — all that your combination has  
 
-### 4. Lights
+### 4. Doors, cargo, livestock equipment
 
-- Markers, brake, turns — every lamp.  
-- Dirty lenses are dim lenses; wipe them.
+- Baggage and ramp doors latched  
+- Cargo or stock gates secured (see equine/stock guides where relevant)  
+- Propane bottles secure if equipped; valves as intended for travel  
 
-### 5. Doors, cargo, propane
+### 5. Final circle
 
-- Baggage doors latched.  
-- Propane bottles secure; valves as you intend for travel.  
-- Inside: heavy items low and blocked; fridge contents won’t become missiles.  
-- Toy hauler / cargo: ramps up, doors locked, **load secured** (see cargo securement guides).
+Look under for leaks, hanging wires, dragging chains.
 
-### 6. Final circle
+## Judgment calls
 
-One slow lap. Look under for drips, hanging wires, chain drag marks on pavement.
+| You notice | You do |
+|------------|--------|
+| New soft tire or hot hub smell | Stop and diagnose before “maybe it’s fine” |
+| Chains dragging | Reset length |
+| New sway | Weight, tongue weight, pressures, hitch setup — not speed |
 
-## Trucker judgment calls
+## Credits & sources
 
-| You notice… | You do… |
-|-------------|----------|
-| One tire warmer/softer every stop | Fix pressure or bearing/brake issue before “maybe it’s fine” |
-| New scrape marks on chains | Re-set length; dragging chains cut and fail |
-| Hub smells hot or greasy streak on wheel | Stop. Hot hubs become parking-lot disasters |
-| Sway that is new | Weight, tongue weight, tire pressures, WD hitch — not “drive faster to settle it” |
-
-## Cargo note (short)
-
-If it can move, it will move. Working load limits and proper anchors are not “overkill” — they are how freight stays freight and not a projectile. See **Cargo Securement** category.
-
-## Family legacy
-
-Teach the walkaround to kids as a ritual, not a lecture. The goal is pattern recognition: *what changed since last time?*
+| Role | Credit |
+|------|--------|
+| Publisher / original habit teaching | Susquehanna Timberwolf Lines, LLC (STWL) |
+| Commercial vehicle inspection regulatory framework (U.S.) | U.S. Department of Transportation / **Federal Motor Carrier Safety Administration (FMCSA)** — consult current FMCSRs for commercial duties |
+| Tire pressures and load limits | Trailer/vehicle placard and tire manufacturer |
 
 ## Stop conditions
 
-- Any coupling you cannot positively confirm  
-- Soft tire with unknown cause and a long mountain grade ahead  
+- Coupling not positively confirmed  
+- Unsafe tire or unknown hot hub before a demanding route  
 - Brake warning behavior  
 
 ## Pro help triggers
 
 - Repeated hot hubs  
-- Hitch equipment you do not understand (especially WD and 5th-wheel jaws)  
-- Structural cracks at coupler or pin box  
+- Hitch equipment you do not understand  
+- Cracks at coupler or pin box  

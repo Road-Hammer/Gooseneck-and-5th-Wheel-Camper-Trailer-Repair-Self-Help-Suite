@@ -1,9 +1,5 @@
-# Research notes inbox
+# Research notes
 
-Drop OSINT outlines, citation lists, and draft facts here.
+Private authoring inbox. **Not published** as library content.
 
-**Do not** paste copyrighted manuals.
-
-Promote only after rewrite into original STWL guides under `content/guides/` or `content/wisdom/`.
-
-See `docs/OSINT_PIPELINE.md` and `docs/CONTENT_POLICY.md`.
+Do not paste copyrighted manuals here. Promote only finished original guides that meet `docs/PUBLISHING_STANDARDS.md`.

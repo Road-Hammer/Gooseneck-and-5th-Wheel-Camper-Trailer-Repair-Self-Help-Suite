@@ -1,64 +1,88 @@
 ---
 id: equine-floor-and-mats
-title: Equine Trailer Floors & Mats — Entry-Level Inspection
+title: Equine Trailer Floors & Mats — Inspection
 category: equine_stock
-rig_types: [equine_trailer, horse_livestock_trailer, gooseneck]
+rig_types: [equine_trailer, gooseneck, livestock_trailer]
 difficulty: 2
 safety_level: stop
 tools:
   - Flashlight
-  - Awl or screwdriver (probe soft wood carefully)
+  - Awl or screwdriver (gentle probing of suspect wood only)
   - Gloves
-  - Floor jack / stands only if trained — otherwise pro
-tags: [equine, horse, floor, mats, safety, livestock]
+tags: [equine, horse, floor, mats, safety]
+status: published
+scope: >-
+  Entry-level inspection of horse trailer floors and mats for rot, rust, and
+  hidden damage. Not a structural floor replacement procedure.
+credits:
+  - "Publisher & original instructional text: Susquehanna Timberwolf Lines, LLC (STWL)"
+sources:
+  - "STWL original livestock/equine trailer inspection practice"
+  - "Trailer and floor/mat product manufacturers — follow their installation and load guidance for replacement materials"
+  - "Readers remain responsible for animal welfare and transport rules that apply in their jurisdiction"
 ---
 
-# Equine Trailer Floors & Mats — Entry-Level Inspection
+# Equine Trailer Floors & Mats — Inspection
 
-A horse that punches through a rotten floor is a nightmare you prevent **before** the trip. Floors and mats are life-safety systems, not cosmetics.
+A compromised floor under a horse is a catastrophic failure mode. This guide is **inspection and decision-making**, not a build manual for replacing structural floors.
 
-## Why it fails
+## Scope and limits
 
-- Urine and water trapped under mats rot wood floors.  
-- Steel floors rust from the bottom and at seams.  
-- Mats hide damage until a hoof finds it.  
-- Overloading / pounding on bad roads accelerates cracks.
+- Covers: mat removal, looking and smelling for rot/rust, stop/go judgment  
+- Does **not** cover: engineered floor redesign, welding schedules, or OEM structural repair steps  
+
+## Why floors fail (field observation)
+
+- Moisture and urine trapped under mats rot wood  
+- Steel floors and supports corrode from the underside and at seams  
+- Mats hide damage until a hoof finds it  
 
 ## Safety first
 
-- Never load animals onto a floor you have not inspected.  
-- If the floor flexes, smells of deep rot, or shows daylight from below — **do not haul**.  
-- Floor replacement is often a **pro** job (structural).
+- Do not load animals on a floor you have not assessed.  
+- Soft, flexible, or daylight-through floors are **no-go**.  
+- Structural replacement is typically professional work.
 
-## Inspection steps (entry-level)
+## Inspection steps
 
-1. Pull mats completely when you can (at least seasonally and after wet hauls).  
-2. Smell and look: black soft wood, bubbling paint, rust scale under mats.  
-3. Probe suspect wood gently — soft crumbly wood is done.  
-4. From underneath (safe jacking/ramps only if you know how): rust holes, cracked welds, missing crossmembers.  
-5. Check drain paths — standing water under mats is a countdown timer.  
-6. Inspect mats for tears that catch hooves and for saturation that never dries.
+1. Pull mats when practical (seasonally and after wet hauls).  
+2. Inspect bare floor: soft wood, black rot, deep odor, rust scale, cracked welds.  
+3. Probe only clearly suspect wood gently — crumbly soft wood is failed.  
+4. From a safe under-trailer view (only if you can do so safely): holes, section loss, missing support.  
+5. Confirm drains are not trapping water under mats.  
+6. Inspect mats for tears and permanent waterlogging.
 
-## DIY you can do
+## DIY you may do
 
-- Remove mats; wash; dry fully before reinstall.  
-- Improve drainage / seal obvious surface issues per product instructions.  
-- Replace mats that are torn or permanently waterlogged.  
-- Keep a **service log** photo set of the bare floor each season.
+- Remove, wash, and **fully dry** mats before reinstall.  
+- Replace obviously failed mats with products rated for the use.  
+- Photograph the bare floor for the service log each season.
 
-## Pro help triggers
+## What requires a professional
 
-- Soft or punctured wood  
-- Structural steel section loss  
-- Floor flex under your weight in the aisle  
-- Any doubt before hauling valuable or nervous horses  
+- Soft or punctured structural floor  
+- Significant steel section loss  
+- Floor flex under human weight in the aisle  
 
-## Service log fields
+## Credits & sources
 
-- Date, trailer ID, “mats pulled / floor photo / pass-fail”  
-- Vendor used for floor work  
-- Cost and materials  
+| Role | Credit |
+|------|--------|
+| Publisher / original guide text | Susquehanna Timberwolf Lines, LLC (STWL) |
+| Replacement materials & load ratings | Flooring/mat and trailer manufacturers (product literature) |
+| Animal transport legal duties | Laws and rules of the reader’s jurisdiction (not restated here) |
+
+## Service log
+
+Date, trailer ID, mats pulled (Y/N), pass/fail, photos taken, vendor if shop work, cost.
 
 ## Stop conditions
 
-- Floor fails inspection for any structural reason. Empty trailer goes home; animals do not load.
+- Any structural floor doubt  
+- Animals already loaded on a suspect floor — unload safely if possible; do not depart  
+
+## Pro help triggers
+
+- Structural wood or steel failure  
+- Prior floor repair of unknown quality  
+- Before long hauls with valuable or nervous horses  

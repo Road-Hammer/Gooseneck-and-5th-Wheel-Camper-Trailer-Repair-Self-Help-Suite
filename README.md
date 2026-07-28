@@ -2,7 +2,7 @@
 
 **Gooseneck, 5th Wheel, Equine & Stock Trailer Repair + Offline Shop CMMS**
 
-Chilton-style self-help for campers and trailers — **bumper pull, 5th wheel, gooseneck, equine, cattle/stock** — with a **service log / work-order system** and **vendor directory** linked to repair guides. Written for entry-level DIY, informed by 30+ years trucker judgment, copyright **STWL**.
+Offline self-help for campers and trailers — **bumper pull, 5th wheel, gooseneck, equine, cattle/stock** — with a **service log / work-order system** and **vendor directory**. **Published guides only** (no empty chapters). Every guide **credits publishers/sources**. Entry-level DIY + trucker judgment; copyright **STWL**.
 
 **Copyright 2026 Susquehanna Timberwolf Lines, LLC (STWL)**
 
@@ -75,9 +75,15 @@ huggingface/README.md    # Space card YAML + blurb
 data/                    # local SQLite (gitignored runtime DB)
 ```
 
-## Content policy
+## Content policy & credits
 
-See [docs/CONTENT_POLICY.md](docs/CONTENT_POLICY.md). Original STWL writing + lawful public sources — **no pirated commercial manuals**.
+See [docs/CONTENT_POLICY.md](docs/CONTENT_POLICY.md) and [docs/PUBLISHING_STANDARDS.md](docs/PUBLISHING_STANDARDS.md).
+
+- Original STWL writing is credited to **Susquehanna Timberwolf Lines, LLC (STWL)**  
+- Government/agency frameworks (e.g. **FMCSA**) and standards bodies (e.g. **SAE**) are named when used  
+- OEM/pinout/torque data is **not** invented — readers use their manufacturer docs  
+- **No** empty placeholder chapters in the live library  
+- `stwl-camper index` **fails** if credits/sources or required sections are missing
 
 ## Copyright & license
 

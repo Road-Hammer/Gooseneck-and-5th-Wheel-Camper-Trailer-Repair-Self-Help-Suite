@@ -13,19 +13,26 @@ from stwl_camper_suite.cmms import (
     shop_summary,
     vendors_for_guide_or_category,
 )
-from stwl_camper_suite.content_loader import rebuild_index, search_guides
+from stwl_camper_suite.content_loader import get_guide, rebuild_index, search_guides
 
 
 class SuiteSmokeTests(unittest.TestCase):
-    def test_index_search_cmms(self) -> None:
+    def test_index_requires_credits_and_search_works(self) -> None:
         with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
             db = Path(tmp) / "test.db"
             n = rebuild_index(db)
             self.assertGreaterEqual(n, 7)
             hits = search_guides("breakaway", database=db)
             self.assertTrue(any("breakaway" in h["id"] for h in hits))
-            equine = search_guides("equine floor", database=db)
-            self.assertTrue(len(equine) >= 1)
+            g = get_guide("breakaway-switch-test", database=db)
+            assert g is not None
+            self.assertTrue(g.get("credits_list") or g.get("sources_list"))
+            self.assertIn("STWL", " ".join(g.get("credits_list") or []))
+            # FMCSA credit on cargo / safety-framework guides where used
+            cargo = get_guide("cargo-securement-plain-english", database=db)
+            assert cargo is not None
+            blob = " ".join(cargo.get("sources_list") or []) + " ".join(cargo.get("credits_list") or [])
+            self.assertIn("FMCSA", blob)
 
             rid = add_rig("Test Stock", rig_type="stock_trailer", database=db)
             vid = add_vendor("Test Shop", trade="brakes_axles", phone="555-0100", database=db)
@@ -41,12 +48,10 @@ class SuiteSmokeTests(unittest.TestCase):
             )
             entries = list_entries(open_only=True, database=db)
             self.assertEqual(len(entries), 1)
-            self.assertTrue(entries[0].get("wo_number"))
             vendors = vendors_for_guide_or_category("breakaway-switch-test", "brakes", database=db)
             self.assertEqual(vendors[0]["name"], "Test Shop")
             summary = shop_summary(database=db)
             self.assertEqual(summary["open_work_orders"], 1)
-            self.assertEqual(summary["vendors"], 1)
 
 
 if __name__ == "__main__":

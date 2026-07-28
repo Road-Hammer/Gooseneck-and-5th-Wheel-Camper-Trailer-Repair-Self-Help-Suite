@@ -1,68 +1,79 @@
 ---
 id: cargo-securement-plain-english
-title: Cargo Securement in Plain English (Trucker Lens)
+title: Cargo Securement in Plain English
 category: cargo_securement
-rig_types: [cargo_trailer, toy_hauler, utility_trailer, gooseneck, horse_livestock_trailer, travel_trailer]
+rig_types: [cargo_trailer, toy_hauler, utility_trailer, gooseneck, stock_trailer, equine_trailer, travel_trailer]
 difficulty: 2
 safety_level: stop
 tools:
   - Rated straps or chains
   - Edge protectors
   - Gloves
-tags: [cargo, wll, straps, securement, fmcsa-concepts, trucker]
+tags: [cargo, wll, straps, securement, trucker]
+status: published
+scope: >-
+  Practical judgment for securing cargo in trailers. Not a full FMCSA cargo
+  securement training course and not a substitute for current regulations on
+  commercial operations.
+credits:
+  - "Publisher & original instructional text: Susquehanna Timberwolf Lines, LLC (STWL)"
+sources:
+  - "STWL original operating judgment (highway freight experience, plain-English teaching)"
+  - "U.S. Federal Motor Carrier Safety Administration (FMCSA) — cargo securement rules for commercial motor vehicles are primarily in 49 CFR Part 393 Subpart I (and related guidance). This article paraphrases general concepts (working load limit, securement intent) for education; it does not reproduce regulatory tables. Credit: U.S. Department of Transportation / FMCSA. Readers in commerce must use current FMCSA text and any applicable state rules."
+  - "Tie-down hardware manufacturers — Working Load Limit (WLL) markings on chains/straps/webbing (reader must read the mark on their gear)"
 ---
 
-# Cargo Securement in Plain English (Trucker Lens)
+# Cargo Securement in Plain English
 
-You do not need a dispatcher’s vocabulary to secure a load. You need **anchors, ratings, angles, and honesty** about weight.
+You need **anchors, ratings, angles, and honesty about weight** — not jargon.
 
-This module teaches **judgment**. For commercial rules on public highways, follow **current FMCSA / state requirements** that apply to *your* operation. Private ranch roads still obey physics.
+This module teaches **judgment**. If you operate in **commerce** on public highways, you must follow **current** FMCSA and state requirements that apply to your operation. Private farm roads still obey physics.
 
-## Core ideas
+## Core ideas (educational)
 
-1. **Working Load Limit (WLL)** — the rating you trust in real use, not the “break strength” marketing number.  
-2. **Aggregate WLL** — straps/chains working together must be enough for the load (and how it can shift).  
-3. **Anchor points** — trailer D-rings and frame points made for securing; not random sheet-metal screws.  
-4. **Friction helps but is not a plan** — a rubber mat is not a substitute for tie-downs.  
-5. **Direction of pull** — cargo wants to go forward under braking, sideways in turns, up on bumps.
+1. **Working Load Limit (WLL)** — the rating marked for use; not marketing “break strength.”  
+2. **Enough capacity** — securement must match the load and how it can shift.  
+3. **Real anchors** — points built for securing; not random thin sheet metal.  
+4. **Friction is not a plan** — mats help; they do not replace tie-downs.  
+5. **Directions of force** — forward under braking, sideways in turns, vertical on bumps.
 
-## Entry-level method (garage / toy / household freight)
+## Entry-level method (owner / light freight)
 
-1. Weigh or **honestly estimate** the load. If you cannot, assume the ugly number.  
-2. Place heavy items **low** and **over or slightly ahead of axles** as the trailer design allows — avoid extreme tail-heavy.  
-3. Block cargo so it cannot walk (lumber chocks, cradles, wheel buckets for machines).  
-4. Use **rated** straps or chains; inspect hooks, ratchets, webbing for cuts/UV rot.  
-5. Protect strap edges over sharp corners.  
-6. Snug, then re-check after the first 10–20 miles (settling is normal; ignoring it is not).  
-7. Recheck after rough roads.
+1. Know or honestly estimate the load weight.  
+2. Place heavy items low; avoid extreme tail-heavy loading when the trailer design allows better balance.  
+3. Block cargo that can roll or walk.  
+4. Use **rated** straps or chains; inspect for cuts, UV damage, bent hooks.  
+5. Protect webbing over sharp edges.  
+6. Snug securement; recheck after the first miles and after rough road.
 
-## Toy hauler / machine notes
+## Machines / toy hauler notes
 
-- Four-point tie-down is common sense for rolling equipment; use manufacturer hard points on the machine when they exist.  
-- Parking brake on a machine is **not** securement.  
-- Fuel jugs and batteries are cargo too — upright, capped, restrained.
+- Use manufacturer hard points on equipment when provided.  
+- Parking brakes on machines are **not** cargo securement.  
+- Fuel containers and batteries must be upright, closed, and restrained.
 
-## What truckers notice that DIY owners miss
+## Credits & sources
 
-- One pretty strap with a cut edge is a decoration, not securement.  
-- Hooking to a fender or thin wall ring can rip out and become a spear.  
-- Over-tightening can crush cargo or damage trailer structure; **tight enough + blocked** beats gorilla-stripped ratchets.  
-- Nose-heavy vs tail-heavy changes sway and hitch feel — securement and loading are the same problem set.
+| Role | Credit |
+|------|--------|
+| Publisher / original teaching text | Susquehanna Timberwolf Lines, LLC (STWL) |
+| Commercial cargo securement regulatory framework (U.S.) | U.S. Department of Transportation / **Federal Motor Carrier Safety Administration (FMCSA)** — especially **49 CFR Part 393 Subpart I** (consult current official text) |
+| Hardware ratings | The manufacturer of your straps, chains, and binders (WLL marks on the product) |
+
+STWL does **not** claim FMCSA endorsement. Regulatory citations are for **credit and reader navigation**, not as a complete compliance manual.
 
 ## Service log
 
-- Date, load description, strap/chain IDs if you track them, any damaged gear retired.
+Date, load description, gear used, any damaged securement retired.
 
 ## Stop conditions
 
-- You lack enough rated capacity for the load  
-- Anchors are questionable  
-- Load can roll and is not blocked  
+- Insufficient rated capacity for the load  
+- Questionable anchors  
+- Rolling load not blocked  
 
 ## Pro help triggers
 
 - Commercial loads subject to roadside inspection  
-- Oversize / overweight situations  
-- Livestock or hazmat (different rule worlds — get qualified guidance)
-
-**Physics does not care that you were “only going 20 miles.”**
+- Oversize/overweight moves  
+- Livestock or hazardous materials (specialized rules — get qualified guidance)  
