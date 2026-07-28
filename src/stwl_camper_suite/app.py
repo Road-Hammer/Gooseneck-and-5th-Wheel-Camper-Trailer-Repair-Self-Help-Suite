@@ -47,6 +47,7 @@ from .vin_lookup import lookup_vin
 from .vehicle_catalog import (
     AXLE_COUNT_OPTIONS,
     AXLE_MANUFACTURERS,
+    AXLE_STYLE_OPTIONS,
     BRAKE_TYPE_OPTIONS,
     HITCH_STYLE_OPTIONS,
     POWER_UNIT_CLASSES,
@@ -464,6 +465,7 @@ def create_app() -> FastAPI:
                 trailers=list_trailers(),
                 years=year_choices(),
                 axle_counts=AXLE_COUNT_OPTIONS,
+                axle_styles=AXLE_STYLE_OPTIONS,
                 wheel_ends=WHEEL_END_OPTIONS,
                 brake_types=BRAKE_TYPE_OPTIONS,
                 hitch_styles=HITCH_STYLE_OPTIONS,
@@ -488,6 +490,7 @@ def create_app() -> FastAPI:
                     "position": i,
                     "manufacturer": mfr or None,
                     "model_or_part": str(form.get(f"axle{i}_model") or "").strip() or None,
+                    "axle_style": str(form.get(f"axle{i}_style") or "").strip() or None,
                     "wheel_end": str(form.get(f"axle{i}_wheel") or "single"),
                     "gawr_lb": _float_or_none(str(gawr or "")),
                     "tire_size": str(form.get(f"axle{i}_tire") or "").strip() or None,

@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS trailer_axles (
     position INTEGER NOT NULL,
     manufacturer TEXT,
     model_or_part TEXT,
+    axle_style TEXT,
     wheel_end TEXT NOT NULL DEFAULT 'single',
     gawr_lb REAL,
     tire_size TEXT,
@@ -220,6 +221,9 @@ _MIGRATIONS: dict[str, list[tuple[str, str]]] = {
         ("config_notes", "TEXT"),
         ("prior_owner_count", "INTEGER"),
         ("prior_owner_count_source", "TEXT"),
+    ],
+    "trailer_axles": [
+        ("axle_style", "TEXT"),
     ],
     "service_log": [
         ("vendor_id", "INTEGER"),

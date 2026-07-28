@@ -1,44 +1,76 @@
-# Trailer axle manufacturers — discovery / credit index.
+# Trailer axle manufacturers & types — discovery / credit index.
 # Copyright 2026 Susquehanna Timberwolf Lines, LLC
 #
-# RULE: GAWR and single vs dual wheel ratings come from the axle ID plate and
-# manufacturer documentation. This file does not invent capacity numbers.
+# RULE: GAWR and single vs dual ratings come from the axle ID plate.
+# This file does not invent capacity numbers.
 
-version: "1.0"
+version: "1.1"
 policy: >
   Users enter GAWR (lb) per axle from the stamped plate. Wheel end is single or dual.
+  Axle style includes manufactured-housing (mobile home) transport types.
   Supported axle counts: 1 (single) through 5 (quint).
 
 manufacturers:
   - name: Dexter Axle
     credit: "Publisher: Dexter Axle — axle ID plates and product literature"
-    notes: "Common light/medium trailer axles; read GAWR on the axle tag."
+    notes: "Among the most widely distributed North American light/service trailer axle brands; read GAWR on the axle tag."
+    common_contexts: ["service_leaf", "service_torsion", "cargo", "rv"]
   - name: Lippert / LCI
     credit: "Publisher: Lippert Components — axle/suspension literature and tags"
+    notes: "Major RV/trailer systems supplier; public blogs describe torsion vs leaf and tag ID."
+    common_contexts: ["rv", "service_leaf", "service_torsion"]
   - name: AL-KO / AL-KO Kober
     credit: "Publisher: AL-KO — axle product documentation"
   - name: Hayes Axle
     credit: "Publisher: Hayes Axle — product tags/literature"
   - name: Rockwell American
     credit: "Publisher: Rockwell American — product literature"
+  - name: Manufactured housing / MH transport (brand on tag if any)
+    credit: "Manufacturer on the transport-axle tag if present; many MH units have limited or no service rating documentation"
+    notes: >
+      Used to move manufactured homes; frequently reused on homemade trailers.
+      Identify by clamp-on/centerless rims, welded backing plates, mid-tube splices, MH tires.
+    common_contexts: ["manufactured_housing", "homemade", "emergency_repair"]
   - name: Meritor
     credit: "Publisher: Meritor — commercial axle ratings (plate/literature)"
+    common_contexts: ["commercial_heavy"]
   - name: Hendrickson
     credit: "Publisher: Hendrickson — commercial suspension/axle systems"
   - name: SAF-Holland
     credit: "Publisher: SAF-Holland — commercial running gear literature"
-  - name: Homemade / unknown
-    credit: "No OEM plate — user must derate conservatively; STWL will not invent GAWR"
+  - name: Homemade / unknown / untagged
+    credit: "No OEM plate — user must not invent GAWR"
   - name: Other
-    credit: "User-specified manufacturer — attach plate photo in service log notes if desired"
+    credit: "User-specified manufacturer — attach plate note in rating_source"
+
+axle_styles:
+  - id: leaf_spring_service
+    title: Leaf-spring service axle
+    notes: Common cargo/RV; bolt-on hubs typical; Dexter/Lippert and peers.
+  - id: torsion_rubber
+    title: Torsion / rubber-cord axle
+    notes: Independent arm/rubber elements; see Lippert and other OEM torsion product lines.
+  - id: manufactured_housing
+    title: Manufactured housing / mobile-home transport axle
+    notes: >
+      Transport-duty hardware; often clamp rims, welded brake plates, may be shortened.
+      See STWL guide mobile-home-axle-identification.
+  - id: drop_spindle_leaf
+    title: Drop-spindle leaf axle
+  - id: straight_spindle_leaf
+    title: Straight-spindle leaf axle
+  - id: commercial_heavy
+    title: Commercial / heavy beam
+  - id: unknown
+    title: Unknown
 
 wheel_ends:
   - id: single
     title: Single wheel
-    notes: One tire per side on that axle. GAWR is still the plate value for the assembly.
+    notes: One tire per side. GAWR is still the plate value for the assembly.
   - id: dual
     title: Dual wheel (dually)
-    notes: Two tires per side on that axle. Use the dual-rated GAWR on the axle plate.
+    notes: Two tires per side. Use the dual-rated GAWR on the axle plate.
 
 axle_counts:
   - { n: 1, label: Single axle }
@@ -46,3 +78,14 @@ axle_counts:
   - { n: 3, label: Triple }
   - { n: 4, label: Quad }
   - { n: 5, label: Quint }
+
+most_common_summary:
+  - context: "New light cargo / RV trailers"
+    who: "Dexter, Lippert, and similar service leaf or torsion lines"
+    credit: "OEM market presence and ID-tag practice (Dexter, Lippert public materials)"
+  - context: "Homemade decks and emergency swaps"
+    who: "Manufactured-housing / mobile-home transport axles"
+    credit: "Field ID consensus (e.g. public TractorByNet MH axle identification threads)"
+  - context: "Commercial equipment trailers"
+    who: "Commercial axle OEMs (Meritor, SAF-Holland, Hendrickson, etc.)"
+    credit: "Commercial OEM literature"

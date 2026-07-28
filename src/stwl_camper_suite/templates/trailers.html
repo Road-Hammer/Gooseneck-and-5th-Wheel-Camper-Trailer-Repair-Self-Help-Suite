@@ -93,6 +93,14 @@
           {% endfor %}
         </select>
       </label>
+      <label>Axle type / style
+        <select name="axle{{ i }}_style">
+          <option value="">—</option>
+          {% for sid, stitle in axle_styles %}
+          <option value="{{ sid }}">{{ stitle }}</option>
+          {% endfor %}
+        </select>
+      </label>
       <label>Model / part # <input name="axle{{ i }}_model"></label>
       <label>Wheel end
         <select name="axle{{ i }}_wheel">
@@ -145,8 +153,8 @@
           {{ t.axle_count or (t.axles|length) or '—' }} axle(s)
           {% for a in t.axles %}
           <div class="muted">
-            #{{ a.position }} {{ a.manufacturer or '?' }} · {{ a.wheel_end }} ·
-            GAWR {{ a.gawr_lb if a.gawr_lb is not none else '—' }}
+            #{{ a.position }} {{ a.manufacturer or '?' }} · {{ a.axle_style or '?' }} ·
+            {{ a.wheel_end }} · GAWR {{ a.gawr_lb if a.gawr_lb is not none else '—' }}
           </div>
           {% endfor %}
         </td>

@@ -32,6 +32,17 @@ WHEEL_END_OPTIONS = [
     ("dual", "Dual wheel / dually (two tires per side per axle)"),
 ]
 
+# Axle construction / duty style (not a capacity number)
+AXLE_STYLE_OPTIONS = [
+    ("leaf_spring_service", "Leaf-spring service axle (bolt-on hubs, common cargo/RV)"),
+    ("torsion_rubber", "Torsion / rubber-cord axle"),
+    ("manufactured_housing", "Manufactured housing / mobile-home transport axle"),
+    ("drop_spindle_leaf", "Drop-spindle leaf-spring axle"),
+    ("straight_spindle_leaf", "Straight-spindle leaf-spring axle"),
+    ("commercial_heavy", "Commercial / heavy-duty beam (Class 6–8 style)"),
+    ("unknown", "Unknown / mixed (describe in notes)"),
+]
+
 BRAKE_TYPE_OPTIONS = [
     ("none", "No brakes (where lawful — light only)"),
     ("electric", "Electric (magnet drum — common light/medium trailer)"),
@@ -62,11 +73,12 @@ AXLE_MANUFACTURERS = [
     "Quality Trailer Products",
     "UFP / Unique Functional Products",
     "Tie Down Engineering",
+    "Manufactured housing / MH transport (brand on tag if any)",
     "Meritor (commercial)",
     "Hendrickson (commercial / suspension)",
     "SAF-Holland (commercial)",
     "Ingersoll (specialty)",
-    "Homemade / unknown",
+    "Homemade / unknown / untagged",
     "Other (specify in notes)",
 ]
 

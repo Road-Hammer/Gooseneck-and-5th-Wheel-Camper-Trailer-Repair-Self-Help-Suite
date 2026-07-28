@@ -115,15 +115,16 @@ def add_trailer(
             conn.execute(
                 """
                 INSERT INTO trailer_axles (
-                    rig_id, position, manufacturer, model_or_part, wheel_end,
+                    rig_id, position, manufacturer, model_or_part, axle_style, wheel_end,
                     gawr_lb, tire_size, brake_type, notes, rating_publisher, rating_source
-                ) VALUES (?,?,?,?,?,?,?,?,?,?,?)
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
                 """,
                 (
                     rid,
                     int(a.get("position") or i),
                     a.get("manufacturer"),
                     a.get("model_or_part"),
+                    a.get("axle_style"),
                     we,
                     gawr_f,
                     a.get("tire_size"),
