@@ -17,6 +17,9 @@ Only guides that pass `docs/PUBLISHING_STANDARDS.md` and are indexed into the ap
 | power_unit_maintenance | truck-maintenance-log | Power Unit Maintenance Log |
 | axles_suspension | mobile-home-axle-identification | Manufactured Housing / Mobile-Home Axles — How to ID Them |
 | membership_roadside | trailer-membership-coverage | Membership Roadside — What Covers a Trailer? |
+| plumbing | living-quarters-water-systems-overview | Living-Quarters Water Systems — Fresh, Gray, Black |
+| plumbing | fresh-water-pump-city-water-leaks | Fresh Water — Pump, City Inlet, and Common Leaks |
+| plumbing | winterize-living-quarters-plumbing | Winterizing Living-Quarters Plumbing |
 
 OEM publisher index (no fake ratings): `content/oem_tow_reference/publishers.yaml`
 

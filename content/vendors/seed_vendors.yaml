@@ -382,6 +382,37 @@ vendors:
     mobility: online_national
     source_credit: "Publisher: Amazon.com — public retail site"
 
+  # --- Living-quarters plumbing / RV sanitary ---
+  - seed_key: camco
+    name: "Camco"
+    trade: parts_supplier
+    website: "https://www.camco.net/"
+    specialties: "RV fresh-water hoses, dump gear, winterize kits, fittings"
+    notes: "Major RV plumbing accessories brand; sold via retailers and online."
+    preferred: false
+    mobility: manufacturer_dealer_network
+    source_credit: "Publisher: Camco Manufacturing — official website"
+
+  - seed_key: thetford
+    name: "Thetford"
+    trade: parts_supplier
+    website: "https://www.thetford.com/"
+    specialties: "RV toilets, holding-tank products, sanitation"
+    notes: "Appliance/sanitation OEM; use product manuals for service."
+    preferred: false
+    mobility: manufacturer_dealer_network
+    source_credit: "Publisher: Thetford — official website"
+
+  - seed_key: dometic
+    name: "Dometic"
+    trade: parts_supplier
+    website: "https://www.dometic.com/"
+    specialties: "RV toilets, climate, and related coach systems"
+    notes: "Major RV systems OEM; model-specific service literature."
+    preferred: false
+    mobility: manufacturer_dealer_network
+    source_credit: "Publisher: Dometic — official website"
+
 user_action: >
   After seeding, add YOUR local independent trailer shops and trusted mobile techs
   with full phone/address so they appear offline. National seeds use locators instead
