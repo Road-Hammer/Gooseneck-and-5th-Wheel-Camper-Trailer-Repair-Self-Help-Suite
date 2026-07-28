@@ -3,9 +3,26 @@
 {% block content %}
 <h1>Vendor directory</h1>
 <p class="lede">
-  Local directory of shops, mobile techs, and suppliers. <strong>Full contact fields are available
-  and optional</strong> so you can reach vendors when offline. Link vendors to guides as needed.
+  Directory of shops, mobile techs, and suppliers. National chains/suppliers can be
+  <strong>pre-seeded</strong> (official websites + phones; use each brand’s locator for local street address).
+  Add your preferred local independents with full contact. Link vendors to guides as needed.
 </p>
+
+<section class="panel">
+  <h2>National starter list</h2>
+  <p class="muted small">
+    Seeds trailer-parts specialists, major auto-parts chains, Camping World static + select mobile
+    service, and related contacts. STWL does not invent local store street addresses.
+    Source: each company’s official public website (see notes).
+  </p>
+  <form method="post" action="/vendors/seed" class="stack" style="max-width:28rem">
+    <label class="row">
+      <input type="checkbox" name="refresh" value="1">
+      Refresh existing seed entries (update from YAML)
+    </label>
+    <button type="submit">Load / update national vendor seed</button>
+  </form>
+</section>
 
 <div class="two-col">
   <section class="panel">
@@ -91,7 +108,14 @@
   {% if vendors %}
   <table class="log-table">
     <thead>
-      <tr><th>Name</th><th>Trade</th><th>Phone</th><th>Specialties</th><th>Preferred</th></tr>
+      <tr>
+        <th>Name</th>
+        <th>Trade / mobility</th>
+        <th>Phone</th>
+        <th>Web</th>
+        <th>Specialties</th>
+        <th>★</th>
+      </tr>
     </thead>
     <tbody>
       {% for v in vendors %}
@@ -99,11 +123,23 @@
         <td>
           <strong>{{ v.name }}</strong>
           {% if not v.active %}<span class="badge">inactive</span>{% endif %}
-          {% if v.city %}<div class="muted small">{{ v.city }}{% if v.state %}, {{ v.state }}{% endif %}</div>{% endif %}
+          {% if v.seed_key %}<span class="badge">seed</span>{% endif %}
+          {% if v.address or v.city %}
+          <div class="muted small">
+            {{ v.address or '' }}
+            {% if v.city %}{{ v.city }}{% if v.state %}, {{ v.state }}{% endif %} {{ v.zip or '' }}{% endif %}
+          </div>
+          {% endif %}
         </td>
-        <td>{{ v.trade or '—' }}</td>
+        <td class="small">
+          {{ v.trade or '—' }}
+          {% if v.mobility %}<div class="muted">{{ v.mobility }}</div>{% endif %}
+        </td>
         <td>{{ v.phone or '—' }}</td>
-        <td>{{ v.specialties or '—' }}</td>
+        <td class="small">
+          {% if v.website %}<a href="{{ v.website }}" rel="noopener noreferrer">site</a>{% else %}—{% endif %}
+        </td>
+        <td class="small">{{ v.specialties or '—' }}</td>
         <td>{% if v.preferred %}★{% else %}—{% endif %}</td>
       </tr>
       {% endfor %}

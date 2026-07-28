@@ -43,6 +43,7 @@ from .power_units import (
 )
 from .tow_physics import grade_combination
 from .trailers import add_trailer, get_trailer, list_trailers
+from .vendor_seed import ensure_seeded, seed_vendors
 from .vin_lookup import lookup_vin
 from .vehicle_catalog import (
     AXLE_COUNT_OPTIONS,
@@ -81,6 +82,7 @@ def create_app() -> FastAPI:
     init_db()
     if not list_guides():
         rebuild_index()
+    ensure_seeded()
 
     app = FastAPI(
         title="STWL Camper / Trailer Self-Help Suite",
@@ -291,6 +293,7 @@ def create_app() -> FastAPI:
 
     @app.get("/vendors", response_class=HTMLResponse)
     def vendors_page(request: Request):
+        ensure_seeded()
         return TEMPLATES.TemplateResponse(
             request,
             "vendors.html",
@@ -298,7 +301,16 @@ def create_app() -> FastAPI:
                 vendors=list_vendors(active_only=False),
                 guides=list_guides(),
                 links=list_vendor_links(),
+                seed_msg=None,
             ),
+        )
+
+    @app.post("/vendors/seed")
+    def vendors_seed(refresh: str = Form("")):
+        stats = seed_vendors(refresh=bool(refresh))
+        return RedirectResponse(
+            f"/vendors?seeded={stats['inserted']}&updated={stats['updated']}&skipped={stats['skipped']}",
+            status_code=303,
         )
 
     @app.post("/vendors/add")

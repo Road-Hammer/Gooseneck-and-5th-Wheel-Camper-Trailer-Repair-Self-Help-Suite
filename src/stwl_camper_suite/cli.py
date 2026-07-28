@@ -143,6 +143,15 @@ def cmd_vendor(args: argparse.Namespace) -> int:
         )
         print(f"Vendor id={i}")
         return 0
+    if args.vendor_cmd == "seed":
+        from .vendor_seed import seed_vendors
+
+        stats = seed_vendors(refresh=bool(args.refresh))
+        print(
+            f"Seed: inserted={stats['inserted']} updated={stats['updated']} "
+            f"skipped={stats['skipped']} total_in_file={stats['total_seed']}"
+        )
+        return 0
     print("Unknown vendor command", file=sys.stderr)
     return 2
 
@@ -207,6 +216,13 @@ def build_parser() -> argparse.ArgumentParser:
     va.add_argument("--phone", default=None)
     va.add_argument("--preferred", action="store_true")
     va.set_defaults(func=cmd_vendor)
+    vs = vsub.add_parser("seed", help="Load national vendor starter list from YAML")
+    vs.add_argument(
+        "--refresh",
+        action="store_true",
+        help="Update existing seed_key rows from YAML",
+    )
+    vs.set_defaults(func=cmd_vendor)
 
     s = sub.add_parser(
         "vin",

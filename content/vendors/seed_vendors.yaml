@@ -1,0 +1,312 @@
+# STWL starter vendor directory — national / major chains & public sources
+# Copyright 2026 Susquehanna Timberwolf Lines, LLC
+#
+# RULES:
+# - Only publicly known companies with official websites (or clear public contact).
+# - Local street addresses are NOT invented — use each brand's store locator.
+# - "verified" here means: publicly operating national brand / well-known supplier
+#   with an official site, NOT a STWL on-site inspection of every location.
+# - Users should add their preferred local independent shops with full contact info.
+
+version: "1.0"
+maintained_by: "Susquehanna Timberwolf Lines, LLC (STWL)"
+disclaimer: >
+  STWL does not endorse any vendor. Listings are for offline contact discovery.
+  Hours, phone numbers, and services change — confirm on the official website.
+  Local store addresses: use the brand's store locator (not filled here).
+
+vendors:
+  # --- Major auto parts (static retail; locator for address) ---
+  - seed_key: autozone
+    name: "AutoZone"
+    trade: parts_supplier
+    phone: "1-800-288-6966"
+    website: "https://www.autozone.com/"
+    specialties: "Auto/light-truck parts, batteries, fluids, tools; store locator for local address"
+    notes: "National parts chain. Find local store via AutoZone.com store locator."
+    preferred: false
+    mobility: static_chain
+    source_credit: "Publisher: AutoZone — official website"
+
+  - seed_key: oreilly
+    name: "O'Reilly Auto Parts"
+    trade: parts_supplier
+    phone: "1-800-755-6759"
+    website: "https://www.oreillyauto.com/"
+    specialties: "Auto/light-truck parts, batteries, fluids; store locator"
+    notes: "National parts chain. Local address via O'Reilly store locator."
+    preferred: false
+    mobility: static_chain
+    source_credit: "Publisher: O'Reilly Auto Parts — official website"
+
+  - seed_key: napa
+    name: "NAPA Auto Parts"
+    trade: parts_supplier
+    phone: "1-800-538-6272"
+    website: "https://www.napaonline.com/"
+    specialties: "Auto, light/medium truck parts; commercial accounts; store locator"
+    notes: "Independent NAPA stores under brand; locator for local contact."
+    preferred: false
+    mobility: static_chain
+    source_credit: "Publisher: NAPA Auto Parts / Genuine Parts Company — official website"
+
+  - seed_key: advance_auto
+    name: "Advance Auto Parts"
+    trade: parts_supplier
+    phone: "1-877-238-2623"
+    website: "https://shop.advanceautoparts.com/"
+    specialties: "Auto/light-truck parts, batteries, wipers, fluids; store locator"
+    notes: "National parts chain. Local address via Advance store locator."
+    preferred: false
+    mobility: static_chain
+    source_credit: "Publisher: Advance Auto Parts — official website"
+
+  - seed_key: pep_boys
+    name: "Pep Boys"
+    trade: parts_supplier
+    website: "https://www.pepboys.com/"
+    specialties: "Parts and service centers (select markets); store locator"
+    notes: "Parts + service in many markets. Use pepboys.com for local shop contact."
+    preferred: false
+    mobility: static_chain
+    source_credit: "Publisher: Pep Boys — official website"
+
+  - seed_key: carquest
+    name: "Carquest Auto Parts"
+    trade: parts_supplier
+    website: "https://www.carquest.com/"
+    specialties: "Auto and commercial parts; store locator"
+    notes: "Brand/network under Advance Auto Parts family; locator for local stores."
+    preferred: false
+    mobility: static_chain
+    source_credit: "Publisher: Carquest / Advance Auto Parts — official website"
+
+  # --- Trailer / hitch / RV parts ---
+  - seed_key: etrailer
+    name: "etrailer"
+    trade: parts_supplier
+    phone: "1-800-298-1624"
+    website: "https://www.etrailer.com/"
+    specialties: "Trailer parts, hitch, wiring, brakes, axles/hubs, cargo carriers; tech articles"
+    notes: "Major online trailer specialty retailer. National shipping; not a local walk-in for most users."
+    preferred: true
+    mobility: online_national
+    source_credit: "Publisher: etrailer.com — official website"
+
+  - seed_key: curt
+    name: "CURT Manufacturing"
+    trade: parts_supplier
+    website: "https://www.curtmfg.com/"
+    specialties: "Hitches, balls, wiring, trailer accessories (sold via dealers/retail)"
+    notes: "OEM hitch manufacturer; find dealers via CURT site."
+    preferred: false
+    mobility: manufacturer_dealer_network
+    source_credit: "Publisher: CURT Manufacturing — official website"
+
+  - seed_key: drawtite
+    name: "Draw-Tite (HORIZON GLOBAL)"
+    trade: parts_supplier
+    website: "https://www.drawtite.com/"
+    specialties: "Hitches and towing products via dealer network"
+    notes: "Towing brand under Horizon Global; dealer locator on brand site."
+    preferred: false
+    mobility: manufacturer_dealer_network
+    source_credit: "Publisher: Draw-Tite / Horizon Global — official website"
+
+  - seed_key: dexter
+    name: "Dexter Axle"
+    trade: parts_supplier
+    website: "https://www.dexteraxle.com/"
+    specialties: "Trailer axles, brakes, hubs, suspensions (OEM & aftermarket channels)"
+    notes: "Major light-trailer axle OEM. Parts via authorized distributors/dealers."
+    preferred: true
+    mobility: manufacturer_dealer_network
+    source_credit: "Publisher: Dexter Axle — official website"
+
+  - seed_key: lippert
+    name: "Lippert (LCI)"
+    trade: parts_supplier
+    website: "https://www.lippert.com/"
+    specialties: "RV/trailer components, axles, slides, steps, frames (dealer/parts channels)"
+    notes: "Major RV/trailer systems supplier. Parts via Lippert/dealers/Camping World etc."
+    preferred: true
+    mobility: manufacturer_dealer_network
+    source_credit: "Publisher: Lippert Components — official website"
+
+  - seed_key: alko
+    name: "AL-KO"
+    trade: parts_supplier
+    website: "https://www.al-ko.com/"
+    specialties: "Trailer axles and chassis components (regional product lines vary)"
+    notes: "International chassis/axle brand; use official site for regional support."
+    preferred: false
+    mobility: manufacturer_dealer_network
+    source_credit: "Publisher: AL-KO — official website"
+
+  - seed_key: weigi_safe
+    name: "Weigh Safe"
+    trade: parts_supplier
+    website: "https://weigh-safe.com/"
+    specialties: "Ball mounts with built-in tongue-weight scale"
+    notes: "Specialty hitch products; sold online and via dealers."
+    preferred: false
+    mobility: online_national
+    source_credit: "Publisher: Weigh Safe — official website"
+
+  - seed_key: progress_mfg
+    name: "Progress Mfg (Equal-i-zer / Andersen)"
+    trade: parts_supplier
+    website: "https://www.progressmfg.com/"
+    specialties: "Weight-distribution hitches, sway control products"
+    notes: "WD hitch manufacturer; dealer network via Progress Mfg brands."
+    preferred: false
+    mobility: manufacturer_dealer_network
+    source_credit: "Publisher: Progress Manufacturing — official website"
+
+  - seed_key: bauer
+    name: "Blue Ox"
+    trade: parts_supplier
+    website: "https://www.blueox.com/"
+    specialties: "Tow bars, base plates, braking systems for dinghy/RV towing"
+    notes: "RV towing specialty manufacturer."
+    preferred: false
+    mobility: manufacturer_dealer_network
+    source_credit: "Publisher: Blue Ox — official website"
+
+  - seed_key: demco
+    name: "Demco"
+    trade: parts_supplier
+    website: "https://www.demco-products.com/"
+    specialties: "Towing, agricultural, and trailer products"
+    notes: "Manufacturer; dealer channels for products."
+    preferred: false
+    mobility: manufacturer_dealer_network
+    source_credit: "Publisher: Demco — official website"
+
+  - seed_key: fulton
+    name: "Fulton (HORIZON GLOBAL brands)"
+    trade: parts_supplier
+    website: "https://www.fultonperformance.com/"
+    specialties: "Jacks, couplers, winches, trailer hardware"
+    notes: "Trailer hardware brand; sold via distributors."
+    preferred: false
+    mobility: manufacturer_dealer_network
+    source_credit: "Publisher: Fulton / Horizon Global — official brand sites"
+
+  # --- Tire / truck stop style ---
+  - seed_key: discount_tire
+    name: "Discount Tire"
+    trade: tires_wheels
+    website: "https://www.discounttire.com/"
+    specialties: "Tires and wheels; many trailer/ST tire options; store locator"
+    notes: "National tire retailer. Local store via discounttire.com."
+    preferred: false
+    mobility: static_chain
+    source_credit: "Publisher: Discount Tire — official website"
+
+  - seed_key: loves
+    name: "Love's Travel Stops"
+    trade: parts_supplier
+    website: "https://www.loves.com/"
+    specialties: "Truck-stop parts, tires, emergency supplies on major routes"
+    notes: "Travel centers; use Love's location finder for address/phone."
+    preferred: false
+    mobility: static_chain
+    source_credit: "Publisher: Love's Travel Stops — official website"
+
+  - seed_key: pilot
+    name: "Pilot Flying J"
+    trade: parts_supplier
+    website: "https://pilotflyingj.com/"
+    specialties: "Travel center parts/services on major corridors"
+    notes: "Use Pilot Flying J location tools for local contact."
+    preferred: false
+    mobility: static_chain
+    source_credit: "Publisher: Pilot Company — official website"
+
+  # --- Camper / trailer / RV repair: static national network ---
+  - seed_key: camping_world_service
+    name: "Camping World (RV Service Centers)"
+    trade: full_service_trailer_shop
+    phone: "1-888-626-7576"
+    website: "https://rv.campingworld.com/service"
+    specialties: "Static RV/camper service & repair at dealership locations; parts; mobile RV service in select markets"
+    notes: >
+      National RV dealer/service network. Static service centers nationwide; Camping World
+      advertises mobile RV service in select locations. Use store/service locator for local
+      address and phone — STWL does not list every store street address.
+    preferred: true
+    mobility: static_and_mobile_select
+    source_credit: "Publisher: Camping World Holdings — rv.campingworld.com/service (public)"
+
+  - seed_key: camping_world_parts
+    name: "Camping World (Parts & Accessories)"
+    trade: parts_supplier
+    phone: "1-888-626-7576"
+    website: "https://www.campingworld.com/"
+    specialties: "RV/camper parts, accessories, towing gear; retail + online"
+    notes: "Retail/online RV parts. Locator for store front counters."
+    preferred: true
+    mobility: static_chain
+    source_credit: "Publisher: Camping World — official website"
+
+  - seed_key: good_sam
+    name: "Good Sam (membership / roadside resources)"
+    trade: towing_recovery
+    website: "https://www.goodsam.com/"
+    specialties: "Membership roadside assistance resources; affiliated RV service ecosystem"
+    notes: "Not a single repair shop — membership/roadside. Useful contact path while traveling."
+    preferred: false
+    mobility: membership_network
+    source_credit: "Publisher: Good Sam / Camping World ecosystem — official website"
+
+  # --- Mobile repair (national brand with public mobile offering) ---
+  - seed_key: camping_world_mobile
+    name: "Camping World Mobile RV Service (select markets)"
+    trade: mobile_tech
+    phone: "1-888-626-7576"
+    website: "https://rv.campingworld.com/rv-service-maintenance"
+    specialties: "Mobile RV repair/maintenance where offered; request via Camping World"
+    notes: >
+      Publicly listed mobile RV service in select locations only. Confirm availability
+      and local tech dispatch through Camping World — not available everywhere.
+    preferred: true
+    mobility: mobile_select_markets
+    source_credit: "Publisher: Camping World — mobile service pages on rv.campingworld.com"
+
+  # --- Towing / recovery (national) ---
+  - seed_key: aaa
+    name: "AAA (roadside / towing — membership)"
+    trade: towing_recovery
+    website: "https://www.aaa.com/"
+    specialties: "Roadside assistance and towing via membership; local clubs vary"
+    notes: "Use AAA app/phone for dispatch. Not a trailer repair shop."
+    preferred: false
+    mobility: membership_network
+    source_credit: "Publisher: American Automobile Association — official website"
+
+  # --- Online mega-retail (parts backup) ---
+  - seed_key: amazon_auto
+    name: "Amazon (Automotive & Industrial)"
+    trade: parts_supplier
+    website: "https://www.amazon.com/"
+    specialties: "Broad aftermarket parts/shipping; verify fitment carefully"
+    notes: "Marketplace — quality varies by seller. Unit fitment is user's responsibility."
+    preferred: false
+    mobility: online_national
+    source_credit: "Publisher: Amazon.com — public retail site"
+
+  - seed_key: amazon_trailer_search
+    name: "Amazon (search: trailer axle / brake / hitch)"
+    trade: parts_supplier
+    website: "https://www.amazon.com/s?k=trailer+axle"
+    specialties: "Quick-ship trailer hardware search entry point"
+    notes: "Search entry for trailer parts on Amazon; not a specialty trailer house."
+    preferred: false
+    mobility: online_national
+    source_credit: "Publisher: Amazon.com — public retail site"
+
+user_action: >
+  After seeding, add YOUR local independent trailer shops and trusted mobile techs
+  with full phone/address so they appear offline. National seeds use locators instead
+  of fabricated street addresses.
